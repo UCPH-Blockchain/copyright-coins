@@ -46,17 +46,26 @@ Any funds sent to them on Mainnet or any other live network WILL BE LOST.
 来在hardhat network中执行部署脚本。
 
 ## TODO
-### NFT（也就是ACoin）
-- [ ] 智能合约编写
 
-### FT（也就是CCoin）
-- [ ] 智能合约编写
+### Solidity
+#### NFT（也就是ACoin）
+- [ ] mint和transfer等基本功能实现
 
-### 项目部署与后端
-- [ ] 部署到本地Ganache链
+#### FT（也就是CCoin）
+- [ ] mint和transfer等基本功能实现
+
+#### 测试
+- [ ] 参照[Testing contracts](https://hardhat.org/hardhat-runner/docs/guides/test-contracts)编写测试
+
+### 前后端
+#### 后端
 - [ ] 与智能合约交互的函数
 - [ ] 为前端提供API
 
-### 前端
-- [ ] 用户界面
+#### 前端
 - [ ] 调用后端API，与智能合约交互
+- [ ] 用户界面
+
+### 项目部署
+- [x] 部署到本地测试链
+- [ ] 部署到测试网络
