@@ -10,6 +10,7 @@ const { expect } = require("chai");
 // Using this simplifies your tests and makes them run faster, by taking
 // advantage of Hardhat Network's snapshot functionality.
 const { loadFixture } = require("@nomicfoundation/hardhat-network-helpers");
+const { BigNumber } = require("ethers");
 
 // `describe` is a Mocha function that allows you to organize your tests.
 // Having your tests organized makes debugging them easier. All Mocha
@@ -68,14 +69,14 @@ describe("Token contract", function () {
       );
       // Transfer 50 tokens from owner to addr1
       await hardhatToken.mintFT(addr1.address);
-      // await hardhatToken.mintFT(addr1.address);
-      // await hardhatToken.mintFT(addr2.address);
-      // await hardhatToken.mintFT(addr2.address);
-      // await hardhatToken.mintFT(addr2.address);
-      // await hardhatToken.mintFT(accountOwner.address);
-      // expect(await hardhatToken.amount(accountOwner.address)).to.equal(1);
-      expect(await hardhatToken.amount(addr1.address)).to.equal(1);
-      // expect(await hardhatToken.amount(addr2.address)).to.equal(3);
+      await hardhatToken.mintFT(addr1.address);
+      await hardhatToken.mintFT(addr2.address);
+      await hardhatToken.mintFT(addr2.address);
+      await hardhatToken.mintFT(addr2.address);
+      await hardhatToken.mintFT(accountOwner.address);
+      expect(Number(await hardhatToken.amountOf(accountOwner.address))).to.equal(1);
+      expect(Number(await hardhatToken.amountOf(addr1.address))).to.equal(2);
+      expect(Number(await hardhatToken.amountOf(addr2.address))).to.equal(3);
     });
 
     it("Should reward an account", async function () {
@@ -86,9 +87,9 @@ describe("Token contract", function () {
         await hardhatToken.mintFT(accountOwner.address);
         await hardhatToken.mintFT(accountOwner.address);
         await hardhatToken.reward(addr1.address, 3);
-        expect(await hardhatToken.TotleBalance(addr1.address)).to.equal(3);
+        expect(Number(await hardhatToken.TotleBalance(addr1.address))).to.equal(3);
         await hardhatToken.connect(addr1).reward(addr2.address, 3);
-        expect(await hardhatToken.TotleBalance(addr2.address)).to.equal(3);
+        expect(Number(await hardhatToken.TotleBalance(addr2.address))).to.equal(3);
       });
 
     it("Should fail if sender doesn't have enough tokens", async function () {
