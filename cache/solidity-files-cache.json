@@ -1,8 +1,49 @@
 {
   "_format": "hh-sol-cache-2",
   "files": {
-    "/Users/yufeiyuan/EthereumProjects/copyright-coins/node_modules/@openzeppelin/contracts/token/ERC721/ERC721.sol": {
-      "lastModificationDate": 1660481615012,
+    "/Users/lauralu/BlockChaine/copyright-coins/contracts/a-coin/a-coin.sol": {
+      "lastModificationDate": 1660580646635,
+      "contentHash": "00fa16166e6b11f64aed0bcd1c384967",
+      "sourceName": "contracts/a-coin/a-coin.sol",
+      "solcConfig": {
+        "version": "0.8.9",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "@openzeppelin/contracts/token/ERC721/ERC721.sol",
+        "@openzeppelin/contracts/utils/Counters.sol",
+        "@openzeppelin/contracts/access/Ownable.sol",
+        "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol",
+        "hardhat/console.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.9"
+      ],
+      "artifacts": [
+        "ACoin"
+      ]
+    },
+    "/Users/lauralu/BlockChaine/copyright-coins/node_modules/@openzeppelin/contracts/token/ERC721/ERC721.sol": {
+      "lastModificationDate": 1660579813088,
       "contentHash": "79ff1a7eb801a525aa315fb7a679eede",
       "sourceName": "@openzeppelin/contracts/token/ERC721/ERC721.sol",
       "solcConfig": {
@@ -44,8 +85,8 @@
         "ERC721"
       ]
     },
-    "/Users/yufeiyuan/EthereumProjects/copyright-coins/node_modules/@openzeppelin/contracts/utils/Counters.sol": {
-      "lastModificationDate": 1660481614984,
+    "/Users/lauralu/BlockChaine/copyright-coins/node_modules/@openzeppelin/contracts/utils/Counters.sol": {
+      "lastModificationDate": 1660579809420,
       "contentHash": "74654e3ae5d7f39555055dfe244dab7a",
       "sourceName": "@openzeppelin/contracts/utils/Counters.sol",
       "solcConfig": {
@@ -79,8 +120,8 @@
         "Counters"
       ]
     },
-    "/Users/yufeiyuan/EthereumProjects/copyright-coins/node_modules/@openzeppelin/contracts/access/Ownable.sol": {
-      "lastModificationDate": 1660481615037,
+    "/Users/lauralu/BlockChaine/copyright-coins/node_modules/@openzeppelin/contracts/access/Ownable.sol": {
+      "lastModificationDate": 1660579816155,
       "contentHash": "e436cea06129be2c73cda4b1acc848b5",
       "sourceName": "@openzeppelin/contracts/access/Ownable.sol",
       "solcConfig": {
@@ -116,8 +157,8 @@
         "Ownable"
       ]
     },
-    "/Users/yufeiyuan/EthereumProjects/copyright-coins/node_modules/@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol": {
-      "lastModificationDate": 1660481615016,
+    "/Users/lauralu/BlockChaine/copyright-coins/node_modules/@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol": {
+      "lastModificationDate": 1660579813573,
       "contentHash": "8af32effd0536e2971ff8496812a5016",
       "sourceName": "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol",
       "solcConfig": {
@@ -153,8 +194,43 @@
         "ERC721URIStorage"
       ]
     },
-    "/Users/yufeiyuan/EthereumProjects/copyright-coins/node_modules/@openzeppelin/contracts/token/ERC721/IERC721.sol": {
-      "lastModificationDate": 1660481615030,
+    "/Users/lauralu/BlockChaine/copyright-coins/node_modules/hardhat/console.sol": {
+      "lastModificationDate": 1660579826821,
+      "contentHash": "cc4777addd464ea56fa35b1c45df0591",
+      "sourceName": "hardhat/console.sol",
+      "solcConfig": {
+        "version": "0.8.9",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.4.22 <0.9.0"
+      ],
+      "artifacts": [
+        "console"
+      ]
+    },
+    "/Users/lauralu/BlockChaine/copyright-coins/node_modules/@openzeppelin/contracts/token/ERC721/IERC721.sol": {
+      "lastModificationDate": 1660579815337,
       "contentHash": "ec99d946db3685a3630554aa6055bd7f",
       "sourceName": "@openzeppelin/contracts/token/ERC721/IERC721.sol",
       "solcConfig": {
@@ -190,8 +266,8 @@
         "IERC721"
       ]
     },
-    "/Users/yufeiyuan/EthereumProjects/copyright-coins/node_modules/@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol": {
-      "lastModificationDate": 1660481615031,
+    "/Users/lauralu/BlockChaine/copyright-coins/node_modules/@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol": {
+      "lastModificationDate": 1660579815382,
       "contentHash": "c22d4395e33763de693fd440c6fd10e1",
       "sourceName": "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol",
       "solcConfig": {
@@ -225,8 +301,8 @@
         "IERC721Receiver"
       ]
     },
-    "/Users/yufeiyuan/EthereumProjects/copyright-coins/node_modules/@openzeppelin/contracts/token/ERC721/extensions/IERC721Metadata.sol": {
-      "lastModificationDate": 1660481615031,
+    "/Users/lauralu/BlockChaine/copyright-coins/node_modules/@openzeppelin/contracts/token/ERC721/extensions/IERC721Metadata.sol": {
+      "lastModificationDate": 1660579815372,
       "contentHash": "efbc0d15b80a74e34dbe8da0f3e879bb",
       "sourceName": "@openzeppelin/contracts/token/ERC721/extensions/IERC721Metadata.sol",
       "solcConfig": {
@@ -262,8 +338,8 @@
         "IERC721Metadata"
       ]
     },
-    "/Users/yufeiyuan/EthereumProjects/copyright-coins/node_modules/@openzeppelin/contracts/utils/Address.sol": {
-      "lastModificationDate": 1660481614981,
+    "/Users/lauralu/BlockChaine/copyright-coins/node_modules/@openzeppelin/contracts/utils/Address.sol": {
+      "lastModificationDate": 1660579808842,
       "contentHash": "c476b3895a94798b88a4bb97399e6dfe",
       "sourceName": "@openzeppelin/contracts/utils/Address.sol",
       "solcConfig": {
@@ -297,8 +373,8 @@
         "Address"
       ]
     },
-    "/Users/yufeiyuan/EthereumProjects/copyright-coins/node_modules/@openzeppelin/contracts/utils/Context.sol": {
-      "lastModificationDate": 1660481614984,
+    "/Users/lauralu/BlockChaine/copyright-coins/node_modules/@openzeppelin/contracts/utils/Context.sol": {
+      "lastModificationDate": 1660579809413,
       "contentHash": "5f2c5c4b6af2dd4551027144797bc8be",
       "sourceName": "@openzeppelin/contracts/utils/Context.sol",
       "solcConfig": {
@@ -332,8 +408,8 @@
         "Context"
       ]
     },
-    "/Users/yufeiyuan/EthereumProjects/copyright-coins/node_modules/@openzeppelin/contracts/utils/Strings.sol": {
-      "lastModificationDate": 1660481615042,
+    "/Users/lauralu/BlockChaine/copyright-coins/node_modules/@openzeppelin/contracts/utils/Strings.sol": {
+      "lastModificationDate": 1660579816915,
       "contentHash": "cf46906c4035f51639a22265066a9e78",
       "sourceName": "@openzeppelin/contracts/utils/Strings.sol",
       "solcConfig": {
@@ -367,8 +443,8 @@
         "Strings"
       ]
     },
-    "/Users/yufeiyuan/EthereumProjects/copyright-coins/node_modules/@openzeppelin/contracts/utils/introspection/ERC165.sol": {
-      "lastModificationDate": 1660481614998,
+    "/Users/lauralu/BlockChaine/copyright-coins/node_modules/@openzeppelin/contracts/utils/introspection/ERC165.sol": {
+      "lastModificationDate": 1660579811651,
       "contentHash": "0e7db055ce108f9da7bb6686a00287c0",
       "sourceName": "@openzeppelin/contracts/utils/introspection/ERC165.sol",
       "solcConfig": {
@@ -404,8 +480,8 @@
         "ERC165"
       ]
     },
-    "/Users/yufeiyuan/EthereumProjects/copyright-coins/node_modules/@openzeppelin/contracts/utils/introspection/IERC165.sol": {
-      "lastModificationDate": 1660481615027,
+    "/Users/lauralu/BlockChaine/copyright-coins/node_modules/@openzeppelin/contracts/utils/introspection/IERC165.sol": {
+      "lastModificationDate": 1660579815061,
       "contentHash": "03e6768535ac4da0e9756f1d8a4a018a",
       "sourceName": "@openzeppelin/contracts/utils/introspection/IERC165.sol",
       "solcConfig": {

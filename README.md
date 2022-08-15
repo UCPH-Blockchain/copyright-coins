@@ -10,7 +10,10 @@ API_URL=https://eth-rinkeby.alchemyapi.io/v2/-mUalRDBIm_xtrI8VqIP9wkLZbpJqBqW
 PRIVATE_KEY="<Your-Private-Key>"
 PUBLIC_KEY="<Your-Public-Key>"
 ```
-
+## 编译
+```
+npx hardhat compile
+```
 
 ## 部署
 在项目路径下打开终端，使用`npx hardhat node`启动一个单独的hardhat network，同时显示20个账户信息：
@@ -38,6 +41,7 @@ Any funds sent to them on Mainnet or any other live network WILL BE LOST.
 在该命令运行时，MetaMask可以自动检测到本地网络。切换至本地网络并使用测试账户，就可以通过MetaMask查看账户余额等信息。
 
 > 注意：需要保持运行`npx hardhat node`的终端打开才可以持续运行该hardhat network。
+
 
 另外开启一个终端，通过
 ```

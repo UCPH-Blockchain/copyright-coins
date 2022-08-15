@@ -1,5 +1,5 @@
 async function main() {
-    const MyFT = await ethers.getContractFactory("MyFT")
+    const MyFT = await ethers.getContractFactory("CCoin")
   
     // Start deployment, returning a promise that resolves to a contract object
     const myFT = await MyFT.deploy()
