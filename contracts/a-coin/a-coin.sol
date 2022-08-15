@@ -23,9 +23,11 @@ contract ACoin is ERC721URIStorage, Ownable {
 
     // Deploy the C-Coin contract first.
     // Then the A-Coin will trust that C-Coin contract unconditionally.
-    address private constant cCoinAddress = 0xB88D33486476aC89FBEDB07937FD150aDE2D7c72;
+    address private _cCoinAddress;
 
-    constructor() ERC721("ACoinNFT", "ACoin") {}
+    constructor(address cCoinAddress_) ERC721("ACoinNFT", "ACoin") {
+        _cCoinAddress = cCoinAddress_;
+    }
 
     function mintNFT(address recipient, string memory tokenURI)
         public
@@ -47,11 +49,12 @@ contract ACoin is ERC721URIStorage, Ownable {
         safeTransferFrom(_msgSender(), recipient, tokenId);
     }
 
-    function ship(address recipient, uint256 tokenId) public {
+    function ship(address recipient, uint256 tokenId) onlyOwner public returns (bool) {
         _requireMinted(tokenId);
-        require(_msgSender() == cCoinAddress, "Only specific C-Coin can ship");
+        require(_msgSender() == _cCoinAddress, "Only specific C-Coin can ship");
         _forSale[tokenId] = false;
         _transfer(ownerOf(tokenId), recipient, tokenId);
+        return true;
     }
 
     function isForSale(uint256 tokenId) public view returns (bool) {
