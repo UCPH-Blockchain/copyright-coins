@@ -1,6 +1,8 @@
-cc-coin.sol
 # Created by .ignore support plugin (hsz.mobi)
 ### VisualStudioCode template
+
+artifacts/*
+cache/*
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
