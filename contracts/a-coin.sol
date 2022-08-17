@@ -7,8 +7,11 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "hardhat/console.sol";
+import "./c-coin.sol";
 
 contract ACoin is ERC721URIStorage, Ownable {
+    address private contractOwner;
+
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
 
@@ -18,23 +21,23 @@ contract ACoin is ERC721URIStorage, Ownable {
     // Mapping from token ID to prices
     mapping(uint256 => uint256) private _prices;
 
-    // The max uint256 value of solidity 
+    // The max uint256 value of solidity
     uint256 private constant MAX_INT = 2**256 - 1;
 
-    // Deploy the C-Coin contract first.
-    // Then the A-Coin will trust that C-Coin contract unconditionally.
-    address private _cCoinAddress;
+    // CCoin instance to access the CCoin contract
+    CCoin private cCoin;
 
-    constructor(address cCoinAddress_) ERC721("ACoinNFT", "ACoin") {
-        _cCoinAddress = cCoinAddress_;
+    constructor() ERC721("ACoinNFT", "ACoin") {
+        contractOwner = address(this);
+        cCoin = new CCoin(address(this));
     }
 
+    // Anyone can mint a new token.
     function mintNFT(address recipient, string memory tokenURI)
-        public onlyOwner
+        public
         returns (uint256)
     {
         _tokenIds.increment();
-
         uint256 newItemId = _tokenIds.current();
         _mint(recipient, newItemId);
         _setTokenURI(newItemId, tokenURI);
@@ -44,17 +47,26 @@ contract ACoin is ERC721URIStorage, Ownable {
         return newItemId;
     }
 
-    function transfer(address recipient, uint256 tokenId) public {
-        _requireMinted(tokenId);
-        safeTransferFrom(_msgSender(), recipient, tokenId);
-    }
+    // To transfer the token ownership to another address, the owner need to pay for the commission.
+    // function transfer(address recipient, uint256 tokenId) payable public {
+    //     _requireMinted(tokenId);
+    //     safeTransferFrom(_msgSender(), recipient, tokenId);
+    // }
 
-    function ship(address recipient, uint256 tokenId) onlyOwner public returns (bool) {
-        _requireMinted(tokenId);
-        require(_msgSender() == _cCoinAddress, "Only specific C-Coin can ship");
-        _forSale[tokenId] = false;
-        _transfer(ownerOf(tokenId), recipient, tokenId);
-        return true;
+    // function purchase (uint256 tokenId)
+    //     payable
+    //     public
+    //     returns (bool)
+    // {
+    //     _requireMinted(tokenId);
+    //     require(_forSale[tokenId], "This token is not for sale");
+    //     require(_msgSender() != ownerOf(tokenId), "You can't purchase your own token");
+    //     _transfer(_msgSender(), ownerOf(tokenId), tokenId);
+    //     return true;
+    // }
+
+    function getContractOwner() public view returns (address) {
+        return contractOwner;
     }
 
     function isForSale(uint256 tokenId) public view returns (bool) {
@@ -81,5 +93,19 @@ contract ACoin is ERC721URIStorage, Ownable {
             "Only the owner can set a token price"
         );
         _prices[tokenId] = price;
+    }
+
+    function getCCoinContractAddress() public view returns (address) {
+        return cCoin.address;
+    }
+
+    event Received(address, uint);
+    receive() external payable {
+        msg.data();
+        emit Received(msg.sender, msg.value);
+    }
+
+    fallback() external payable {
+        emit Received(msg.sender, msg.value);
     }
 }
