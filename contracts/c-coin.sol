@@ -33,7 +33,7 @@ contract CCoin is ERC20{
     }
 
     //get chaineOwner address
-    function getChaineOwner() public returns (address){
+    function getChaineOwner() public view returns (address){
         return contractOwner;
     }
 
