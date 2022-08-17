@@ -56,7 +56,7 @@ contract ACoin is ERC721URIStorage, Ownable {
         );
 
         uint commission = _prices[tokenId] * 0.001 ether;
-        console.log("The commission of this purchase is: ", commission);
+        console.log("The commission of this transfer is: ", commission);
 
         require(
             msg.value >= _prices[tokenId] + commission,
@@ -86,10 +86,10 @@ contract ACoin is ERC721URIStorage, Ownable {
 
         // Transfer the ETH to the NFT owner
         cCoin.reduceBalance(msg.sender, 100);
-        payable(ownerOf(tokenId)).transfer(msg.value);
+        payable(ownerOf(tokenId)).transfer(_prices[tokenId]);
 
         // Transfer the NFT ownership to the buyer
-        _transfer(_msgSender(), ownerOf(tokenId), tokenId);
+        _transfer(ownerOf(tokenId), _msgSender(), tokenId);
 
         // The buyer will get a CCoin as bonus
         cCoin.mintFT(msg.sender);
