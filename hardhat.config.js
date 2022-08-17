@@ -7,7 +7,12 @@ module.exports = {
   solidity: "0.8.9",
   defaultNetwork: "rinkeby",
   networks: {
-    hardhat: {},
+    localhost: {
+      allowUnlimitedContractSize: true,
+    },
+    hardhat: {
+      allowUnlimitedContractSize: true,
+    },
     rinkeby: {
       url: API_URL,
       accounts: [`0x${PRIVATE_KEY}`]
