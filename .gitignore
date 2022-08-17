@@ -508,3 +508,5 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
+contracts/ACoin.json
+contracts/contract_address.json
