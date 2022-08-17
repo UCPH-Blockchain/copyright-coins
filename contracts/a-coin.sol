@@ -28,7 +28,7 @@ contract ACoin is ERC721URIStorage, Ownable {
     CCoin private cCoin;
 
     constructor() ERC721("ACoinNFT", "ACoin") {
-        contractOwner = address(this);
+        contractOwner = msg.sender;
         cCoin = new CCoin();
     }
 
@@ -62,6 +62,7 @@ contract ACoin is ERC721URIStorage, Ownable {
             msg.value >= _prices[tokenId] + commission,
             "You do not have enough ether to pay for the commission"
         );
+        _forSale[tokenId] = false;
         safeTransferFrom(_msgSender(), recipient, tokenId);
     }
 
@@ -84,8 +85,12 @@ contract ACoin is ERC721URIStorage, Ownable {
         }
         require(msg.value >= _prices[tokenId], "You don't have enough money");
 
+        _forSale[tokenId] = false;
+
         // Transfer the ETH to the NFT owner
-        cCoin.reduceBalance(msg.sender, 100);
+        if (cCoin.totalBalance(msg.sender) >= 100) {
+            cCoin.reduceBalance(msg.sender, 100);
+        }
         payable(ownerOf(tokenId)).transfer(_prices[tokenId]);
 
         // Transfer the NFT ownership to the buyer
