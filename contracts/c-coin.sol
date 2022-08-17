@@ -6,8 +6,9 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol";
 import "hardhat/console.sol";
 import "./a-coin.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract CCoin is ERC20{
+contract CCoin is ERC20, Ownable{
 
     // An address type variable is used to store ethereum accounts.
     address public contractOwner;
@@ -51,12 +52,19 @@ contract CCoin is ERC20{
 
         mintPerDay[minterAdd].amount_per_day += 1;
 
-        if (mintPerDay[minterAdd].amount_per_day < totalMintPerDay){
+        if (mintPerDay[minterAdd].amount_per_day <= totalMintPerDay){
             _mint(minterAdd, 1);
         }
     }
 
-    // get balance of the account
+    // mint
+    function mintManyFT(address minterAdd, uint256 Mamount) public onlyOwner{
+        
+       for(uint i = 0; i < Mamount; i++){
+        mintFT(minterAdd);
+       } 
+    }
+
     function totalBalance(address account) public view returns (uint256){
         uint256 balance = balanceOf(account);
         return balance;
