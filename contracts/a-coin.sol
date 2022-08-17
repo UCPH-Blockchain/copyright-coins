@@ -48,22 +48,53 @@ contract ACoin is ERC721URIStorage, Ownable {
     }
 
     // To transfer the token ownership to another address, the owner need to pay for the commission.
-    // function transfer(address recipient, uint256 tokenId) payable public {
-    //     _requireMinted(tokenId);
-    //     safeTransferFrom(_msgSender(), recipient, tokenId);
-    // }
+    function transfer(address recipient, uint256 tokenId) public payable {
+        _requireMinted(tokenId);
+        require(
+            _msgSender() != ownerOf(tokenId),
+            "You cannot transfer your token to yourself"
+        );
 
-    // function purchase (uint256 tokenId)
-    //     payable
-    //     public
-    //     returns (bool)
-    // {
-    //     _requireMinted(tokenId);
-    //     require(_forSale[tokenId], "This token is not for sale");
-    //     require(_msgSender() != ownerOf(tokenId), "You can't purchase your own token");
-    //     _transfer(_msgSender(), ownerOf(tokenId), tokenId);
-    //     return true;
-    // }
+        uint commission = _prices[tokenId] * 0.001 ether;
+        console.log("The commission of this purchase is: ", commission);
+
+        require(
+            msg.value >= _prices[tokenId] + commission,
+            "You do not have enough ether to pay for the commission"
+        );
+        safeTransferFrom(_msgSender(), recipient, tokenId);
+    }
+
+    function purchase(uint256 tokenId) public payable returns (bool) {
+        _requireMinted(tokenId);
+        require(_forSale[tokenId], "This token is not for sale");
+        require(
+            _msgSender() != ownerOf(tokenId),
+            "You can't purchase your own token"
+        );
+
+        uint commission = _prices[tokenId] * 0.001 ether;
+        console.log("The commission of this purchase is: ", commission);
+
+        if (cCoin.totalBalance(msg.sender) < 100) {
+            require(
+                msg.value >= _prices[tokenId] + commission,
+                "You do not have enough ether to pay for the commission"
+            );
+        }
+        require(msg.value >= _prices[tokenId], "You don't have enough money");
+
+        // Transfer the ETH to the NFT owner
+        cCoin.reduceBalance(msg.sender, 100);
+        payable(ownerOf(tokenId)).transfer(msg.value);
+
+        // Transfer the NFT ownership to the buyer
+        _transfer(_msgSender(), ownerOf(tokenId), tokenId);
+
+        // The buyer will get a CCoin as bonus
+        cCoin.mintFT(msg.sender);
+        return true;
+    }
 
     function getContractOwner() public view returns (address) {
         return contractOwner;
@@ -100,6 +131,7 @@ contract ACoin is ERC721URIStorage, Ownable {
     }
 
     event Received(address, uint);
+
     receive() external payable {
         console.log("Received");
         emit Received(msg.sender, msg.value);
