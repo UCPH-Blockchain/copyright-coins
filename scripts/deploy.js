@@ -21,14 +21,29 @@ async function main() {
   const MyFT = await ethers.getContractFactory("ACoin")
 
   // Start deployment, returning a promise that resolves to a contract object
-  const myFT = await MyFT.deploy()
-  await myFT.deployed()
-  console.log("Contract deployed to address:", myFT.address)
+  const A_Coin = await MyFT.deploy()
+  await A_Coin.deployed()
+  console.log("Contract deployed to address:", A_Coin.address)
 
-  saveFrontendFiles(myFT);
+  saveFrontendFiles(A_Coin);
 
-}
+  // const _CCoin = await ethers.getContractFactory("CCoin");
 
+  // console.log(await A_Coin.getCCoinContractAddress());
+ 
+  // const C_Coin = await _CCoin.attach(await A_Coin.getCCoinContractAddress());
+
+  // // console.log(C_Coin.contractOwner); 
+
+  // await C_Coin.mintManyFT("0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266", 2000);
+
+  // console.log(await C_Coin.totalBalance("0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"));
+  // console.log(await C_Coin.amountOf("0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"));
+  // await C_Coin.reduceBalance("0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266", 200);
+  // console.log(await C_Coin.totalBalance("0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"));
+  // console.log(await C_Coin.amountOf("0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266")); 
+
+  }
 function saveFrontendFiles(token) {
   const fs = require("fs");
   const contractsDir = path.join(__dirname, "..", "/contracts/contract_address");
@@ -55,7 +70,6 @@ main().then(() => process.exit(0)).catch((error) => {
   console.error(error)
   process.exit(1)
 })
-
 
 
 
