@@ -10,8 +10,8 @@ import "./a-coin.sol";
 contract CCoin is ERC20{
 
     // An address type variable is used to store ethereum accounts.
-    address public accountOwner;
-    ACoin private aCoin;
+    address public contractOwner;
+    // ACoin private aCoin;
 
     struct minter{
         uint256 amount_per_day;
@@ -28,8 +28,13 @@ contract CCoin is ERC20{
      * Contract initialization.
      */
     constructor() ERC20("My FT Token", "CCoin") {
-        accountOwner = msg.sender;
-        aCoin = new ACoin(address(this));
+        contractOwner = msg.sender;
+        // aCoin = new ACoin(address(this));
+    }
+
+    //get chaineOwner address
+    function getChaineOwner() public returns (address){
+        return contractOwner;
     }
 
     // mint
@@ -52,18 +57,33 @@ contract CCoin is ERC20{
     }
 
     // get balance of the account
-    function TotleBalance(address account) public view returns (uint256){
+    function totalBalance(address account) public view returns (uint256){
         uint256 balance = balanceOf(account);
         return balance;
     }
+
 
     // get amount of the minter mint per day
     function amountOf(address account) public view returns (uint256){
         return mintPerDay[account].amount_per_day;
     }
 
-    //reward, transfer tocken from msg.sender to address "to"
-    function reward(address to, uint256 amount) public {
+    //reduce CCoin of an account
+    function reduceBalance(address account, uint256 amount) public returns (bool){
+        require(account != contractOwner, "ERC20: burn from the contractOwner address");
+
+        _beforeTokenTransfer(account, address(0), amount);
+
+        uint256 balance =  balanceOf(account);
+        require(balance >= amount, "ERC20: burn amount exceeds balance");
+
+        _transfer(account, contractOwner, amount);
+
+        return true;
+    }
+
+    //transfer Ctocken from msg.sender to address "to"
+    function transferCCoin(address to, uint256 amount) public {
         // Check if the transaction sender has enough tokens.
         // If `require`'s first argument evaluates to `false` then the
         // transaction will revert.
@@ -81,29 +101,29 @@ contract CCoin is ERC20{
         _transfer(msg.sender, to, amount);
     }
  
-    // buy copyright using CCoin
-    function purchasebyC(uint256 tokenId) public returns (bool) {
+    // // buy copyright using CCoin
+    // function purchasebyC(uint256 tokenId) public returns (bool) {
         
-        address receiptAdd = aCoin.ownerOf(tokenId);
-        uint price = aCoin.priceOf(tokenId);
+    //     address receiptAdd = aCoin.ownerOf(tokenId);
+    //     uint price = aCoin.priceOf(tokenId);
 
-        //transfer CCoin
-        _transfer(msg.sender, receiptAdd, price);
+    //     //transfer CCoin
+    //     _transfer(msg.sender, receiptAdd, price);
 
-        //transfer ACoin
-        aCoin.ship(msg.sender, tokenId);
+    //     //transfer ACoin
+    //     aCoin.ship(msg.sender, tokenId);
 
-        return true;
-    }
+    //     return true;
+    // }
 
-    // buy copyright using other Coins(eg.ETH)
-    function purchasebyOther(uint256 tokenId) public returns (bool) {
+    // // buy copyright using other Coins(eg.ETH)
+    // function purchasebyOther(uint256 tokenId) public returns (bool) {
 
-        //transfer ACoin
-        aCoin.ship(msg.sender, tokenId);
+    //     //transfer ACoin
+    //     aCoin.ship(msg.sender, tokenId);
 
-        return true;
-    }
+    //     return true;
+    // }
 
 
 
