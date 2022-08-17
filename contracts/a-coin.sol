@@ -29,7 +29,7 @@ contract ACoin is ERC721URIStorage, Ownable {
 
     constructor() ERC721("ACoinNFT", "ACoin") {
         contractOwner = address(this);
-        cCoin = new CCoin(address(this));
+        cCoin = new CCoin();
     }
 
     // Anyone can mint a new token.
@@ -96,12 +96,12 @@ contract ACoin is ERC721URIStorage, Ownable {
     }
 
     function getCCoinContractAddress() public view returns (address) {
-        return cCoin.address;
+        return address(cCoin);
     }
 
     event Received(address, uint);
     receive() external payable {
-        msg.data();
+        console.log("Received");
         emit Received(msg.sender, msg.value);
     }
 
