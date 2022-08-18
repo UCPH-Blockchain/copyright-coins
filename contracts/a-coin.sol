@@ -55,7 +55,7 @@ contract ACoin is ERC721URIStorage, Ownable {
             "You cannot transfer your token to yourself"
         );
 
-        uint commission = _prices[tokenId] * 0.001 ether;
+        uint commission = _prices[tokenId] / uint(1000);
         console.log("The commission of this transfer is: ", commission);
 
         require(
@@ -74,7 +74,7 @@ contract ACoin is ERC721URIStorage, Ownable {
             "You can't purchase your own token"
         );
 
-        uint commission = _prices[tokenId] * 0.001 ether;
+        uint commission = _prices[tokenId] / uint(1000);
         console.log("The commission of this purchase is: ", commission);
 
         if (cCoin.totalBalance(msg.sender) < 100) {
@@ -105,10 +105,12 @@ contract ACoin is ERC721URIStorage, Ownable {
         return contractOwner;
     }
 
+    // Check if the NFT is for sale
     function isForSale(uint256 tokenId) public view returns (bool) {
         return _forSale[tokenId];
     }
 
+    // Set is for sale to true or false
     function setForSale(uint256 tokenId, bool forSale) public {
         _requireMinted(tokenId);
         require(
@@ -118,19 +120,23 @@ contract ACoin is ERC721URIStorage, Ownable {
         _forSale[tokenId] = forSale;
     }
 
+    // Get the price of the NFT
     function priceOf(uint256 tokenId) public view returns (uint256) {
         return _prices[tokenId];
     }
 
+    // Set the price of the NFT in ETH
     function setPrice(uint256 tokenId, uint256 price) public {
         _requireMinted(tokenId);
         require(
             _msgSender() == ownerOf(tokenId),
             "Only the owner can set a token price"
         );
-        _prices[tokenId] = price;
+        // The currency is in ether (rather than wei)
+        _prices[tokenId] = price * 1e18;
     }
 
+    // Get the CCoin Contract Address
     function getCCoinContractAddress() public view returns (address) {
         return address(cCoin);
     }
