@@ -58,4 +58,4 @@ async function uploadCopyright (authorAd, copyrightURL)
 }
 
 
-console.log( uploadCopyright("0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266", "copyrightURL"));
+// console.log( uploadCopyright("0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266", "copyrightURL"));
