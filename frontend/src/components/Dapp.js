@@ -1,6 +1,6 @@
 import React from "react";
 
-import { uploadCopyrit } from "../Interact_logic_with_contract/contract_api";
+// import { uploadCopyrit } from "../Interact_logic_with_contract/contract_api";
 
 import { Mint } from "./Mint";
 
@@ -32,9 +32,9 @@ export class Dapp extends React.Component {
                     <div className="col-12">
                         {
                             <Mint
-                                mintNFT={(recipient, tokenURI) =>
-                                    this._mintNFT(recipient, tokenURI)
-                                }
+                            //     mintNFT={(recipient, tokenURI) =>
+                            //         this._mintNFT(recipient, tokenURI)
+                            //     }
                             />
                         }
                     </div>
@@ -44,15 +44,15 @@ export class Dapp extends React.Component {
 
     }
 
-    async _mintNFT(recipient, tokenURI) {
-        const tid = uploadCopyrit(recipient, tokenURI);
-        this.setState({ tokenId: tid });
-        const receipt = await tid.wait();
+    // async _mintNFT(recipient, tokenURI) {
+    //     const tid = uploadCopyrit(recipient, tokenURI);
+    //     this.setState({ tokenId: tid });
+    //     const receipt = await tid.wait();
 
-        if (receipt.status === 0) {
-            // We can't know the exact error that made the transaction fail when it
-            // was mined, so we throw this generic one.
-            throw new Error("Transaction failed");
-        }
-    }
+    //     if (receipt.status === 0) {
+    //         // We can't know the exact error that made the transaction fail when it
+    //         // was mined, so we throw this generic one.
+    //         throw new Error("Transaction failed");
+    //     }
+    // }
 }
