@@ -8,7 +8,7 @@ import "hardhat/console.sol";
 import "./a-coin.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract CCoin is ERC20, Ownable{
+contract CCoin is ERC20{
 
     // An address type variable is used to store ethereum accounts.
     address public contractOwner;
@@ -58,7 +58,7 @@ contract CCoin is ERC20, Ownable{
     }
 
     // mint
-    function mintManyFT(address minterAdd, uint256 Mamount) public onlyOwner{
+    function mintManyFT(address minterAdd, uint256 Mamount) public {
         
        for(uint i = 0; i < Mamount; i++){
         mintFT(minterAdd);
