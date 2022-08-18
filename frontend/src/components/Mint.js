@@ -22,7 +22,7 @@ export function Mint({ mintNFT }) {
                         type="text"
                         className="form-control"
                         name="recipient"
-                        requred
+                        required
                     />
                 </div>
                 <div className="form-group">
