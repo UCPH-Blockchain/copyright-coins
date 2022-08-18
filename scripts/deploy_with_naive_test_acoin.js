@@ -26,44 +26,62 @@ async function main() {
   await signer1Contract.deployed()
   console.log("Contract deployed to address:", signer1Contract.address)
 
-  console.log("111111111111111111111111111111111111")
-  console.log(signer1Contract)
-  console.log("111111111111111111111111111111111111")
+  // console.log("111111111111111111111111111111111111")
+  // console.log(signer1Contract)
+  // console.log("111111111111111111111111111111111111")
 
   const signer2Contract = signer1Contract.connect(signer2)
 
-  console.log("222222222222222222222222222222222222")
-  console.log(signer2Contract)
-  console.log("222222222222222222222222222222222222")
+  // console.log("222222222222222222222222222222222222")
+  // console.log(signer2Contract)
+  // console.log("222222222222222222222222222222222222")
 
-  saveFrontendFiles(signer1Contract);
+  // saveFrontendFiles(signer1Contract);
 
-  // Basic tests for mintNFT
+  // // Basic tests for mintNFT
   console.log("Minting NFT...", await signer1Contract.mintNFT(signer1.getAddress(), "www.baidu.com"));
-  console.log("Minting NFT...", await signer1Contract.mintNFT(signer2.getAddress(), "www.google.com"));
-  
-  console.log("The owner of NFT 1 is ", await signer1Contract.ownerOf(1));
-  console.log("The owner of NFT 2 is ", await signer1Contract.ownerOf(2));
+  // console.log("Minting NFT...", await signer1Contract.mintNFT(signer2.getAddress(), "www.google.com"));
 
-  // Basic tests for owner test
-  console.log("The owner of ACoin contract is", await signer1Contract.owner());
-  console.log("The owner of ACoin contract is", await signer1Contract.getContractOwner());
+  // console.log("The owner of NFT 1 is ", await signer1Contract.ownerOf(1));
+  // console.log("The owner of NFT 2 is ", await signer1Contract.ownerOf(2));
 
-  // Basic tests for transfer test
-  console.log("The address of ACoin contract is", signer1Contract.address);
-  console.log("The address of CCoin contract is", await signer1Contract.getCCoinContractAddress());
-  
-  console.log("The price of NFT 1 is", await signer1Contract.priceOf(1));
+  // // Basic tests for owner test
+  // console.log("The owner of ACoin contract is", await signer1Contract.owner());
+  // console.log("The owner of ACoin contract is", await signer1Contract.getContractOwner());
+
+  // // Basic tests for transfer test
+  // console.log("The address of ACoin contract is", signer1Contract.address);
+  // console.log("The address of CCoin contract is", await signer1Contract.getCCoinContractAddress());
+
+  // console.log("The price of NFT 1 is", await signer1Contract.priceOf(1));
   await signer1Contract.setPrice(1, 1000) // set price of NFT 1 to 1000
-  console.log("The price of NFT 1 is", await signer1Contract.priceOf(1));
+  // console.log("The price of NFT 1 is", await signer1Contract.priceOf(1));
 
-  console.log("NFT 1 is on sale? ", await signer1Contract.isForSale(1));
+  // console.log("NFT 1 is on sale? ", await signer1Contract.isForSale(1));
   await signer1Contract.setForSale(1, true) // set NFT 1 to be on sale
-  console.log("NFT 1 is on sale? ", await signer1Contract.isForSale(1));
+  // console.log("NFT 1 is on sale? ", await signer1Contract.isForSale(1));
 
-  const options = {value: ethers.utils.parseEther("1001.0")}
+  console.log("===========================")
+  console.log("Before transfer:")
+  // console.log("The owner of NFT 1 is ", await signer1Contract.ownerOf(1));
+  console.log("CCoin balance of ", await signer1.getAddress(), " is ", await signer1Contract.cCoinBalanceOf(signer1.getAddress()));
+  console.log("CCoin balance of ", await signer2.getAddress(), " is ", await signer2Contract.cCoinBalanceOf(signer2.getAddress()));
+
+  console.log("===========================")
+  const options = { value: ethers.utils.parseEther("1001.0") }
   const reciept = await signer2Contract.purchase(1, options);
   console.log("The reciept of purchase is", reciept);
+  console.log("===========================")
+  console.log("After transfer:")
+  console.log("The owner of NFT 1 is ", await signer1Contract.ownerOf(1));
+  console.log("CCoin balance of ", await signer1.getAddress(), " is ", await signer1Contract.balanceOf(signer1.getAddress()));
+  console.log("CCoin balance of ", await signer2.getAddress(), " is ", await signer2Contract.balanceOf(signer2.getAddress()));
+
+  console.log("===========================")
+
+
+
+
 }
 
 function saveFrontendFiles(token) {
