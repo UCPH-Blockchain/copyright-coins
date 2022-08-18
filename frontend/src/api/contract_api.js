@@ -6,13 +6,13 @@
 
 const fs = require("fs");
 
-import { ethers } from "ethers";
+const { ethers } = require("hardhat");
 
 // task("uploadCopyright", "upload copyright to system")
 //   .addPositionalParam("authorAd", "The address of the author")
 //   .addPositionalParam("copyrightURL", "URL of copyright")
 //   .setAction(async ({ authorAd}, {copyrightURL}, { ethers }) =>
-function uploadCopyright (authorAd,copyrightURL )
+async function uploadCopyright (authorAd, copyrightURL)
 {
   if (network.name === "hardhat") {
     console.warn(
@@ -22,8 +22,11 @@ function uploadCopyright (authorAd,copyrightURL )
     );
   }
 
+
   const addressesFile =
-    __dirname + "/../contracts/scripts/contracts/contract_address.json";
+  __dirname + "/contract_address/contract_address.json";
+
+  // console.log(addressesFile);
 
   if (!fs.existsSync(addressesFile)) {
     console.error("You need to deploy your contract first");
@@ -33,19 +36,26 @@ function uploadCopyright (authorAd,copyrightURL )
   const addressJson = fs.readFileSync(addressesFile);
   const address = JSON.parse(addressJson);
 
-  if ((await ethers.provider.getCode(address.Token)) === "0x") {
+  // console.log("JsonAd", address);
+
+  // console.log("address.Token", address.Token);
+
+  if ((ethers.provider.getCode(address.Token)) === "0x") {
     console.error("You need to deploy your contract first");
     return;
   }
 
-  const token = await ethers.getContractAt("ACoin", address.ACoin);
+  const Atoken = await ethers.getContractAt("ACoin", address.Token);
+
+  // console.log("address", Atoken.address);
+  // console.log("token", Atoken);
+
   // const [sender] = await ethers.getSigners();
 
-  const copyrightID = await token.mintNFT(authorAd, copyrightURL);
+  const copyrightID = await Atoken.mintNFT(authorAd, copyrightURL);
 
   return copyrightID;
-  
 }
 
 
-
+// console.log( uploadCopyright("0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266", "copyrightURL"));
