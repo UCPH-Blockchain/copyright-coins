@@ -33,7 +33,7 @@ async function main() {
  
   const C_Coin = await _CCoin.attach(await A_Coin.getCCoinContractAddress());
 
-  // console.log(C_Coin.contractOwner); 
+  // // console.log(C_Coin.contractOwner); 
 
   await C_Coin.mintManyFT("0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266", 2000);
 
