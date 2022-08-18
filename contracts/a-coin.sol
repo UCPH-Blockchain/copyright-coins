@@ -55,7 +55,7 @@ contract ACoin is ERC721URIStorage, Ownable {
             "You cannot transfer your token to yourself"
         );
 
-        uint commission = _prices[tokenId] * 0.001 ether;
+        uint commission = _prices[tokenId] / 1000;
         console.log("The commission of this transfer is: ", commission);
 
         require(
@@ -74,7 +74,7 @@ contract ACoin is ERC721URIStorage, Ownable {
             "You can't purchase your own token"
         );
 
-        uint commission = _prices[tokenId] * 0.001 ether;
+        uint commission = _prices[tokenId] / 1000;
         console.log("The commission of this purchase is: ", commission);
 
         if (cCoin.totalBalance(msg.sender) < 100) {
@@ -128,6 +128,7 @@ contract ACoin is ERC721URIStorage, Ownable {
             _msgSender() == ownerOf(tokenId),
             "Only the owner can set a token price"
         );
+        // The currency is in ether (rather than wei)
         _prices[tokenId] = price;
     }
 

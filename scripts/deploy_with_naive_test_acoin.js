@@ -61,7 +61,7 @@ async function main() {
   await signer1Contract.setForSale(1, true) // set NFT 1 to be on sale
   console.log("NFT 1 is on sale? ", await signer1Contract.isForSale(1));
 
-  const options = {value: ethers.utils.parseEther("1001.0")}
+  const options = {value: ethers.utils.parseEther("1000.0")}
   const reciept = await signer2Contract.purchase(1, options);
   console.log("The reciept of purchase is", reciept);
 }
