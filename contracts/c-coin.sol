@@ -91,7 +91,7 @@ contract CCoin is ERC20{
     }
 
     //transfer Ctocken from msg.sender to address "to"
-    function transferCCoin(address to, uint256 amount) public {
+    function mintTransferCCoin(address to, uint256 amount) public {
         // Check if the transaction sender has enough tokens.
         // If `require`'s first argument evaluates to `false` then the
         // transaction will revert.
