@@ -1,9 +1,6 @@
 import React from "react";
 
-import { ethers } from "ethers";
-
-import TokenArtifact from "../contract_address/ACoin.json";
-import contractAddress from "../contract_address/contract_address.json";
+import { uploadCopyrit } from "../Interact_logic_with_contract/contract_api";
 
 import { Mint } from "./Mint";
 
@@ -33,13 +30,6 @@ export class Dapp extends React.Component {
 
                 <div className="row">
                     <div className="col-12">
-
-                        {/*
-              This component displays a form that the user can use to send a 
-              transaction and transfer some tokens.
-              The component doesn't have logic, it just calls the transferTokens
-              callback.
-            */}
                         {
                             <Mint
                                 mintNFT={(recipient, tokenURI) =>
@@ -52,5 +42,17 @@ export class Dapp extends React.Component {
             </div>
         )
 
+    }
+
+    async _mintNFT(recipient, tokenURI) {
+        const tid = uploadCopyrit(recipient, tokenURI);
+        this.setState({ tokenId: tid });
+        const receipt = await tid.wait();
+
+        if (receipt.status === 0) {
+            // We can't know the exact error that made the transaction fail when it
+            // was mined, so we throw this generic one.
+            throw new Error("Transaction failed");
+        }
     }
 }
