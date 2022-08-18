@@ -1,12 +1,18 @@
-const fs = require("fs");
+
 
 // This file is only here to make interacting with the Dapp easier,
 // feel free to ignore it if you don't need it.
+// const { ethers } = require("hardhat");
 
-const { ethers } = require("hardhat");
-const path = require("path");
+const fs = require("fs");
 
-function uploadCopyrit(authorAd, copyrightURL) 
+import { ethers } from "ethers";
+
+// task("uploadCopyright", "upload copyright to system")
+//   .addPositionalParam("authorAd", "The address of the author")
+//   .addPositionalParam("copyrightURL", "URL of copyright")
+//   .setAction(async ({ authorAd}, {copyrightURL}, { ethers }) =>
+function uploadCopyright (authorAd,copyrightURL )
 {
   if (network.name === "hardhat") {
     console.warn(
@@ -40,4 +46,6 @@ function uploadCopyrit(authorAd, copyrightURL)
   return copyrightID;
   
 }
+
+
 
