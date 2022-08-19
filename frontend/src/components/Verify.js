@@ -1,6 +1,6 @@
 import React from "react";
 
-export function Transfer({ transferNFT }) {
+export function Verify({ verifyNFT }) {
     const styles = {
         inputTitle: {
             padding: "20px",
@@ -26,14 +26,14 @@ export function Transfer({ transferNFT }) {
             fontSize: "18px"
         },
         input1: {
-            marginLeft: "300px",
+            marginLeft: "225px",
             width: "500px",
             height: "30px",
             fontSize:"20px",
             marginTop: "40px"
         },
         input2: {
-            marginLeft: "252px",
+            marginLeft: "288px",
             width: "500px",
             height: "30px",
             fontSize:"20px",
@@ -42,45 +42,43 @@ export function Transfer({ transferNFT }) {
       };
     return (
         <div>
-            <div style={styles.mainTitle}><b>Transfer Copyright</b></div>
+            <div style={styles.mainTitle}><b>Verify Copyright</b></div>
             <form
                 onSubmit={(event) => {
                     event.preventDefault();
                     const formData = new FormData(event.target);
-                    const recipient = formData.get("recipient");
-                    const tokenID = formData.get("tokenID");
+                    const publicKey = formData.get("publicKey");
+                    const copyrightURI = formData.get("copyrightURI");
 
-                    if (recipient && tokenID) {
-                        transferNFT(recipient, tokenID);
+                    if (publicKey && copyrightURI) {
+                        verifyNFT(publicKey, copyrightURI);
                     }
                 }}
             >
                 <div className="form-group">
-                    <label style={styles.inputTitle}>Copyright ID: </label>
+                    <label style={styles.inputTitle}>Public Key of Author: </label>
                     <input
                         style={styles.input1}
                         type="text"
                         className="form-control"
-                        name="tokenID"
+                        name="publicKey"
                         required
                     />
                 </div>
                 <div className="form-group">
-                    <label style={styles.inputTitle}>Recipent Address: </label>
+                    <label style={styles.inputTitle}>Copyright URI: </label>
                     <input
                         style={styles.input2}
                         type="text"
                         className="form-control"
-                        name="recipent"
+                        name="copyrightURI"
                         required
                     />
                 </div>
                 <div className="form-group" style={styles.spaceButton}>
-                    <input className="btn btn-primary" type="submit" value="OK" style={styles.okButton}/>
+                    <input className="btn btn-primary" type="submit" value="VERIFY" style={styles.okButton}/>
                 </div>
             </form>
         </div>
-
-
     );
 }

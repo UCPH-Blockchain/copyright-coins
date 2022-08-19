@@ -1,6 +1,6 @@
 import React from "react";
 
-export function Verify({ verifyNFT, resultInfo }) {
+export function Search({ searchNFT }) {
     const styles = {
         inputTitle: {
             padding: "20px",
@@ -26,36 +26,24 @@ export function Verify({ verifyNFT, resultInfo }) {
             fontSize: "18px"
         },
         input1: {
-            marginLeft: "250px",
+            marginLeft: "225px",
             width: "500px",
             height: "30px",
             fontSize:"20px",
             marginTop: "40px"
         },
-        input2: {
-            marginLeft: "318px",
-            width: "500px",
-            height: "30px",
-            fontSize:"20px",
-            marginTop: "40px"
-        },
-        result: {
-            marginLeft: "465px",
-            fontSize: "20px"
-        }
       };
     return (
         <div>
-            <div style={styles.mainTitle}><b>Verify Copyright</b></div>
+            <div style={styles.mainTitle}><b>Search Copyright</b></div>
             <form
                 onSubmit={(event) => {
                     event.preventDefault();
                     const formData = new FormData(event.target);
-                    const recipient = formData.get("recipient");
-                    const tokenURI = formData.get("tokenURI");
+                    const publicKey = formData.get("publicKey");
 
-                    if (recipient && tokenURI) {
-                        mintNFT(recipient, tokenURI);
+                    if (publicKey) {
+                        searchNFT(publicKey);
                     }
                 }}
             >
@@ -69,23 +57,10 @@ export function Verify({ verifyNFT, resultInfo }) {
                         required
                     />
                 </div>
-                <div className="form-group">
-                    <label style={styles.inputTitle}>Copyright URI: </label>
-                    <input
-                        style={styles.input2}
-                        type="text"
-                        className="form-control"
-                        name="copyrightURI"
-                        required
-                    />
-                </div>
                 <div className="form-group" style={styles.spaceButton}>
-                    <input className="btn btn-primary" type="submit" value="VERIFY" style={styles.okButton}/>
+                    <input className="btn btn-primary" type="submit" value="OK" style={styles.okButton}/>
                 </div>
             </form>
-            <label style={styles.result}><b>
-            {resultInfo}</b>
-            </label>
 
         </div>
 

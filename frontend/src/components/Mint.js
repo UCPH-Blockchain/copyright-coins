@@ -1,6 +1,6 @@
 import React from "react";
 
-export function Mint({ mintNFT, publicKey, resultInfo }) {
+export function Mint({ mintNFT, publicKey }) {
     const styles = {
         inputTitle: {
             padding: "20px",
@@ -33,16 +33,12 @@ export function Mint({ mintNFT, publicKey, resultInfo }) {
             marginTop: "40px"
         },
         input2: {
-            marginLeft: "318px",
+            marginLeft: "285px",
             width: "500px",
             height: "30px",
             fontSize:"20px",
             marginTop: "40px"
         },
-        result: {
-            marginLeft: "465px",
-            fontSize: "20px"
-        }
       };
     return (
         <div>
@@ -72,7 +68,7 @@ export function Mint({ mintNFT, publicKey, resultInfo }) {
                     />
                 </div>
                 <div className="form-group">
-                    <label style={styles.inputTitle}>Token URI: </label>
+                    <label style={styles.inputTitle}>Copyright URI: </label>
                     <input
                         style={styles.input2}
                         type="text"
@@ -85,9 +81,6 @@ export function Mint({ mintNFT, publicKey, resultInfo }) {
                     <input className="btn btn-primary" type="submit" value="OK" style={styles.okButton}/>
                 </div>
             </form>
-            <label style={styles.result}><b>
-            {resultInfo}</b>
-            </label>
 
         </div>
 
