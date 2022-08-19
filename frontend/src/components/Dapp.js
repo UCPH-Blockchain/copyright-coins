@@ -10,7 +10,7 @@ import { Mint } from "./Mint";
 import { ConnectWallet } from "./ConnectWallet";
 import { NoWalletDetected } from "./NoWalletDetected";
 
-const HARDHAT_NETWORK_ID = '1337';
+const HARDHAT_NETWORK_ID = '31337';
 const ERROR_CODE_TX_REJECTED_BY_USER = 4001;
 
 
@@ -36,7 +36,16 @@ export class Dapp extends React.Component {
             return <NoWalletDetected />;
         }
 
-        this._initializeEthers();
+        // this._initializeEthers();
+        if (!this.state.selectedAddress) {
+            return (
+                <ConnectWallet
+                    connectWallet={() => this._connectWallet()}
+                    networkError={this.state.networkError}
+                    dismiss={() => this._dismissNetworkError()}
+                />
+            );
+        }
 
         return (
             <div className="container p-4">
@@ -45,15 +54,6 @@ export class Dapp extends React.Component {
                         <h1>
                             Welcom to article copyright recording and trading system
                         </h1>
-
-                        {/* <div>
-                            <ConnectWallet
-                                connectWallet={() => this._connectWallet()}
-                                networkError={this.state.networkError}
-                                dismiss={() => this._dismissNetworkError()}
-                            />
-
-                        </div> */}
 
                     </div>
                 </div>
@@ -101,6 +101,7 @@ export class Dapp extends React.Component {
     }
 
     _checkNetwork() {
+        console.log(window.ethereum.networkVersion)
         if (window.ethereum.networkVersion === HARDHAT_NETWORK_ID) {
             return true;
         }
@@ -123,11 +124,12 @@ export class Dapp extends React.Component {
     async _initializeEthers() {
         this._provider = new ethers.providers.Web3Provider(window.ethereum);
 
-        this._aToken = new ethers.Contract(
+        this._token = new ethers.Contract(
             contractAddress.Token,
             TokenArtifact.abi,
             this._provider.getSigner(0)
         );
+        console.log("this._token", this._token);
     }
     _dismissNetworkError() {
         this.setState({ networkError: undefined });
