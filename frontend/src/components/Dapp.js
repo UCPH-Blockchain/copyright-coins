@@ -219,7 +219,7 @@ export class Dapp extends React.Component {
             const tokenId = tokenIdAr[i];
             const tokenURI = await this._token.tokenURI(tokenId);
             const nft_Ar = new nftAr(tokenId, tokenURI);
-            copyrightList.push(nftAr);
+            copyrightList.push(nft_Ar);
         }
         return copyrightList;
     }
