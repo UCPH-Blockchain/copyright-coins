@@ -33,7 +33,7 @@ export function Mint({ mintNFT, publicKey, resultInfo }) {
             marginTop: "40px"
         },
         input2: {
-            marginLeft: "318px",
+            marginLeft: "285px",
             width: "500px",
             height: "30px",
             fontSize:"20px",
@@ -72,7 +72,7 @@ export function Mint({ mintNFT, publicKey, resultInfo }) {
                     />
                 </div>
                 <div className="form-group">
-                    <label style={styles.inputTitle}>Token URI: </label>
+                    <label style={styles.inputTitle}>Copyright URI: </label>
                     <input
                         style={styles.input2}
                         type="text"

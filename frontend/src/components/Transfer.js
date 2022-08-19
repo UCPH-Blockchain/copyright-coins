@@ -26,14 +26,14 @@ export function Transfer({ transferNFT, resultInfo }) {
             fontSize: "18px"
         },
         input1: {
-            marginLeft: "250px",
+            marginLeft: "300px",
             width: "500px",
             height: "30px",
             fontSize:"20px",
             marginTop: "40px"
         },
         input2: {
-            marginLeft: "318px",
+            marginLeft: "252px",
             width: "500px",
             height: "30px",
             fontSize:"20px",
@@ -52,15 +52,15 @@ export function Transfer({ transferNFT, resultInfo }) {
                     event.preventDefault();
                     const formData = new FormData(event.target);
                     const recipient = formData.get("recipient");
-                    const tokenURI = formData.get("tokenURI");
+                    const tokenID = formData.get("tokenID");
 
-                    if (recipient && tokenURI) {
-                        mintNFT(recipient, tokenURI);
+                    if (recipient && tokenID) {
+                        transferNFT(recipient, tokenID);
                     }
                 }}
             >
                 <div className="form-group">
-                    <label style={styles.inputTitle}>Token ID: </label>
+                    <label style={styles.inputTitle}>Copyright ID: </label>
                     <input
                         style={styles.input1}
                         type="text"
