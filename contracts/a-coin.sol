@@ -272,6 +272,10 @@ contract ACoin is ERC721URIStorage, Ownable {
         return _NFTs[msg.sender];
     }
 
+    function getAllTokenIdsOf(address user) public view returns (uint256[] memory) {
+        return _NFTs[user];
+    }
+
     // Interfaces for the CCoin Contract
 
     // Get the CCoin Contract Address
