@@ -49,7 +49,6 @@ export function Mint({ mintNFT, publicKey }) {
                     const formData = new FormData(event.target);
                     // const recipient = formData.get("recipient");
                     const tokenURI = formData.get("tokenURI");
-
                     if (tokenURI) {
                         const copyrightID = mintNFT(tokenURI);
                         console.log(copyrightID);

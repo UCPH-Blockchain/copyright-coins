@@ -80,6 +80,7 @@ contract ACoin is ERC721URIStorage, Ownable {
         uint256 newItemId = _tokenIds.current();
         _mint(msg.sender, newItemId);
         _setTokenURI(newItemId, tokenURI);
+        _URI2TokenId[tokenURI] = newItemId;
 
         _NFTs[msg.sender].push(newItemId);
         _forSale[newItemId] = false;
