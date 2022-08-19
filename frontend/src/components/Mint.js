@@ -1,9 +1,52 @@
 import React from "react";
 
-export function Mint({ mintNFT }) {
+export function Mint({ mintNFT, publicKey, resultInfo }) {
+    const styles = {
+        inputTitle: {
+            padding: "20px",
+            fontSize: "20px",
+        },
+        mainTitle: {
+            padding: "20px",
+            fontSize: "28px",
+            color: "#3b0e7b",
+        },
+        spaceButton: {
+            padding: "10px",
+            paddingTop: "20px",
+            paddingLeft: "250px"
+        },
+        okButton: {
+            width: 120, 
+            backgroundColor:"#a3d9f5",
+            color: "black",
+            marginLeft: "410px",
+            marginTop: "30px",
+            height: 30,
+            fontSize: "18px"
+        },
+        input1: {
+            marginLeft: "250px",
+            width: "500px",
+            height: "30px",
+            fontSize:"20px",
+            marginTop: "40px"
+        },
+        input2: {
+            marginLeft: "318px",
+            width: "500px",
+            height: "30px",
+            fontSize:"20px",
+            marginTop: "40px"
+        },
+        result: {
+            marginLeft: "465px",
+            fontSize: "20px"
+        }
+      };
     return (
         <div>
-            <h1>Mint</h1>
+            <div style={styles.mainTitle}><b>Upload Copyright</b></div>
             <form
                 onSubmit={(event) => {
                     event.preventDefault();
@@ -17,28 +60,37 @@ export function Mint({ mintNFT }) {
                 }}
             >
                 <div className="form-group">
-                    <label>Recipent address</label>
+                    <label style={styles.inputTitle}>Recipent Address: </label>
                     <input
+                        style={styles.input1}
                         type="text"
                         className="form-control"
                         name="recipient"
-                        requred
+                        disabled="disabled"
+                        value = {publicKey}
+                        required
                     />
                 </div>
                 <div className="form-group">
-                    <label>Token URI</label>
+                    <label style={styles.inputTitle}>Token URI: </label>
                     <input
+                        style={styles.input2}
                         type="text"
                         className="form-control"
                         name="tokenURI"
                         required
                     />
                 </div>
-                <div className="form-group">
-                    <input className="btn btn-primary" type="submit" value="Mint" />
+                <div className="form-group" style={styles.spaceButton}>
+                    <input className="btn btn-primary" type="submit" value="OK" style={styles.okButton}/>
                 </div>
             </form>
+            <label style={styles.result}><b>
+            {resultInfo}</b>
+            </label>
 
         </div>
+
+
     );
 }

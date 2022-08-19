@@ -23,6 +23,15 @@ export class Dapp extends React.Component {
                         <h1>
                             Welcom to article copyright recording and trading system
                         </h1>
+
+                        <div style={{ display: "flex" }}>
+                            <button
+                                style={{ marginLeft: "auto" }}
+                            >
+                                log in
+                            </button>
+                        </div>
+
                     </div>
                 </div>
 
