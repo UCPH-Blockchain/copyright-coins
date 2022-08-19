@@ -1,12 +1,8 @@
+import React from "react";
+
+import { ethers } from "ethers";
 
 
-// This file is only here to make interacting with the Dapp easier,
-// feel free to ignore it if you don't need it.
-// const { ethers } = require("hardhat");
-
-const fs = require("fs");
-
-const { ethers } = require("hardhat");
 
 // task("uploadCopyright", "upload copyright to system")
 //   .addPositionalParam("authorAd", "The address of the author")
@@ -45,7 +41,7 @@ async function uploadCopyright (authorAd, copyrightURL)
     return;
   }
 
-  const Atoken = await ethers.getContractAt("ACoin", address.Token);
+  const Atoken = new ethers.Contract("ACoin", address.Token);
 
   // console.log("address", Atoken.address);
   // console.log("token", Atoken);
