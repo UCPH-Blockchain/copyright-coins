@@ -137,6 +137,7 @@ export class Dapp extends React.Component {
     }
 
     //upload copyright
+    //return copyright ID
     async _mintNFT(authorAd, copyrightURL) {
 
         const copyrightID = await this._token.mintNFT(authorAd, copyrightURL);
@@ -145,48 +146,64 @@ export class Dapp extends React.Component {
     }
 
     //change the state of the copyright 
+    //return copyright state after change
     async _setCopyrightSaleState(tokenId){
-        let sale_state = await this._token.isForSale(tokenId);
+        const sale_state = await this._token.isForSale(tokenId);
         if (sale_state == 0){
             await this._token.setForSale(tokenId, 1);
+            return 1;
         }else{
             await this._token.setForSale(tokenId, 0);
+            return 0;
         }
-        return true;
     }
 
     //author set the price of the copyright
+    //return action is successful
     async _setCopyrightPrice(tokenId,price){
         await this._token.setPrice(tokenId,price);
         return true;
     }
 
     //author transfer his copyright the other people
+    //return whether the transfer is successful
     async _transCoprightToOther(recipientAd, tokenId){
         await this._token.transfer(recipientAd, tokenId);
         return true;
     }
 
     //verify if the copyright is belong to the author 
-    async _verify(authorAd, copyright){
-
-
-
-
-        
+    //return the result of verify (1:yes, 0:no)
+    async _verify(authorAd, copyrightURL){
+        const copyrightOwner = await this._token.getOwnerByURI(copyrightURL);
+        if (authorAd == copyrightOwner){
+            return 1;
+        }else{
+            return 0;
+        }
     }
     
     //search copyright by the author's public key
+    //return array like [[tokenid1, URL1], [tokenid2, URL2]]
     async _searchAuthorsCopyright(authorAd){
-
-        let arr = new Array( 1 ).fill( 0 ).map( _ => new Array( 3 ) );
-        return arr;
+        const copyrightList = new Array;
+        const tokenIdAr = await this._token.getAllTokenIdsOf(authorAd);
+        for (const i=0; i<tokenIdAr.length; i++)
+        { 
+            const tokenId = tokenIdAr[i];
+            const tokenURI = await this._token.tokenURI(tokenId);
+            const nftAr = [tokenId,tokenURI];
+            arr.push(nftAr);
+        }
+        return copyrightList;
     }
 
 
     //buy copyright
-    async _buyCopyright(){
-
+    //return if refund during this purchase
+    async _buyCopyright(tokenId){
+        const ifrefund = await this._token.purchase(tokenId);
+        return ifrefund;
     }
 
 }
