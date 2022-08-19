@@ -250,9 +250,13 @@ export class Dapp extends React.Component {
             return 0;
         }
     }
-    // async nftAr(tokenId, tokenURI) {
-    //     return {tokenId, tokenURI};
-    // }
+    // nftAr(tokenId, tokenURI) {
+    //     this.tokenId = tokenId;
+    //     this.tokenURI = tokenURI;
+    //     this.greeting = function() {
+    //     };
+    //     return this;
+    //   }
     //search copyright by the author's public key
     //return array like [{tokenId: tokenid1, tokenURI: URL1}, {tokenId: tokenid2, tokenURI: URL2}]
     async _searchAuthorsCopyright(authorAd) {
@@ -262,7 +266,7 @@ export class Dapp extends React.Component {
         for (const i = 0; i < tokenIdAr.length; i++) {
             const tokenId = tokenIdAr[i];
             const tokenURI = await this._token.tokenURI(tokenId);
-            const nft_Ar = { tokenId, tokenURI };
+            const nft_Ar = {tokenId, tokenURI};
             copyrightList.push(nft_Ar);
         }
         console.log(copyrightList);

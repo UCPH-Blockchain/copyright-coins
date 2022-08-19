@@ -1,4 +1,5 @@
 import React from "react";
+import { Copyrights } from "./Copyrights";
 
 export function Search({ searchNFT }) {
     const styles = {
@@ -17,8 +18,8 @@ export function Search({ searchNFT }) {
             paddingLeft: "250px"
         },
         okButton: {
-            width: 120, 
-            backgroundColor:"#a3d9f5",
+            width: 120,
+            backgroundColor: "#a3d9f5",
             color: "black",
             marginLeft: "410px",
             marginTop: "30px",
@@ -29,10 +30,11 @@ export function Search({ searchNFT }) {
             marginLeft: "225px",
             width: "500px",
             height: "30px",
-            fontSize:"20px",
+            fontSize: "20px",
             marginTop: "40px"
         },
-      };
+    };
+    let copyrightList;
     return (
         <div>
             <div style={styles.mainTitle}><b>Search Copyright</b></div>
@@ -43,8 +45,10 @@ export function Search({ searchNFT }) {
                     const publicKey = formData.get("publicKey");
 
                     if (publicKey) {
-                        searchNFT(publicKey);
+                        copyrightList = searchNFT(publicKey);
+
                     }
+
                 }}
             >
                 <div className="form-group">
@@ -58,9 +62,24 @@ export function Search({ searchNFT }) {
                     />
                 </div>
                 <div className="form-group" style={styles.spaceButton}>
-                    <input className="btn btn-primary" type="submit" value="OK" style={styles.okButton}/>
+                    <input className="btn btn-primary" type="submit" value="OK" style={styles.okButton} />
                 </div>
             </form>
+
+            {copyrightList.map((copyright) => {
+                return (
+                    <div className="row">
+                        <div className="col-12">
+                            {
+                                <Copyrights
+                                    copyRightURI={copyright.tokenURI}
+                                    tokenID={copyright.tokenId}
+                                />
+                            }
+                        </div>
+                    </div>
+                )
+            })}
 
         </div>
 

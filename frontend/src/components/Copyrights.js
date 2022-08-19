@@ -2,43 +2,6 @@ import React from "react";
 
 export function Copyrights({ copyRightURI, tokenID }) {
     const styles = {
-        inputTitle: {
-            padding: "20px",
-            fontSize: "20px",
-        },
-        mainTitle: {
-            padding: "20px",
-            fontSize: "28px",
-            color: "#3b0e7b",
-        },
-        spaceButton: {
-            padding: "10px",
-            paddingTop: "20px",
-            paddingLeft: "250px"
-        },
-        okButton: {
-            width: 120, 
-            backgroundColor:"#a3d9f5",
-            color: "black",
-            marginLeft: "410px",
-            marginTop: "30px",
-            height: 30,
-            fontSize: "18px"
-        },
-        input1: {
-            marginLeft: "298px",
-            width: "500px",
-            height: "30px",
-            fontSize:"20px",
-            marginTop: "40px"
-        },
-        input2: {
-            marginLeft: "367px",
-            width: "500px",
-            height: "30px",
-            fontSize:"20px",
-            marginTop: "40px"
-        },
         copyrightMain: {
             padding: "20px",
             clear: "both",
