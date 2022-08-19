@@ -1,21 +1,43 @@
 import React from "react";
+import { ethers } from "ethers";
 
-// import { uploadCopyrit } from "../Interact_logic_with_contract/contract_api";
+import TokenArtifact from "../api/contract_address/ACoin.json";
+import contractAddress from "../api/contract_address/contract_address.json";
+
+// import { uploadCopyrit } from "../api/contract_api";
 
 import { Mint } from "./Mint";
+import { ConnectWallet } from "./ConnectWallet";
+import { NoWalletDetected } from "./NoWalletDetected";
+
+const HARDHAT_NETWORK_ID = '1337';
+const ERROR_CODE_TX_REJECTED_BY_USER = 4001;
+
 
 export class Dapp extends React.Component {
     constructor(props) {
         super(props);
         this.initialState = {
+            // The user's address and balance
+            selectedAddress: undefined,
+            balance: undefined,
+
             tokenURI: undefined,
             recipient: undefined,
             tokenId: undefined,
+
+            networkError: undefined,
         }
         this.state = this.initialState;
 
     }
     render() {
+        if (window.ethereum === undefined) {
+            return <NoWalletDetected />;
+        }
+
+        this._initializeEthers();
+
         return (
             <div className="container p-4">
                 <div className="row">
@@ -24,13 +46,14 @@ export class Dapp extends React.Component {
                             Welcom to article copyright recording and trading system
                         </h1>
 
-                        <div style={{ display: "flex" }}>
-                            <button
-                                style={{ marginLeft: "auto" }}
-                            >
-                                log in
-                            </button>
-                        </div>
+                        {/* <div>
+                            <ConnectWallet
+                                connectWallet={() => this._connectWallet()}
+                                networkError={this.state.networkError}
+                                dismiss={() => this._dismissNetworkError()}
+                            />
+
+                        </div> */}
 
                     </div>
                 </div>
@@ -54,7 +77,7 @@ export class Dapp extends React.Component {
     }
 
     async _mintNFT(recipient, tokenURI) {
-        // const tid = uploadCopyrit(recipient, tokenURI);
+        const tid = await this._token.mintNFT(recipient, tokenURI);
         // this.setState({ tokenId: tid });
         // const receipt = await tid.wait();
 
@@ -66,4 +89,48 @@ export class Dapp extends React.Component {
         console.log("recipient", recipient);
         console.log("tokenURI", tokenURI);
     }
+
+    async _connectWallet() {
+        const [selectedAddress] = await window.ethereum.request({ method: 'eth_requestAccounts' });
+
+        if (!this._checkNetwork()) {
+            return;
+        }
+
+        this._initialize(selectedAddress);
+    }
+
+    _checkNetwork() {
+        if (window.ethereum.networkVersion === HARDHAT_NETWORK_ID) {
+            return true;
+        }
+
+        this.setState({
+            networkError: 'Please connect Metamask to Localhost:8545'
+        });
+
+        return false;
+    }
+
+    _initialize(userAddress) {
+        this.setState({
+            selectedAddress: userAddress,
+        });
+
+        this._initializeEthers();
+    }
+
+    async _initializeEthers() {
+        this._provider = new ethers.providers.Web3Provider(window.ethereum);
+
+        this._aToken = new ethers.Contract(
+            contractAddress.Token,
+            TokenArtifact.abi,
+            this._provider.getSigner(0)
+        );
+    }
+    _dismissNetworkError() {
+        this.setState({ networkError: undefined });
+    }
+
 }
