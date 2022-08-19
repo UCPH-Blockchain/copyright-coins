@@ -135,6 +135,8 @@ export class Dapp extends React.Component {
     _dismissNetworkError() {
         this.setState({ networkError: undefined });
     }
+
+    //upload copyright
     async _mintNFT(authorAd, copyrightURL) {
 
         const copyrightID = await this._token.mintNFT(authorAd, copyrightURL);
@@ -142,36 +144,49 @@ export class Dapp extends React.Component {
         return copyrightID;
     }
 
-    async _verify(authorAd, copyright){
-
-    }
-
-    async _searchAuthorsCopyright(authorAd){
-
-        let arr = new Array( 1 ).fill( 0 ).map( _ => new Array( 3 ) );
-
-        return arr;
-    }
-
+    //change the state of the copyright 
     async _setCopyrightSaleState(tokenId){
-        let sale_state = await _token.isForSale(tokenId);
+        let sale_state = await this._token.isForSale(tokenId);
         if (sale_state == 0){
-            await _token.setForSale(tokenId, 1);
+            await this._token.setForSale(tokenId, 1);
         }else{
-            await _token.setForSale(tokenId, 0);
+            await this._token.setForSale(tokenId, 0);
         }
         return true;
     }
 
+    //author set the price of the copyright
     async _setCopyrightPrice(tokenId,price){
-        await _token.setPrice(tokenId,price);
+        await this._token.setPrice(tokenId,price);
         return true;
     }
 
+    //author transfer his copyright the other people
     async _transCoprightToOther(recipientAd, tokenId){
-        await _token.transfer(recipientAd, tokenId);
+        await this._token.transfer(recipientAd, tokenId);
+        return true;
+    }
+
+    //verify if the copyright is belong to the author 
+    async _verify(authorAd, copyright){
+
+
+
+
+        
+    }
+    
+    //search copyright by the author's public key
+    async _searchAuthorsCopyright(authorAd){
+
+        let arr = new Array( 1 ).fill( 0 ).map( _ => new Array( 3 ) );
+        return arr;
     }
 
 
+    //buy copyright
+    async _buyCopyright(){
+
+    }
 
 }
