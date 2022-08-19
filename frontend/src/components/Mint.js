@@ -17,8 +17,8 @@ export function Mint({ mintNFT, publicKey }) {
             paddingLeft: "250px"
         },
         okButton: {
-            width: 120, 
-            backgroundColor:"#a3d9f5",
+            width: 120,
+            backgroundColor: "#a3d9f5",
             color: "black",
             marginLeft: "410px",
             marginTop: "30px",
@@ -29,17 +29,17 @@ export function Mint({ mintNFT, publicKey }) {
             marginLeft: "250px",
             width: "500px",
             height: "30px",
-            fontSize:"20px",
+            fontSize: "20px",
             marginTop: "40px"
         },
         input2: {
             marginLeft: "285px",
             width: "500px",
             height: "30px",
-            fontSize:"20px",
+            fontSize: "20px",
             marginTop: "40px"
         },
-      };
+    };
     return (
         <div>
             <div style={styles.mainTitle}><b>Upload Copyright</b></div>
@@ -50,7 +50,8 @@ export function Mint({ mintNFT, publicKey }) {
                     // const recipient = formData.get("recipient");
                     const tokenURI = formData.get("tokenURI");
                     if (tokenURI) {
-                        mintNFT(tokenURI);
+                        const copyrightID = mintNFT(tokenURI);
+                        console.log(copyrightID);
                     }
                 }}
             >
@@ -62,7 +63,7 @@ export function Mint({ mintNFT, publicKey }) {
                         className="form-control"
                         name="recipient"
                         disabled="disabled"
-                        value = {publicKey}
+                        value={publicKey}
                         required
                     />
                 </div>
@@ -77,7 +78,7 @@ export function Mint({ mintNFT, publicKey }) {
                     />
                 </div>
                 <div className="form-group" style={styles.spaceButton}>
-                    <input className="btn btn-primary" type="submit" value="OK" style={styles.okButton}/>
+                    <input className="btn btn-primary" type="submit" value="OK" style={styles.okButton} />
                 </div>
             </form>
 

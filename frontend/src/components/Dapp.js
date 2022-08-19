@@ -9,9 +9,16 @@ import contractAddress from "../api/contract_address/contract_address.json";
 import { Mint } from "./Mint";
 import { ConnectWallet } from "./ConnectWallet";
 import { NoWalletDetected } from "./NoWalletDetected";
+import { Verify } from "./Verify";
+import { PriceSet } from "./PriceSet";
+import { Transfer } from "./Transfer";
+import { Search } from "./Search";
+import { Result } from "./Result";
+import { Copyrights } from "./Copyrights";
+
 import crypto from 'crypto-js';
 
-const HARDHAT_NETWORK_ID = '1337';
+const HARDHAT_NETWORK_ID = '31337';
 const ERROR_CODE_TX_REJECTED_BY_USER = 4001;
 const NUMBER_COIN_TO_WAIVE_COMMISSION = 100;
 
@@ -70,9 +77,21 @@ export class Dapp extends React.Component {
                         {
                             <Mint
                                 mintNFT={(tokenURI) =>
-                                     this._mintNFT(tokenURI)
+                                    this._mintNFT(tokenURI)
                                 }
-                                publicKey = {this.state.selectedAddress}
+                                publicKey={this.state.selectedAddress}
+                            />
+                        }
+                    </div>
+                </div>
+
+                <div className="row">
+                    <div className="col-12">
+                        {
+                            <Verify
+                                verifyNFT={(recipient, tokenURI) =>
+                                    this._verify(recipient, tokenURI)
+                                }
                             />
                         }
                     </div>
@@ -80,20 +99,6 @@ export class Dapp extends React.Component {
             </div>
         )
     }
-
-    // async _mintNFT(recipient, tokenURI) {
-    //     const tid = await this._token.mintNFT(recipient, tokenURI);
-    //     // this.setState({ tokenId: tid });
-    //     // const receipt = await tid.wait();
-
-    //     // if (receipt.status === 0) {
-    //     //     // We can't know the exact error that made the transaction fail when it
-    //     //     // was mined, so we throw this generic one.
-    //     //     throw new Error("Transaction failed");
-    //     // }
-    //     console.log("recipient", recipient);
-    //     console.log("tokenURI", tokenURI);
-    // }
 
     async _connectWallet() {
         const [selectedAddress] = await window.ethereum.request({ method: 'eth_requestAccounts' });
@@ -153,7 +158,7 @@ export class Dapp extends React.Component {
 
     //upload copyright with content and copyrightURL
     //return copyright ID
-    async _mintWithMd5(tokenURI, text){
+    async _mintWithMd5(tokenURI, text) {
         const hashResult = crypto.md5(text);
         const copyrightID = await this._token.mintNFTWithMD5(tokenURI, hashResult);
         return copyrightID;
@@ -161,12 +166,12 @@ export class Dapp extends React.Component {
 
     //change the state of the copyright 
     //return copyright state after change
-    async _setCopyrightSaleState(tokenId){
+    async _setCopyrightSaleState(tokenId) {
         const sale_state = await this._token.isForSale(tokenId);
-        if (sale_state == 0){
+        if (sale_state == 0) {
             await this._token.setForSale(tokenId, 1);
             return 1;
-        }else{
+        } else {
             await this._token.setForSale(tokenId, 0);
             return 0;
         }
@@ -174,25 +179,25 @@ export class Dapp extends React.Component {
 
     //author set the price of the copyright
     //return action is successful
-    async _setCopyrightPrice(tokenId,price){
-        await this._token.setPrice(tokenId,price);
+    async _setCopyrightPrice(tokenId, price) {
+        await this._token.setPrice(tokenId, price);
         return true;
     }
 
     //author transfer his copyright the other people
     //return whether the transfer is successful
-    async _transCoprightToOther(recipientAd, tokenId){
+    async _transCoprightToOther(recipientAd, tokenId) {
         await this._token.transfer(recipientAd, tokenId);
         return true;
     }
 
     //verify if the copyright is belong to the author 
     //return the result of verify (1:yes, 0:no)
-    async _verify(authorAd, copyrightURL){
+    async _verify(authorAd, copyrightURL) {
         const copyrightOwner = await this._token.getOwnerByURI(copyrightURL);
-        if (authorAd == copyrightOwner){
+        if (authorAd == copyrightOwner) {
             return 1;
-        }else{
+        } else {
             return 0;
         }
     }
@@ -220,21 +225,21 @@ export class Dapp extends React.Component {
     }
 
     //buy copyright
-    async _buyCopyright(tokenId){
+    async _buyCopyright(tokenId) {
         await this._token.purchase(tokenId);
         return true;
     }
 
     //query if refund during this purchase
     //return 1:yes, 0:no
-    async _ifRefund(){
+    async _ifRefund() {
         const cCoinBalance = await this._token.cCoinBalanceOf();
-        if (cCoinBalance >= NUMBER_COIN_TO_WAIVE_COMMISSION){
+        if (cCoinBalance >= NUMBER_COIN_TO_WAIVE_COMMISSION) {
             return 1;
-        }else{
+        } else {
             return 0;
         }
     }
 
-    
+
 }

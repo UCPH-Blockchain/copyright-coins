@@ -17,8 +17,8 @@ export function Verify({ verifyNFT }) {
             paddingLeft: "250px"
         },
         okButton: {
-            width: 120, 
-            backgroundColor:"#a3d9f5",
+            width: 120,
+            backgroundColor: "#a3d9f5",
             color: "black",
             marginLeft: "410px",
             marginTop: "30px",
@@ -29,17 +29,17 @@ export function Verify({ verifyNFT }) {
             marginLeft: "225px",
             width: "500px",
             height: "30px",
-            fontSize:"20px",
+            fontSize: "20px",
             marginTop: "40px"
         },
         input2: {
             marginLeft: "288px",
             width: "500px",
             height: "30px",
-            fontSize:"20px",
+            fontSize: "20px",
             marginTop: "40px"
         },
-      };
+    };
     return (
         <div>
             <div style={styles.mainTitle}><b>Verify Copyright</b></div>
@@ -51,7 +51,8 @@ export function Verify({ verifyNFT }) {
                     const copyrightURI = formData.get("copyrightURI");
 
                     if (publicKey && copyrightURI) {
-                        verifyNFT(publicKey, copyrightURI);
+                        const res = verifyNFT(publicKey, copyrightURI);
+                        console.log(res);
                     }
                 }}
             >
@@ -76,7 +77,7 @@ export function Verify({ verifyNFT }) {
                     />
                 </div>
                 <div className="form-group" style={styles.spaceButton}>
-                    <input className="btn btn-primary" type="submit" value="VERIFY" style={styles.okButton}/>
+                    <input className="btn btn-primary" type="submit" value="VERIFY" style={styles.okButton} />
                 </div>
             </form>
         </div>
