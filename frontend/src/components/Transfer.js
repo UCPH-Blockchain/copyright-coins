@@ -17,8 +17,8 @@ export function Transfer({ transferNFT }) {
             paddingLeft: "250px"
         },
         okButton: {
-            width: 120, 
-            backgroundColor:"#a3d9f5",
+            width: 120,
+            backgroundColor: "#a3d9f5",
             color: "black",
             marginLeft: "410px",
             marginTop: "30px",
@@ -29,17 +29,17 @@ export function Transfer({ transferNFT }) {
             marginLeft: "300px",
             width: "500px",
             height: "30px",
-            fontSize:"20px",
+            fontSize: "20px",
             marginTop: "40px"
         },
         input2: {
             marginLeft: "252px",
             width: "500px",
             height: "30px",
-            fontSize:"20px",
+            fontSize: "20px",
             marginTop: "40px"
         },
-      };
+    };
     return (
         <div>
             <div style={styles.mainTitle}><b>Transfer Copyright</b></div>
@@ -47,8 +47,9 @@ export function Transfer({ transferNFT }) {
                 onSubmit={(event) => {
                     event.preventDefault();
                     const formData = new FormData(event.target);
-                    const recipient = formData.get("recipient");
+
                     const tokenID = formData.get("tokenID");
+                    const recipient = formData.get("recipient");
 
                     if (recipient && tokenID) {
                         transferNFT(recipient, tokenID);
@@ -71,12 +72,12 @@ export function Transfer({ transferNFT }) {
                         style={styles.input2}
                         type="text"
                         className="form-control"
-                        name="recipent"
+                        name="recipient"
                         required
                     />
                 </div>
                 <div className="form-group" style={styles.spaceButton}>
-                    <input className="btn btn-primary" type="submit" value="OK" style={styles.okButton}/>
+                    <input className="btn btn-primary" type="submit" value="OK" style={styles.okButton} />
                 </div>
             </form>
         </div>

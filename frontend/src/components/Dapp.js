@@ -96,13 +96,50 @@ export class Dapp extends React.Component {
                         }
                     </div>
                 </div>
+
+                <div className="row">
+                    <div className="col-12">
+                        {
+                            <PriceSet
+                                setPrice={(tokenID, price) =>
+                                    this._setCopyrightPrice(tokenID, price)
+                                }
+                            />
+                        }
+                    </div>
+                </div>
+
+                <div className="row">
+                    <div className="col-12">
+                        {
+                            <Transfer
+                                transferNFT={(recipient, tokenID) =>
+                                    this._transCoprightToOther(recipient, tokenID)
+                                }
+                            />
+                        }
+                    </div>
+                </div>
+
+                <div className="row">
+                    <div className="col-12">
+                        {
+                            <Search
+                                searchNFT={(publicKey) =>
+                                    this._searchAuthorsCopyright(publicKey)
+                                }
+                            />
+                        }
+                    </div>
+                </div>
+
             </div>
         )
     }
 
     async _connectWallet() {
         const [selectedAddress] = await window.ethereum.request({ method: 'eth_requestAccounts' });
-
+        console.log("selectedAddress", selectedAddress);
         if (!this._checkNetwork()) {
             return;
         }
@@ -152,6 +189,7 @@ export class Dapp extends React.Component {
 
         const copyrightID = await this._token.mintNFTAnyone(copyrightURL);
         // return copyrightID;
+        console.log("copyrightID", copyrightID);
         return copyrightID;
     }
 
@@ -181,23 +219,34 @@ export class Dapp extends React.Component {
     //return action is successful
     async _setCopyrightPrice(tokenId, price) {
         await this._token.setPrice(tokenId, price);
+        console.log("set price success");
         return true;
     }
 
     //author transfer his copyright the other people
     //return whether the transfer is successful
     async _transCoprightToOther(recipientAd, tokenId) {
+        console.log("start transfer");
         await this._token.transfer(recipientAd, tokenId);
+        console.log("transfer success");
         return true;
     }
 
     //verify if the copyright is belong to the author 
     //return the result of verify (1:yes, 0:no)
     async _verify(authorAd, copyrightURL) {
+        console.log("copyrightURL", copyrightURL);
+        console.log("tokenID", await this._token.getTokenIdByURI(copyrightURL));
+
         const copyrightOwner = await this._token.getOwnerByURI(copyrightURL);
-        if (authorAd == copyrightOwner) {
+        console.log("copyrightOwner", copyrightOwner.toLowerCase());
+        console.log("authorAd", authorAd);
+
+        if (authorAd === copyrightOwner.toLowerCase()) {
+            console.log("verify success");
             return 1;
         } else {
+            console.log("verify fail");
             return 0;
         }
     }
@@ -213,6 +262,7 @@ export class Dapp extends React.Component {
             const nftAr = [tokenId, tokenURI];
             copyrightList.push(nftAr);
         }
+        console.log(copyrightList);
         return copyrightList;
     }
 
