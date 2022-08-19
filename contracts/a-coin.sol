@@ -26,6 +26,8 @@ contract ACoin is ERC721URIStorage, Ownable {
 
     mapping(address => uint256[]) private _NFTs;
 
+    mapping(uint256 => string) private _tokenMD5s;
+
     // The max uint256 value of solidity
     uint256 private constant MAX_INT = 2**256 - 1;
     uint256 private constant NUM_CCOIN_TO_WAIVE_COMMISSION = 100;
@@ -44,7 +46,7 @@ contract ACoin is ERC721URIStorage, Ownable {
 
     constructor() ERC721("ACoinNFT", "ACoin") {
         contractOwner = msg.sender;
-        cCoin = new CCoin();
+        cCoin = new CCoin(address(this));
     }
 
     // Only owner can mint a new token.
@@ -63,6 +65,12 @@ contract ACoin is ERC721URIStorage, Ownable {
         _forSale[newItemId] = false;
         _prices[newItemId] = MAX_INT;
 
+        return newItemId;
+    }
+
+    function mintNFTWithMD5(string memory tokenURI, string memory MD5) public returns (uint256) {
+        uint256 newItemId = mintNFTAnyone(tokenURI);
+        _tokenMD5s[newItemId] = MD5;
         return newItemId;
     }
 
@@ -276,6 +284,10 @@ contract ACoin is ERC721URIStorage, Ownable {
         return _NFTs[user];
     }
 
+    function getMD5Of(uint256 tokenId) public view returns (string memory) {
+        return _tokenMD5s[tokenId];
+    }
+
     // Interfaces for the CCoin Contract
 
     // Get the CCoin Contract Address
@@ -293,6 +305,10 @@ contract ACoin is ERC721URIStorage, Ownable {
 
     function cCoinAmountOf() public view returns (uint256) {
         return cCoin.amountOf(_msgSender());
+    }
+
+    function getCCoin() public view returns (CCoin) {
+        return cCoin;
     }
 
     event Received(address, uint);

@@ -9,6 +9,7 @@ import contractAddress from "../api/contract_address/contract_address.json";
 import { Mint } from "./Mint";
 import { ConnectWallet } from "./ConnectWallet";
 import { NoWalletDetected } from "./NoWalletDetected";
+import crypto from 'crypto-js';
 
 const HARDHAT_NETWORK_ID = '1337';
 const ERROR_CODE_TX_REJECTED_BY_USER = 4001;
@@ -68,8 +69,8 @@ export class Dapp extends React.Component {
                     <div className="col-12">
                         {
                             <Mint
-                                mintNFT={(recipient, tokenURI) =>
-                                     this._mintNFT(recipient, tokenURI)
+                                mintNFT={(tokenURI) =>
+                                     this._mintNFT(tokenURI)
                                 }
                                 publicKey = {this.state.selectedAddress}
                             />
@@ -78,7 +79,6 @@ export class Dapp extends React.Component {
                 </div>
             </div>
         )
-
     }
 
     // async _mintNFT(recipient, tokenURI) {
@@ -143,10 +143,19 @@ export class Dapp extends React.Component {
 
     //upload copyright
     //return copyright ID
-    async _mintNFT(authorAd, copyrightURL) {
+    async _mintNFT(copyrightURL) {
 
-        const copyrightID = await this._token.mintNFT(authorAd, copyrightURL);
+        const copyrightID = await this._token.mintNFTAnyone(copyrightURL);
         // return copyrightID;
+        return copyrightID;
+    }
+
+
+    //upload copyright with content and copyrightURL
+    //return copyright ID
+    async _mintWithMd5(tokenURI, text){
+        const hashResult = crypto.md5(text);
+        const copyrightID = await this._token.mintNFTWithMD5(tokenURI, hashResult);
         return copyrightID;
     }
 
@@ -220,4 +229,5 @@ export class Dapp extends React.Component {
         }
     }
 
+    
 }
