@@ -1,7 +1,7 @@
 import React from "react";
 import { Copyrights } from "./Copyrights";
 
-export function Search({ searchNFT }) {
+export function Search({ searchNFT, that }) {
     const styles = {
         inputTitle: {
             padding: "20px",
@@ -34,7 +34,6 @@ export function Search({ searchNFT }) {
             marginTop: "40px"
         },
     };
-    let copyrightList;
     return (
         <div>
             <div style={styles.mainTitle}><b>Search Copyright</b></div>
@@ -45,7 +44,15 @@ export function Search({ searchNFT }) {
                     const publicKey = formData.get("publicKey");
 
                     if (publicKey) {
-                        copyrightList = searchNFT(publicKey);
+                        const a = searchNFT(publicKey)
+                        console.log("copyrightListForSearch:", a);
+                        that.setState({
+
+                            copyrightListToSearch: a
+                        })
+                        
+                    //    console.log(copyrightList);
+                        
 
                     }
 
@@ -66,7 +73,7 @@ export function Search({ searchNFT }) {
                 </div>
             </form>
 
-            {copyrightList.map((copyright) => {
+            {that.state.copyrightListToSearch.map((copyright) => {
                 return (
                     <div className="row">
                         <div className="col-12">

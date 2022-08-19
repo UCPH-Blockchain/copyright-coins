@@ -18,7 +18,7 @@ import { Copyrights } from "./Copyrights";
 
 import crypto from 'crypto-js';
 
-const HARDHAT_NETWORK_ID = '1337';
+const HARDHAT_NETWORK_ID = '31337';
 const ERROR_CODE_TX_REJECTED_BY_USER = 4001;
 const NUMBER_COIN_TO_WAIVE_COMMISSION = 100;
 
@@ -36,6 +36,8 @@ export class Dapp extends React.Component {
             tokenId: undefined,
 
             networkError: undefined,
+
+            copyrightListToSearch: []
         }
         this.state = this.initialState;
 
@@ -121,17 +123,18 @@ export class Dapp extends React.Component {
                     </div>
                 </div>
 
-                <div className="row">
+                {/* <div className="row">
                     <div className="col-12">
                         {
                             <Search
                                 searchNFT={(publicKey) =>
                                     this._searchAuthorsCopyright(publicKey)
                                 }
+                                that={this}
                             />
                         }
                     </div>
-                </div>
+                </div> */}
 
             </div>
         )
@@ -263,8 +266,8 @@ export class Dapp extends React.Component {
         const copyrightList = new Array;
         const tokenIdAr = await this._token.getAllTokenIdsOf(authorAd);
 
-        for (const i = 0; i < tokenIdAr.length; i++) {
-            const tokenId = tokenIdAr[i];
+        for (let i = 0; i < tokenIdAr.length; i++) {
+            const tokenId = Number(tokenIdAr[i]);
             const tokenURI = await this._token.tokenURI(tokenId);
             const nft_Ar = {tokenId, tokenURI};
             copyrightList.push(nft_Ar);
