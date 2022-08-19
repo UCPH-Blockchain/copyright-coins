@@ -68,7 +68,7 @@ export function Mint({ mintNFT, publicKey}) {
                         name="recipient"
                         disabled="disabled"
                         value = {publicKey}
-                        requred
+                        required
                     />
                 </div>
                 <div className="form-group">
