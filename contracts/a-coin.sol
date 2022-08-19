@@ -26,10 +26,20 @@ contract ACoin is ERC721URIStorage, Ownable {
 
     mapping(address => uint256[]) private _NFTs;
 
+    mapping(uint256 => string) private _tokenMD5s;
+
     // The max uint256 value of solidity
     uint256 private constant MAX_INT = 2**256 - 1;
     uint256 private constant NUM_CCOIN_TO_WAIVE_COMMISSION = 100;
     uint256 private constant COMMISSION_PERCENTAGE = 1000;
+
+    // Constant values for bonus
+    uint256 private constant BONUS_LIMIT = 3;
+    uint256 private constant BONUS_GAP = 3 seconds;
+
+    uint256 lastBonusTime;
+    address[BONUS_LIMIT] addressToBeGivenBonus;
+    mapping(address => uint256) _numSales;
 
     // CCoin instance to access the CCoin contract
     CCoin private cCoin;
@@ -55,6 +65,12 @@ contract ACoin is ERC721URIStorage, Ownable {
         _forSale[newItemId] = false;
         _prices[newItemId] = MAX_INT;
 
+        return newItemId;
+    }
+
+    function mintNFTWithMD5(string memory tokenURI, string memory MD5) public returns (uint256) {
+        uint256 newItemId = mintNFTAnyone(tokenURI);
+        _tokenMD5s[newItemId] = MD5;
         return newItemId;
     }
 
@@ -160,9 +176,49 @@ contract ACoin is ERC721URIStorage, Ownable {
         _transferNFT(ownerOf(tokenId), buyer, tokenId);
         // The buyer will get a CCoin as bonus
         cCoin.mintFT(buyer);
-
+        _giveBonus(ownerOf(tokenId));
 
         return _refund(buyer, _prices[tokenId], commission, msg.value);
+    }
+
+    function _giveBonus(address user) private {
+        _numSales[user]++;
+        uint256 contractBalance = address(this).balance;
+        if (
+            block.timestamp >= lastBonusTime + BONUS_GAP && contractBalance > 0
+        ) {
+            lastBonusTime = block.timestamp;
+            // Give bonus
+            uint bonus = contractBalance / BONUS_LIMIT;
+            require(
+                bonus * BONUS_LIMIT <= address(this).balance,
+                "Bonus is not correct"
+            );
+            for (uint i = 0; i < addressToBeGivenBonus.length; i++) {
+                payable(addressToBeGivenBonus[i]).transfer(bonus);
+                _numSales[addressToBeGivenBonus[i]] = 0;
+            }
+            delete addressToBeGivenBonus;
+        }
+        // Try to update toBeGivenBonus
+        for (uint i = 0; i < addressToBeGivenBonus.length; i++) {
+            if (_numSales[user] > _numSales[addressToBeGivenBonus[i]]) {
+                addressToBeGivenBonus[i] = user;
+                break;
+            }
+        }
+    }
+
+    function getNumSales(address user) public view returns (uint) {
+        return _numSales[user];
+    }
+
+    function getAddressToBeGivenBonus()
+        public
+        view
+        returns (address[BONUS_LIMIT] memory)
+    {
+        return addressToBeGivenBonus;
     }
 
     function getBalanceOfContract() public view returns (uint256) {
@@ -173,11 +229,19 @@ contract ACoin is ERC721URIStorage, Ownable {
         return contractOwner;
     }
 
-    function getTokenIdByURI(string memory tokenURI) public view returns (uint256) {
+    function getTokenIdByURI(string memory tokenURI)
+        public
+        view
+        returns (uint256)
+    {
         return _URI2TokenId[tokenURI];
     }
 
-    function getOwnerByURI(string memory tokenURI) public view returns (address) {
+    function getOwnerByURI(string memory tokenURI)
+        public
+        view
+        returns (address)
+    {
         return ownerOf(_URI2TokenId[tokenURI]);
     }
 
@@ -214,6 +278,14 @@ contract ACoin is ERC721URIStorage, Ownable {
 
     function getNFTs() public view returns (uint256[] memory) {
         return _NFTs[msg.sender];
+    }
+
+    function getAllTokenIdsOf(address user) public view returns (uint256[] memory) {
+        return _NFTs[user];
+    }
+
+    function getMD5Of(uint256 tokenId) public view returns (string memory) {
+        return _tokenMD5s[tokenId];
     }
 
     // Interfaces for the CCoin Contract

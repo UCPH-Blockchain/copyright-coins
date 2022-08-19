@@ -12,6 +12,7 @@ import { NoWalletDetected } from "./NoWalletDetected";
 
 const HARDHAT_NETWORK_ID = '1337';
 const ERROR_CODE_TX_REJECTED_BY_USER = 4001;
+const NUMBER_COIN_TO_WAIVE_COMMISSION = 100;
 
 
 export class Dapp extends React.Component {
@@ -54,6 +55,9 @@ export class Dapp extends React.Component {
                         <h1>
                             Welcom to article copyright recording and trading system
                         </h1>
+                        <p>
+                            Your address is {this.state.selectedAddress}
+                        </p>
 
                     </div>
                 </div>
@@ -67,6 +71,7 @@ export class Dapp extends React.Component {
                                 mintNFT={(recipient, tokenURI) =>
                                      this._mintNFT(recipient, tokenURI)
                                 }
+                                publicKey = {this.state.selectedAddress}
                             />
                         }
                     </div>
@@ -135,6 +140,9 @@ export class Dapp extends React.Component {
     _dismissNetworkError() {
         this.setState({ networkError: undefined });
     }
+
+    //upload copyright
+    //return copyright ID
     async _mintNFT(authorAd, copyrightURL) {
 
         const copyrightID = await this._token.mintNFT(authorAd, copyrightURL);
@@ -142,36 +150,74 @@ export class Dapp extends React.Component {
         return copyrightID;
     }
 
-    async _verify(authorAd, copyright){
-
-    }
-
-    async _searchAuthorsCopyright(authorAd){
-
-        let arr = new Array( 1 ).fill( 0 ).map( _ => new Array( 3 ) );
-
-        return arr;
-    }
-
+    //change the state of the copyright 
+    //return copyright state after change
     async _setCopyrightSaleState(tokenId){
-        let sale_state = await _token.isForSale(tokenId);
+        const sale_state = await this._token.isForSale(tokenId);
         if (sale_state == 0){
-            await _token.setForSale(tokenId, 1);
+            await this._token.setForSale(tokenId, 1);
+            return 1;
         }else{
-            await _token.setForSale(tokenId, 0);
+            await this._token.setForSale(tokenId, 0);
+            return 0;
         }
-        return true;
     }
 
+    //author set the price of the copyright
+    //return action is successful
     async _setCopyrightPrice(tokenId,price){
-        await _token.setPrice(tokenId,price);
+        await this._token.setPrice(tokenId,price);
         return true;
     }
 
+    //author transfer his copyright the other people
+    //return whether the transfer is successful
     async _transCoprightToOther(recipientAd, tokenId){
-        await _token.transfer(recipientAd, tokenId);
+        await this._token.transfer(recipientAd, tokenId);
+        return true;
     }
 
+    //verify if the copyright is belong to the author 
+    //return the result of verify (1:yes, 0:no)
+    async _verify(authorAd, copyrightURL){
+        const copyrightOwner = await this._token.getOwnerByURI(copyrightURL);
+        if (authorAd == copyrightOwner){
+            return 1;
+        }else{
+            return 0;
+        }
+    }
+    
+    //search copyright by the author's public key
+    //return array like [[tokenid1, URL1], [tokenid2, URL2]]
+    async _searchAuthorsCopyright(authorAd){
+        const copyrightList = new Array;
+        const tokenIdAr = await this._token.getAllTokenIdsOf(authorAd);
+        for (const i=0; i<tokenIdAr.length; i++)
+        { 
+            const tokenId = tokenIdAr[i];
+            const tokenURI = await this._token.tokenURI(tokenId);
+            const nftAr = [tokenId,tokenURI];
+            arr.push(nftAr);
+        }
+        return copyrightList;
+    }
 
+    //buy copyright
+    async _buyCopyright(tokenId){
+        await this._token.purchase(tokenId);
+        return true;
+    }
+
+    //query if refund during this purchase
+    //return 1:yes, 0:no
+    async _ifRefund(){
+        const cCoinBalance = await this._token.cCoinBalanceOf();
+        if (cCoinBalance >= NUMBER_COIN_TO_WAIVE_COMMISSION){
+            return 1;
+        }else{
+            return 0;
+        }
+    }
 
 }
