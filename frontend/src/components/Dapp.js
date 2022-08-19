@@ -18,7 +18,7 @@ import { Copyrights } from "./Copyrights";
 
 import crypto from 'crypto-js';
 
-const HARDHAT_NETWORK_ID = '31337';
+const HARDHAT_NETWORK_ID = '1337';
 const ERROR_CODE_TX_REJECTED_BY_USER = 4001;
 const NUMBER_COIN_TO_WAIVE_COMMISSION = 100;
 
@@ -250,24 +250,19 @@ export class Dapp extends React.Component {
             return 0;
         }
     }
-    nftAr(tokenId, tokenURI) {
-        this.tokenId = tokenId;
-        this.tokenURI = tokenURI;
-        this.greeting = function() {
-        };
-        return this;
-      }
+    // async nftAr(tokenId, tokenURI) {
+    //     return {tokenId, tokenURI};
+    // }
     //search copyright by the author's public key
     //return array like [{tokenId: tokenid1, tokenURI: URL1}, {tokenId: tokenid2, tokenURI: URL2}]
-    async _searchAuthorsCopyright(authorAd){
+    async _searchAuthorsCopyright(authorAd) {
         const copyrightList = new Array;
         const tokenIdAr = await this._token.getAllTokenIdsOf(authorAd);
 
-        for (const i=0; i<tokenIdAr.length; i++)
-        { 
+        for (const i = 0; i < tokenIdAr.length; i++) {
             const tokenId = tokenIdAr[i];
             const tokenURI = await this._token.tokenURI(tokenId);
-            const nft_Ar = new nftAr(tokenId, tokenURI);
+            const nft_Ar = { tokenId, tokenURI };
             copyrightList.push(nft_Ar);
         }
         console.log(copyrightList);
