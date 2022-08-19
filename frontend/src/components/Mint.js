@@ -1,6 +1,6 @@
 import React from "react";
 
-export function Mint({ mintNFT, publicKey}) {
+export function Mint({ mintNFT, publicKey, resultInfo }) {
     const styles = {
         inputTitle: {
             padding: "20px",
@@ -86,7 +86,7 @@ export function Mint({ mintNFT, publicKey}) {
                 </div>
             </form>
             <label style={styles.result}><b>
-            Upload NFT successfully!</b>
+            {resultInfo}</b>
             </label>
 
         </div>
