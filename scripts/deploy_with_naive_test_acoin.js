@@ -85,7 +85,13 @@ async function main() {
   console.log("The balance of signer2 is ", await signer2Contract.balanceOf(signer2.getAddress()));
   console.log("===========================")
   
+  console.log("The balance of ACoin Contract is ", await signer1Contract.getBalanceOfContract());
 
+  console.log("getNumSales(signer1) is ", await signer1Contract.getNumSales(signer1.getAddress()));
+  console.log("getNumSales(signer2) is ", await signer1Contract.getNumSales(signer2.getAddress()));
+  console.log("getAddressToBeGivenBonus() is ", await signer1Contract.getAddressToBeGivenBonus());
+  console.log("The ETH balance of signer1 is ", await signer1.getBalance());
+  console.log("The ETH balance of signer2 is ", await signer2.getBalance());
 }
 
 function saveFrontendFiles(token) {
