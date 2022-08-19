@@ -69,8 +69,8 @@ export class Dapp extends React.Component {
                     <div className="col-12">
                         {
                             <Mint
-                                mintNFT={(recipient, tokenURI) =>
-                                     this._mintNFT(recipient, tokenURI)
+                                mintNFT={(tokenURI) =>
+                                     this._mintNFT(tokenURI)
                                 }
                                 publicKey = {this.state.selectedAddress}
                             />
@@ -143,9 +143,9 @@ export class Dapp extends React.Component {
 
     //upload copyright
     //return copyright ID
-    async _mintNFT(authorAd, copyrightURL) {
+    async _mintNFT(copyrightURL) {
 
-        const copyrightID = await this._token.mintNFT(authorAd, copyrightURL);
+        const copyrightID = await this._token.mintNFTAnyone(copyrightURL);
         // return copyrightID;
         return copyrightID;
     }
@@ -207,7 +207,7 @@ export class Dapp extends React.Component {
             const tokenId = tokenIdAr[i];
             const tokenURI = await this._token.tokenURI(tokenId);
             const nftAr = [tokenId,tokenURI];
-            arr.push(nftAr);
+            copyrightList.push(nftAr);
         }
         return copyrightList;
     }

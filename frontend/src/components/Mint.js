@@ -47,11 +47,10 @@ export function Mint({ mintNFT, publicKey }) {
                 onSubmit={(event) => {
                     event.preventDefault();
                     const formData = new FormData(event.target);
-                    const recipient = formData.get("recipient");
+                    // const recipient = formData.get("recipient");
                     const tokenURI = formData.get("tokenURI");
-
-                    if (recipient && tokenURI) {
-                        mintNFT(recipient, tokenURI);
+                    if (tokenURI) {
+                        mintNFT(tokenURI);
                     }
                 }}
             >
