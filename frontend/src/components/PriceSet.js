@@ -1,6 +1,6 @@
 import React from "react";
 
-export function Verify({ verifyNFT, resultInfo }) {
+export function PriceSet({ verifyNFT, resultInfo }) {
     const styles = {
         inputTitle: {
             padding: "20px",
@@ -46,7 +46,7 @@ export function Verify({ verifyNFT, resultInfo }) {
       };
     return (
         <div>
-            <div style={styles.mainTitle}><b>Verify Copyright</b></div>
+            <div style={styles.mainTitle}><b>Set Price for Copyright</b></div>
             <form
                 onSubmit={(event) => {
                     event.preventDefault();
@@ -60,27 +60,27 @@ export function Verify({ verifyNFT, resultInfo }) {
                 }}
             >
                 <div className="form-group">
-                    <label style={styles.inputTitle}>Public Key of Author: </label>
+                    <label style={styles.inputTitle}>Token ID: </label>
                     <input
                         style={styles.input1}
                         type="text"
                         className="form-control"
-                        name="publicKey"
+                        name="tokenID"
                         required
                     />
                 </div>
                 <div className="form-group">
-                    <label style={styles.inputTitle}>Copyright URI: </label>
+                    <label style={styles.inputTitle}>Price: </label>
                     <input
                         style={styles.input2}
                         type="text"
                         className="form-control"
-                        name="copyrightURI"
+                        name="price"
                         required
                     />
                 </div>
                 <div className="form-group" style={styles.spaceButton}>
-                    <input className="btn btn-primary" type="submit" value="VERIFY" style={styles.okButton}/>
+                    <input className="btn btn-primary" type="submit" value="OK" style={styles.okButton}/>
                 </div>
             </form>
             <label style={styles.result}><b>
