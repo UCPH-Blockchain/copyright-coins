@@ -54,7 +54,7 @@ async function main() {
   // console.log("The address of CCoin contract is", await signer1Contract.getCCoinContractAddress());
 
   // console.log("The price of NFT 1 is", await signer1Contract.priceOf(1));
-  await signer1Contract.setPrice(1, 1000) // set price of NFT 1 to 1000
+  await signer1Contract.setPrice(1, 1) // set price of NFT 1 to 1.001
   // console.log("The price of NFT 1 is", await signer1Contract.priceOf(1));
 
   // console.log("NFT 1 is on sale? ", await signer1Contract.isForSale(1));
@@ -66,21 +66,25 @@ async function main() {
   // console.log("The owner of NFT 1 is ", await signer1Contract.ownerOf(1));
   console.log("CCoin balance of ", await signer1.getAddress(), " is ", await signer1Contract.cCoinBalanceOf(signer1.getAddress()));
   console.log("CCoin balance of ", await signer2.getAddress(), " is ", await signer2Contract.cCoinBalanceOf(signer2.getAddress()));
-
+  console.log("The NFTs of signer1 are:", await signer1Contract.getNFTs(signer1.getAddress()));
+  console.log("The NFTs of signer2 are:", await signer2Contract.getNFTs(signer2.getAddress()));
+  console.log("The balance of signer1 is ", await signer1Contract.balanceOf(signer1.getAddress()));
+  console.log("The balance of signer2 is ", await signer2Contract.balanceOf(signer2.getAddress()));
   console.log("===========================")
-  const options = { value: ethers.utils.parseEther("1001.0") }
+  const options = { value: ethers.utils.parseEther("1.001") }
   const reciept = await signer2Contract.purchase(1, options);
   console.log("The reciept of purchase is", reciept);
   console.log("===========================")
   console.log("After transfer:")
   console.log("The owner of NFT 1 is ", await signer1Contract.ownerOf(1));
-  console.log("CCoin balance of ", await signer1.getAddress(), " is ", await signer1Contract.balanceOf(signer1.getAddress()));
-  console.log("CCoin balance of ", await signer2.getAddress(), " is ", await signer2Contract.balanceOf(signer2.getAddress()));
-
+  console.log("CCoin balance of ", await signer1.getAddress(), " is ", await signer1Contract.cCoinBalanceOf(signer1.getAddress()));
+  console.log("CCoin balance of ", await signer2.getAddress(), " is ", await signer2Contract.cCoinBalanceOf(signer2.getAddress()));
+  console.log("The NFTs of signer1 are:", await signer1Contract.getNFTs(signer1.getAddress()));
+  console.log("The NFTs of signer2 are:", await signer2Contract.getNFTs(signer2.getAddress()));
+  console.log("The balance of signer1 is ", await signer1Contract.balanceOf(signer1.getAddress()));
+  console.log("The balance of signer2 is ", await signer2Contract.balanceOf(signer2.getAddress()));
   console.log("===========================")
-
-
-
+  
 
 }
 
