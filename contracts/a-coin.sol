@@ -15,6 +15,9 @@ contract ACoin is ERC721URIStorage, Ownable {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
 
+    // Maaping from tokenURI to tokenId
+    mapping(string => uint256) private _URI2TokenId;
+
     // Mapping from token ID to sale status
     mapping(uint256 => bool) private _forSale;
 
@@ -46,6 +49,7 @@ contract ACoin is ERC721URIStorage, Ownable {
         uint256 newItemId = _tokenIds.current();
         _mint(recipient, newItemId);
         _setTokenURI(newItemId, tokenURI);
+        _URI2TokenId[tokenURI] = newItemId;
 
         _NFTs[recipient].push(newItemId);
         _forSale[newItemId] = false;
@@ -157,11 +161,24 @@ contract ACoin is ERC721URIStorage, Ownable {
         // The buyer will get a CCoin as bonus
         cCoin.mintFT(buyer);
 
+
         return _refund(buyer, _prices[tokenId], commission, msg.value);
+    }
+
+    function getBalanceOfContract() public view returns (uint256) {
+        return address(this).balance;
     }
 
     function getContractOwner() public view returns (address) {
         return contractOwner;
+    }
+
+    function getTokenIdByURI(string memory tokenURI) public view returns (uint256) {
+        return _URI2TokenId[tokenURI];
+    }
+
+    function getOwnerByURI(string memory tokenURI) public view returns (address) {
+        return ownerOf(_URI2TokenId[tokenURI]);
     }
 
     // Check if the NFT is for sale
