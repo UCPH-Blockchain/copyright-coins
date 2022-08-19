@@ -1,6 +1,6 @@
 import React from "react";
 
-export function PriceSet({ verifyNFT, resultInfo }) {
+export function PriceSet({ setPrice }) {
     const styles = {
         inputTitle: {
             padding: "20px",
@@ -26,23 +26,19 @@ export function PriceSet({ verifyNFT, resultInfo }) {
             fontSize: "18px"
         },
         input1: {
-            marginLeft: "250px",
+            marginLeft: "298px",
             width: "500px",
             height: "30px",
             fontSize:"20px",
             marginTop: "40px"
         },
         input2: {
-            marginLeft: "318px",
+            marginLeft: "367px",
             width: "500px",
             height: "30px",
             fontSize:"20px",
             marginTop: "40px"
         },
-        result: {
-            marginLeft: "465px",
-            fontSize: "20px"
-        }
       };
     return (
         <div>
@@ -51,16 +47,16 @@ export function PriceSet({ verifyNFT, resultInfo }) {
                 onSubmit={(event) => {
                     event.preventDefault();
                     const formData = new FormData(event.target);
-                    const recipient = formData.get("recipient");
-                    const tokenURI = formData.get("tokenURI");
+                    const tokenID = formData.get("tokenID");
+                    const price = formData.get("price");
 
-                    if (recipient && tokenURI) {
-                        mintNFT(recipient, tokenURI);
+                    if (tokenID && price) {
+                        setPrice(tokenID, price);
                     }
                 }}
             >
                 <div className="form-group">
-                    <label style={styles.inputTitle}>Token ID: </label>
+                    <label style={styles.inputTitle}>Copyright ID: </label>
                     <input
                         style={styles.input1}
                         type="text"
@@ -83,10 +79,6 @@ export function PriceSet({ verifyNFT, resultInfo }) {
                     <input className="btn btn-primary" type="submit" value="OK" style={styles.okButton}/>
                 </div>
             </form>
-            <label style={styles.result}><b>
-            {resultInfo}</b>
-            </label>
-
         </div>
 
 
