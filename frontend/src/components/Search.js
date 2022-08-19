@@ -1,6 +1,6 @@
 import React from "react";
 
-export function Transfer({ transferNFT }) {
+export function Search({ searchNFT }) {
     const styles = {
         inputTitle: {
             padding: "20px",
@@ -26,14 +26,7 @@ export function Transfer({ transferNFT }) {
             fontSize: "18px"
         },
         input1: {
-            marginLeft: "300px",
-            width: "500px",
-            height: "30px",
-            fontSize:"20px",
-            marginTop: "40px"
-        },
-        input2: {
-            marginLeft: "252px",
+            marginLeft: "225px",
             width: "500px",
             height: "30px",
             fontSize:"20px",
@@ -42,36 +35,25 @@ export function Transfer({ transferNFT }) {
       };
     return (
         <div>
-            <div style={styles.mainTitle}><b>Transfer Copyright</b></div>
+            <div style={styles.mainTitle}><b>Search Copyright</b></div>
             <form
                 onSubmit={(event) => {
                     event.preventDefault();
                     const formData = new FormData(event.target);
-                    const recipient = formData.get("recipient");
-                    const tokenID = formData.get("tokenID");
+                    const publicKey = formData.get("publicKey");
 
-                    if (recipient && tokenID) {
-                        transferNFT(recipient, tokenID);
+                    if (publicKey) {
+                        searchNFT(publicKey);
                     }
                 }}
             >
                 <div className="form-group">
-                    <label style={styles.inputTitle}>Copyright ID: </label>
+                    <label style={styles.inputTitle}>Public Key of Author: </label>
                     <input
                         style={styles.input1}
                         type="text"
                         className="form-control"
-                        name="tokenID"
-                        required
-                    />
-                </div>
-                <div className="form-group">
-                    <label style={styles.inputTitle}>Recipent Address: </label>
-                    <input
-                        style={styles.input2}
-                        type="text"
-                        className="form-control"
-                        name="recipent"
+                        name="publicKey"
                         required
                     />
                 </div>
@@ -79,6 +61,7 @@ export function Transfer({ transferNFT }) {
                     <input className="btn btn-primary" type="submit" value="OK" style={styles.okButton}/>
                 </div>
             </form>
+
         </div>
 
 

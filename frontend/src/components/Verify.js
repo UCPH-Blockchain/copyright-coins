@@ -1,6 +1,6 @@
 import React from "react";
 
-export function Verify({ verifyNFT, resultInfo }) {
+export function Verify({ verifyNFT }) {
     const styles = {
         inputTitle: {
             padding: "20px",
@@ -39,10 +39,6 @@ export function Verify({ verifyNFT, resultInfo }) {
             fontSize:"20px",
             marginTop: "40px"
         },
-        result: {
-            marginLeft: "465px",
-            fontSize: "20px"
-        }
       };
     return (
         <div>
@@ -83,12 +79,6 @@ export function Verify({ verifyNFT, resultInfo }) {
                     <input className="btn btn-primary" type="submit" value="VERIFY" style={styles.okButton}/>
                 </div>
             </form>
-            <label style={styles.result}><b>
-            {resultInfo}</b>
-            </label>
-
         </div>
-
-
     );
 }
