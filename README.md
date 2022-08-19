@@ -49,6 +49,19 @@ Any funds sent to them on Mainnet or any other live network WILL BE LOST.
 ```
 来在hardhat network中执行部署脚本。
 
+## 前端
+先进入到frontend目录下
+'''
+cd frontend
+'''
+
+之后用 "npm install" 安装依赖
+
+启动页面
+'''
+npm start
+'''
+
 ## TODO
 
 ### Solidity
