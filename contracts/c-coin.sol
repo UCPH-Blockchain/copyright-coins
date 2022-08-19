@@ -8,13 +8,12 @@ import "hardhat/console.sol";
 import "./a-coin.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract CCoin is ERC20{
-
+contract CCoin is ERC20 {
     // An address type variable is used to store ethereum accounts.
     address public contractOwner;
     // ACoin private aCoin;
 
-    struct minter{
+    struct minter {
         uint256 amount_per_day;
         uint256 refresh_time;
     }
@@ -25,64 +24,81 @@ contract CCoin is ERC20{
     // set the biggest amount of thr minter mint per day
     uint256 private totalMintPerDay = 1000;
 
+    address private _aCoinContractAddress;
+
     /**
      * Contract initialization.
      */
-    constructor() ERC20("My FT Token", "CCoin") {
+    constructor(address aCoinContractAddress_) ERC20("My FT Token", "CCoin") {
         contractOwner = msg.sender;
+        _aCoinContractAddress = aCoinContractAddress_;
         // aCoin = new ACoin(address(this));
     }
 
+    modifier onlyACoin() {
+        require(
+            _aCoinContractAddress == msg.sender,
+            "Only ACoin contract can call this CCoin function."
+        );
+        _;
+    }
+
     //get chaineOwner address
-    function getChaineOwner() public view returns (address){
+    function getChaineOwner() public view returns (address) {
         return contractOwner;
     }
 
     // mint
-    function mintFT(address minterAdd) public {
-        
-        if (mintPerDay[minterAdd].amount_per_day == 0){
+    function mintFT(address minterAdd) public onlyACoin {
+        if (mintPerDay[minterAdd].amount_per_day == 0) {
             mintPerDay[minterAdd].refresh_time = block.timestamp;
-        } 
+        }
         // another 24h, update recording time and amount of mintering per day.
-        else if((block.timestamp - mintPerDay[minterAdd].refresh_time) >= 1 days ){
+        else if (
+            (block.timestamp - mintPerDay[minterAdd].refresh_time) >= 1 days
+        ) {
             mintPerDay[minterAdd].refresh_time = block.timestamp;
             mintPerDay[minterAdd].amount_per_day = 0;
         }
 
         mintPerDay[minterAdd].amount_per_day += 1;
 
-        if (mintPerDay[minterAdd].amount_per_day <= totalMintPerDay){
+        if (mintPerDay[minterAdd].amount_per_day <= totalMintPerDay) {
             _mint(minterAdd, 1);
         }
     }
 
     // mint
-    function mintManyFT(address minterAdd, uint256 Mamount) public {
-        
-       for(uint i = 0; i < Mamount; i++){
-        mintFT(minterAdd);
-       } 
+    function mintManyFT(address minterAdd, uint256 Mamount) public onlyACoin {
+        for (uint i = 0; i < Mamount; i++) {
+            mintFT(minterAdd);
+        }
     }
 
-    function totalBalance(address account) public view returns (uint256){
+    function totalBalance(address account) public view returns (uint256) {
         uint256 balance = balanceOf(account);
         return balance;
     }
 
-
     // get amount of the minter mint per day
-    function amountOf(address account) public view returns (uint256){
+    function amountOf(address account) public view returns (uint256) {
         return mintPerDay[account].amount_per_day;
     }
 
     //reduce CCoin of an account
-    function reduceBalance(address account, uint256 amount) public returns (bool){
-        require(account != contractOwner, "ERC20: burn from the contractOwner address");
+    function reduceBalance(address account, uint256 amount)
+        public
+        onlyACoin
+        returns (bool)
+    {
+        require(
+            account != contractOwner,
+            "ERC20: burn from the contractOwner address"
+        );
 
         _beforeTokenTransfer(account, address(0), amount);
 
-        uint256 balance =  balanceOf(account);
+        uint256 balance = balanceOf(account);
         require(balance >= amount, "ERC20: burn amount exceeds balance");
 
         _transfer(account, contractOwner, amount);
@@ -91,7 +107,7 @@ contract CCoin is ERC20{
     }
 
     //transfer Ctocken from msg.sender to address "to"
-    function mintTransferCCoin(address to, uint256 amount) public {
+    function mintTransferCCoin(address to, uint256 amount) public onlyACoin {
         // Check if the transaction sender has enough tokens.
         // If `require`'s first argument evaluates to `false` then the
         // transaction will revert.
@@ -108,10 +124,18 @@ contract CCoin is ERC20{
 
         _transfer(msg.sender, to, amount);
     }
- 
+
+    function getACoinContractAddress() public view returns (address) {
+        return _aCoinContractAddress;
+    }
+    
+    function getMsgSender() public view returns (address) {
+        return msg.sender;
+    }
+
     // // buy copyright using CCoin
     // function purchasebyC(uint256 tokenId) public returns (bool) {
-        
+
     //     address receiptAdd = aCoin.ownerOf(tokenId);
     //     uint price = aCoin.priceOf(tokenId);
 
@@ -132,8 +156,4 @@ contract CCoin is ERC20{
 
     //     return true;
     // }
-
-
-
 }
-    
