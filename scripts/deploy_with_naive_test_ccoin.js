@@ -31,17 +31,24 @@ async function main() {
 
   console.log(await A_Coin.getCCoinContractAddress());
  
-  const C_Coin = await _CCoin.attach(await A_Coin.getCCoinContractAddress());
+  const C_Coin = _CCoin.attach(await A_Coin.getCCoinContractAddress());
 
   // // console.log(C_Coin.contractOwner); 
 
-  await C_Coin.mintManyFT("0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266", 2000);
+  // const CCoinOfACoin = await A_Coin.getCCoin();
+  // // console.log("CCoinOfACoin", CCoinOfACoin);
+  // // console.log("CCoinOfACoin.getMsgSender()", await CCoinOfACoin.getMsgSender());
 
+  console.log("getACoinContractAddress", await C_Coin.getACoinContractAddress());
+  console.log("getMsgSender", await C_Coin.getMsgSender());
+
+  await C_Coin.mintManyFT("0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266", 2000);
   console.log(await C_Coin.totalBalance("0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"));
   console.log(await C_Coin.amountOf("0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"));
-  await C_Coin.reduceBalance("0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266", 200);
-  console.log(await C_Coin.totalBalance("0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"));
-  console.log(await C_Coin.amountOf("0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"));  
+  
+  // await C_Coin.reduceBalance("0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266", 200);
+  // console.log(await C_Coin.totalBalance("0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"));
+  // console.log(await C_Coin.amountOf("0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"));  
 }
 
 function saveFrontendFiles(token) {
