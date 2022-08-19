@@ -9,7 +9,7 @@ module.exports = {
   networks: {
     localhost: {
       allowUnlimitedContractSize: true,
-      chainID: 31337,
+      chainID: 1337,
 
     },
     hardhat: {
