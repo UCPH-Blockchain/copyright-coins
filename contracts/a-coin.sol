@@ -141,7 +141,9 @@ contract ACoin is ERC721URIStorage, Ownable {
             extraFund -= commission;
         }
         if (extraFund > 0) {
-            payable(recipient).transfer(extraFund);
+            // payable(recipient).transfer(extraFund);
+            (bool sent, bytes memory data) = payable(recipient).call{value: extraFund}("");
+            require(sent, "Failed to send Ether. The contract may not have enough balance");
         }
         return waiveCommission;
     }
@@ -191,7 +193,9 @@ contract ACoin is ERC721URIStorage, Ownable {
         address saler = ownerOf(tokenId);
 
         // Transfer the ETH to the original NFT owner
-        payable(saler).transfer(_prices[tokenId]);
+        // payable(saler).transfer(_prices[tokenId]);
+        (bool sent, bytes memory data) = payable(saler).call{value: _prices[tokenId]}("");
+        require(sent, "Failed to send Ether. The contract may not have enough balance");
         // Transfer the NFT ownership to the buyer
         _transferNFT(saler, buyer, tokenId);
         // The buyer will get a CCoin as bonus
@@ -215,7 +219,9 @@ contract ACoin is ERC721URIStorage, Ownable {
                 "Bonus is not correct"
             );
             for (uint i = 0; i < addressToBeGivenBonus.length; i++) {
-                payable(addressToBeGivenBonus[i]).transfer(bonus);
+                // payable(addressToBeGivenBonus[i]).transfer(bonus);
+                (bool sent, bytes memory data) = payable(addressToBeGivenBonus[i]).call{value: bonus}("");
+                require(sent, "Failed to send Ether. The contract may not have enough balance");
                 _numSales[addressToBeGivenBonus[i]] = 0;
             }
             delete addressToBeGivenBonus;
