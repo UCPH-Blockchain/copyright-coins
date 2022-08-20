@@ -56,12 +56,12 @@ export function Verify({ verifyNFT }) {
                         verifyNFT(publicKey, copyrightURI).then(res => {
                             console.log("verifyNFT:", res);
                             Toast.success({
-                                content: "Verify Successfully",
+                                content: "the copyright belongs to the author",
                                 duration: 3,
                             });
                         }).catch(err => {
                             Toast.error({
-                                content: "Verify Failed" + err,
+                                content: "Error:" + err,
                                 duration: 0,
                             });
                         })
