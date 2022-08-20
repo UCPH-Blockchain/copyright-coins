@@ -1,5 +1,7 @@
 import React from "react";
 
+import { Toast } from "@douyinfe/semi-ui";
+
 export function Transfer({ transferNFT }) {
     const styles = {
         inputTitle: {
@@ -52,7 +54,18 @@ export function Transfer({ transferNFT }) {
                     const recipient = formData.get("recipient");
 
                     if (recipient && tokenID) {
-                        transferNFT(recipient, tokenID);
+                        transferNFT(recipient, tokenID).then(res => {
+                            console.log("transferNFT:", res);
+                            Toast.success({
+                                content: "Transfer Successfully",
+                                duration: 3,
+                            });
+                        }).catch(err => {
+                            Toast.error({
+                                content: "Transfer Failed" + err,
+                                duration: 0,
+                            });
+                        })
                     }
                 }}
             >

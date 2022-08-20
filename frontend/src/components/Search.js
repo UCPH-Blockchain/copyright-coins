@@ -1,5 +1,6 @@
 import React from "react";
-import { Copyrights } from "./Copyrights";
+import { Toast, Card, Typography, Space } from "@douyinfe/semi-ui";
+// import { Copyrights } from "./Copyrights";
 
 export class Search extends React.Component {
     constructor(props) {
@@ -11,6 +12,7 @@ export class Search extends React.Component {
     }
 
     render() {
+        const { Text } = Typography;
         const styles = {
             inputTitle: {
                 padding: "20px",
@@ -43,6 +45,27 @@ export class Search extends React.Component {
                 marginTop: "40px"
             },
         };
+        const successToast = {
+            content: 'Seach Successfully',
+            duration: 3,
+        }
+        // const onClickSearchBtn = (event) => {
+        //     event.preventDefault();
+        //     const formData = new FormData(event.target);
+        //     const publicKey = formData.get("publicKey");
+
+        //     if (publicKey) {
+        //         this.props.searchNFT(publicKey).then(
+        //             res => {
+        //                 console.log("copyrightList:", res);
+        //                 this.setState({
+        //                     copyrightList: res
+        //                 })
+        //                 Toast.success(successToast);
+        //             }
+        //         )
+        //     }
+        // }
         return (
             <div>
                 <div style={styles.mainTitle}><b>Search Copyright</b></div>
@@ -59,6 +82,7 @@ export class Search extends React.Component {
                                     this.setState({
                                         copyrightList: res
                                     })
+                                    Toast.success(successToast);
                                 }
                             )
                         }
@@ -77,27 +101,44 @@ export class Search extends React.Component {
                     <div className="form-group" style={styles.spaceButton}>
                         <input className="btn btn-primary" type="submit" value="OK" style={styles.okButton} />
                     </div>
+                    {/* <Button onClick={onClickSearchBtn}>Search</Button> */}
                 </form>
 
-                {this.state.copyrightList.map((copyright) => {
-                    return (
-                        <div className="row">
-                            <div className="col-12">
-                                {
-                                    <Copyrights
-                                        key = {copyright.tokenID}
-                                        copyRightURI={copyright.tokenURI}
-                                        tokenID={copyright.tokenId}
-                                    />
-                                }
+                {
+                    this.state.copyrightList.map((copyright) => {
+                        // return (
+                        //     <div className="row">
+                        //         <div className="col-12">
+                        //             {
+                        //                 <Copyrights
+                        //                     key={copyright.tokenID}
+                        //                     copyRightURI={copyright.tokenURI}
+                        //                     tokenID={copyright.tokenId}
+                        //                 />
+                        //             }
+                        //         </div>
+                        //     </div>
+                        // )
+                        return (
+                            <div key={copyright.tokenID}>
+                                <Card
+                                    title={copyright.tokenId}
+                                    style={{ maxWidth: 512 }}
+                                    shadows='always'
+                                    headerExtraContent={
+                                        <Text link={{ href: 'https://www.google.com' }}>
+                                            More
+                                        </Text>
+                                    }>
+                                    <Space wrap>
+                                        {copyright.tokenURI}
+                                    </Space>
+                                </Card>
                             </div>
-                        </div>
-                    )
-                })}
-
-            </div>
-
-
+                        )
+                    })
+                }
+            </div >
         );
     }
 }

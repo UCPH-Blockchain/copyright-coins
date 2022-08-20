@@ -1,5 +1,7 @@
 import React from "react";
 
+import { Toast } from "@douyinfe/semi-ui";
+
 export function Verify({ verifyNFT }) {
     const styles = {
         inputTitle: {
@@ -51,8 +53,18 @@ export function Verify({ verifyNFT }) {
                     const copyrightURI = formData.get("copyrightURI");
 
                     if (publicKey && copyrightURI) {
-                        const res = verifyNFT(publicKey, copyrightURI);
-                        console.log(res);
+                        verifyNFT(publicKey, copyrightURI).then(res => {
+                            console.log("verifyNFT:", res);
+                            Toast.success({
+                                content: "Verify Successfully",
+                                duration: 3,
+                            });
+                        }).catch(err => {
+                            Toast.error({
+                                content: "Verify Failed" + err,
+                                duration: 0,
+                            });
+                        })
                     }
                 }}
             >

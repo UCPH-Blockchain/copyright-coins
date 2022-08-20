@@ -92,6 +92,8 @@ async function main() {
   console.log("getAddressToBeGivenBonus() is ", await signer1Contract.getAddressToBeGivenBonus());
   console.log("The ETH balance of signer1 is ", await signer1.getBalance());
   console.log("The ETH balance of signer2 is ", await signer2.getBalance());
+
+  console.log("The commission of 1000 is ", await signer1Contract.getCommission(12345));
 }
 
 function saveFrontendFiles(token) {

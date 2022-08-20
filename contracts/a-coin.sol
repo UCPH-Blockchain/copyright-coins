@@ -25,7 +25,7 @@ contract ACoin is ERC721URIStorage, Ownable {
     mapping(uint256 => uint256) private _prices;
 
     mapping(address => uint256[]) private _NFTs;
-    
+
     // tokenID to hash of the article
     mapping(uint256 => string) private _tokenMD5s;
 
@@ -69,7 +69,10 @@ contract ACoin is ERC721URIStorage, Ownable {
         return newItemId;
     }
 
-    function mintNFTWithMD5(string memory tokenURI, string memory MD5) public returns (uint256) {
+    function mintNFTWithMD5(string memory tokenURI, string memory MD5)
+        public
+        returns (uint256)
+    {
         uint256 newItemId = mintNFTAnyone(tokenURI);
         _tokenMD5s[newItemId] = MD5;
         return newItemId;
@@ -97,10 +100,15 @@ contract ACoin is ERC721URIStorage, Ownable {
 
     function _removeFromNFTs(address sender, uint256 tokenId) private {
         _requireMinted(tokenId);
-        for (uint i = 0; i < _NFTs[sender].length; i++) {
-            if (_NFTs[sender][i] == tokenId) {
-                _NFTs[sender][i] = _NFTs[sender][_NFTs[sender].length - 1];
-                _NFTs[sender].pop();
+        if (_NFTs[sender].length <= 1) {
+            delete _NFTs[sender][0];
+            _NFTs[sender].pop();
+        } else {
+            for (uint i = 0; i < _NFTs[sender].length; i++) {
+                if (_NFTs[sender][i] == tokenId) {
+                    _NFTs[sender][i] = _NFTs[sender][_NFTs[sender].length - 1];
+                    _NFTs[sender].pop();
+                }
             }
         }
     }
@@ -133,7 +141,9 @@ contract ACoin is ERC721URIStorage, Ownable {
             extraFund -= commission;
         }
         if (extraFund > 0) {
-            payable(recipient).transfer(extraFund);
+            // payable(recipient).transfer(extraFund);
+            (bool sent, bytes memory data) = payable(recipient).call{value: extraFund}("");
+            require(sent, "Failed to send Ether. The contract may not have enough balance");
         }
         return waiveCommission;
     }
@@ -146,11 +156,16 @@ contract ACoin is ERC721URIStorage, Ownable {
     {
         _requireMinted(tokenId);
         require(
-            _msgSender() != ownerOf(tokenId),
-            "You cannot transfer your token to yourself"
+            _msgSender() == ownerOf(tokenId),
+            "It is not your token, so you cannot transfer it."
         );
 
-        uint commission = _prices[tokenId] / COMMISSION_PERCENTAGE;
+        require(
+            recipient != ownerOf(tokenId),
+            "You cannot transfer to yourself."
+        );
+
+        uint commission = getCommission(_prices[tokenId]);
         require(
             msg.value >= _prices[tokenId] + commission,
             "You do not have enough ether to pay"
@@ -160,13 +175,17 @@ contract ACoin is ERC721URIStorage, Ownable {
         return _refund(recipient, _prices[tokenId], commission, msg.value);
     }
 
+    function getCommission(uint256 price) public pure returns (uint256) {
+        return price / COMMISSION_PERCENTAGE;
+    }
+
     function purchase(uint256 tokenId) public payable returns (bool) {
         _requireMinted(tokenId);
         require(_forSale[tokenId], "This token is not for sale");
         address buyer = _msgSender();
         require(buyer != ownerOf(tokenId), "You can't purchase your own token");
 
-        uint commission = _prices[tokenId] / COMMISSION_PERCENTAGE;
+        uint commission = getCommission(_prices[tokenId]);
         require(
             msg.value >= _prices[tokenId] + commission,
             "You do not have enough ether to pay"
@@ -174,7 +193,9 @@ contract ACoin is ERC721URIStorage, Ownable {
         address saler = ownerOf(tokenId);
 
         // Transfer the ETH to the original NFT owner
-        payable(saler).transfer(_prices[tokenId]);
+        // payable(saler).transfer(_prices[tokenId]);
+        (bool sent, bytes memory data) = payable(saler).call{value: _prices[tokenId]}("");
+        require(sent, "Failed to send Ether. The contract may not have enough balance");
         // Transfer the NFT ownership to the buyer
         _transferNFT(saler, buyer, tokenId);
         // The buyer will get a CCoin as bonus
@@ -198,7 +219,9 @@ contract ACoin is ERC721URIStorage, Ownable {
                 "Bonus is not correct"
             );
             for (uint i = 0; i < addressToBeGivenBonus.length; i++) {
-                payable(addressToBeGivenBonus[i]).transfer(bonus);
+                // payable(addressToBeGivenBonus[i]).transfer(bonus);
+                (bool sent, bytes memory data) = payable(addressToBeGivenBonus[i]).call{value: bonus}("");
+                require(sent, "Failed to send Ether. The contract may not have enough balance");
                 _numSales[addressToBeGivenBonus[i]] = 0;
             }
             delete addressToBeGivenBonus;
@@ -283,7 +306,11 @@ contract ACoin is ERC721URIStorage, Ownable {
         return _NFTs[msg.sender];
     }
 
-    function getAllTokenIdsOf(address user) public view returns (uint256[] memory) {
+    function getAllTokenIdsOf(address user)
+        public
+        view
+        returns (uint256[] memory)
+    {
         return _NFTs[user];
     }
 
