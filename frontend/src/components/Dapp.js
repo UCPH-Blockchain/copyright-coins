@@ -226,14 +226,6 @@ export class Dapp extends React.Component {
         return true;
     }
 
-    //author transfer his copyright the other people
-    //return whether the transfer is successful
-    async _transCoprightToOther(recipientAd, tokenId) {
-        console.log("start transfer");
-        await this._token.transfer(recipientAd, tokenId);
-        console.log("transfer success");
-        return true;
-    }
 
     //verify if the copyright is belong to the author 
     //return the result of verify (1:yes, 0:no)
@@ -283,6 +275,19 @@ export class Dapp extends React.Component {
         const totalPrice = (commission+price).toString();
         const options = { value: ethers.utils.parseEther(totalPrice) };
         const reciept = await this._token.purchase(tokenId, options);
+        return true;
+    }
+
+    //author transfer his copyright the other people
+    //return whether the transfer is successful
+    async _transCoprightToOther(recipientAd, tokenId) {
+        const price = await this._token.priceOf(tokenId);
+        const commission = price/ COMMISSION_PERCENTAGE;
+        const totalPrice = commission.toString();
+        const options = { value: ethers.utils.parseEther(totalPrice) };
+        console.log("start transfer");
+        await this._token.transfer(recipientAd, tokenId, options);
+        console.log("transfer success");
         return true;
     }
 
