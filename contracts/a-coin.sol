@@ -100,8 +100,9 @@ contract ACoin is ERC721URIStorage, Ownable {
 
     function _removeFromNFTs(address sender, uint256 tokenId) private {
         _requireMinted(tokenId);
-        if (_NFTs[sender].length == 1) {
-            delete _NFTs[sender];
+        if (_NFTs[sender].length <= 1) {
+            delete _NFTs[sender][0];
+            _NFTs[sender].pop();
         } else {
             for (uint i = 0; i < _NFTs[sender].length; i++) {
                 if (_NFTs[sender][i] == tokenId) {
@@ -162,7 +163,7 @@ contract ACoin is ERC721URIStorage, Ownable {
             "You cannot transfer to yourself."
         );
 
-        uint commission = _prices[tokenId] / COMMISSION_PERCENTAGE;
+        uint commission = getCommission(_prices[tokenId]);
         require(
             msg.value >= _prices[tokenId] + commission,
             "You do not have enough ether to pay"
@@ -172,13 +173,17 @@ contract ACoin is ERC721URIStorage, Ownable {
         return _refund(recipient, _prices[tokenId], commission, msg.value);
     }
 
+    function getCommission(uint256 price) public pure returns (uint256) {
+        return price / COMMISSION_PERCENTAGE;
+    }
+
     function purchase(uint256 tokenId) public payable returns (bool) {
         _requireMinted(tokenId);
         require(_forSale[tokenId], "This token is not for sale");
         address buyer = _msgSender();
         require(buyer != ownerOf(tokenId), "You can't purchase your own token");
 
-        uint commission = _prices[tokenId] / COMMISSION_PERCENTAGE;
+        uint commission = getCommission(_prices[tokenId]);
         require(
             msg.value >= _prices[tokenId] + commission,
             "You do not have enough ether to pay"
