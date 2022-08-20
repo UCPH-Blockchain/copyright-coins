@@ -72,7 +72,8 @@ describe("Token contract", function () {
             expect(tokenId_.length).to.equal(1);
 
             //transger an Acoin to addr1
-            await hardhatACoin.transfer(addr1.address, tokenId_[0], { gasLimit: 1 * 10 ** 6 });
+            const options = { value: ethers.utils.parseEther("1.001"), gasLimit: 1 * 10 ** 6 }
+            await hardhatACoin.transfer(addr1.address, tokenId_[0], options);
             const tokenId_1 = await hardhatACoin.getNFTs();
             //transfer succesfully
             expect(tokenId_1.length).to.equal(1);
