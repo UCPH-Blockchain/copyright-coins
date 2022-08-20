@@ -25,7 +25,7 @@ contract ACoin is ERC721URIStorage, Ownable {
     mapping(uint256 => uint256) private _prices;
 
     mapping(address => uint256[]) private _NFTs;
-    
+
     // tokenID to hash of the article
     mapping(uint256 => string) private _tokenMD5s;
 
@@ -69,7 +69,10 @@ contract ACoin is ERC721URIStorage, Ownable {
         return newItemId;
     }
 
-    function mintNFTWithMD5(string memory tokenURI, string memory MD5) public returns (uint256) {
+    function mintNFTWithMD5(string memory tokenURI, string memory MD5)
+        public
+        returns (uint256)
+    {
         uint256 newItemId = mintNFTAnyone(tokenURI);
         _tokenMD5s[newItemId] = MD5;
         return newItemId;
@@ -97,10 +100,14 @@ contract ACoin is ERC721URIStorage, Ownable {
 
     function _removeFromNFTs(address sender, uint256 tokenId) private {
         _requireMinted(tokenId);
-        for (uint i = 0; i < _NFTs[sender].length; i++) {
-            if (_NFTs[sender][i] == tokenId) {
-                _NFTs[sender][i] = _NFTs[sender][_NFTs[sender].length - 1];
-                _NFTs[sender].pop();
+        if (_NFTs[sender].length == 1) {
+            delete _NFTs[sender];
+        } else {
+            for (uint i = 0; i < _NFTs[sender].length; i++) {
+                if (_NFTs[sender][i] == tokenId) {
+                    _NFTs[sender][i] = _NFTs[sender][_NFTs[sender].length - 1];
+                    _NFTs[sender].pop();
+                }
             }
         }
     }
@@ -288,7 +295,11 @@ contract ACoin is ERC721URIStorage, Ownable {
         return _NFTs[msg.sender];
     }
 
-    function getAllTokenIdsOf(address user) public view returns (uint256[] memory) {
+    function getAllTokenIdsOf(address user)
+        public
+        view
+        returns (uint256[] memory)
+    {
         return _NFTs[user];
     }
 
