@@ -238,10 +238,10 @@ export class Dapp extends React.Component {
         console.log("authorAd", authorAd);
 
         if (authorAd === copyrightOwner.toLowerCase()) {
-            console.log("verify success");
+            console.log("the copyright belongs to the author");
             return 1;
         } else {
-            console.log("verify fail");
+            console.log("the copyright does not belongs to the author");
             return 0;
         }
     }

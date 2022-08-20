@@ -1,5 +1,5 @@
 import React from "react";
-import { Toast, Card, Typography, Space } from "@douyinfe/semi-ui";
+import { Toast, Card, Typography, Space, Button } from "@douyinfe/semi-ui";
 // import { Copyrights } from "./Copyrights";
 
 export class Search extends React.Component {
@@ -8,7 +8,23 @@ export class Search extends React.Component {
         this.state = {
             publicKey: "",
             copyrightList: [],
+            isAuthor: false,
+            isOnsale: false,
         };
+        this.OnSaleClick = this.OnSaleClick.bind(this);
+        this.NotOnSaleClick = this.NotOnSaleClick.bind(this);
+    }
+
+    OnSaleClick() {
+        this.setState({isOnsale: true});
+        console.log("set copyright is on sale");
+        console.log(this.isOnsale);
+    }
+    
+    NotOnSaleClick() {
+        this.setState({isOnsale: false});
+        console.log("set copyright is not on sale");
+        console.log(this.isOnsale);
     }
 
     render() {
@@ -66,6 +82,16 @@ export class Search extends React.Component {
         //         )
         //     }
         // }
+
+        const isOnsale = this.state.isOnsale;
+        let isOnsaleButton;
+        if (isOnsale) {
+            isOnsaleButton = <Button onClick={this.OnSaleClick} />;
+        } else {
+            isOnsaleButton = <Button onClick={this.NotOnSaleClick} />;
+        }
+
+
         return (
             <div>
                 <div style={styles.mainTitle}><b>Search Copyright</b></div>
@@ -122,16 +148,24 @@ export class Search extends React.Component {
                         return (
                             <div key={copyright.tokenID}>
                                 <Card
-                                    title={copyright.tokenId}
+                                    title={"copyright ID: "+copyright.tokenId}
                                     style={{ maxWidth: 512 }}
                                     shadows='always'
                                     headerExtraContent={
-                                        <Text link={{ href: 'https://www.google.com' }}>
-                                            More
+                                        <Text link={{ href: copyright.tokenURI}}>
+                                            copyright Link
                                         </Text>
-                                    }>
+                                    }
+                                    >
                                     <Space wrap>
-                                        {copyright.tokenURI}
+                                        {<div>
+                                            {this.state.isAuthor ? (
+                                            <div className="btn-margin-right">
+                                            <Button>BUY</Button></div>
+                                            ) : (
+                                            <div className="btn-margin-right">
+                                            <Button>BUY2</Button></div>)}
+                                        </div>}
                                     </Space>
                                 </Card>
                             </div>
