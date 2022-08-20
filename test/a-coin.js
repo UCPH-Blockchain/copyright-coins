@@ -1,68 +1,87 @@
 const { expect } = require("chai");
-
 const { loadFixture } = require("@nomicfoundation/hardhat-network-helpers");
+const { BigNumber } = require("ethers");
 
 describe("Token contract", function () {
-    // We define a fixture to reuse the same setup in every test. We use
-    // loadFixture to run this setup once, snapshot that state, and reset Hardhat
-    // Network to that snapshopt in every test.
     async function deployTokenFixture() {
         // Get the ContractFactory and Signers here.
-        const Token = await ethers.getContractFactory("MyNFT");
+        const ACoin = await ethers.getContractFactory("ACoin");
         const [owner, addr1, addr2] = await ethers.getSigners();
 
-        // To deploy our contract, we just have to call Token.deploy() and await
-        // its deployed() method, which happens onces its transaction has been
-        // mined.
-        const hardhatToken = await Token.deploy();
+        const hardhatACoin = await ACoin.deploy();
+        await hardhatACoin.deployed();
 
-        await hardhatToken.deployed();
-
-        // Fixtures can return anything you consider useful for your tests
-        return { Token, hardhatToken, owner, addr1, addr2 };
+        return { ACoin, hardhatACoin, owner, addr1, addr2 };
     }
 
-    // You can nest describe calls to create subsections.
     describe("Deployment", function () {
-        // `it` is another Mocha function. This is the one you use to define each
-        // of your tests. It receives the test name, and a callback function.
-        //
-        // If the callback function is async, Mocha will `await` it.
+
         it("Should set the right owner", async function () {
-            // We use loadFixture to setup our environment, and then assert that
-            // things went well
-            const { hardhatToken, owner } = await loadFixture(deployTokenFixture);
-
-            // `expect` receives a value and wraps it in an assertion object. These
-            // objects have a lot of utility methods to assert values.
-
-            // This test expects the owner variable stored in the contract to be
-            // equal to our Signer's owner.
-            expect(await hardhatToken.owner()).to.equal(owner.address);
+            const { hardhatACoin, owner } = await loadFixture(deployTokenFixture);
+            expect(await hardhatACoin.getContractOwner()).to.equal(owner.address);
         });
 
-        // it("Should assign the total supply of tokens to the owner", async function () {
-        //     const { hardhatToken, owner } = await loadFixture(deployTokenFixture);
-        //     const ownerBalance = await hardhatToken.balanceOf(owner.address);
-        //     expect(await hardhatToken.totalSupply()).to.equal(ownerBalance);
-        // });
+        it("Should assign the total supply to the owner", async function () {
+            const { hardhatACoin, owner } = await loadFixture(deployTokenFixture);
+            const ownerBalance = await hardhatACoin.balanceOf(owner.address);
+            expect(await hardhatACoin.getBalanceOfContract()).to.equal(ownerBalance);
+        });
     });
 
+    describe("Minting", function () {
+        it("Should mint a new ACoin by mintNFTAnyone", async function () {
+            const { hardhatACoin, owner } = await loadFixture(deployTokenFixture);
+            const tokenId = await hardhatACoin.mintNFTAnyone("This is a ACoin");
+            const len = await hardhatACoin.getAllTokenIdsOf(owner.address)
+            expect(len.length).to.equal(1);
+        })
+
+        it("Should mint a new ACoin by mintNFTWithMD5", async function () {
+            const { hardhatACoin, owner } = await loadFixture(deployTokenFixture);
+            const tokenId = await hardhatACoin.mintNFTWithMD5("This is a ACoin", "12345678");
+            const len = await hardhatACoin.getAllTokenIdsOf(owner.address)
+            expect(len.length).to.equal(1);
+        })
+
+        it("Should set the right owner when mint ACoin", async function () {
+            const { hardhatACoin, owner } = await loadFixture(deployTokenFixture);
+            const tokenId = await hardhatACoin.mintNFTAnyone("This is a ACoin");
+            const minter = await hardhatACoin.getOwnerByURI("This is a ACoin");
+            expect(minter).to.equal(owner.address);
+        })
+    })
+
+    // describe("Refund", function () {
+    //     it("Should refund the extra ETH to the buyer", async function () {
+    //         const { hardhatACoin, owner } = await loadFixture(deployTokenFixture);
+    //         const owner_balance1 = await owner.getBalance();
+    //         await hardhatACoin._refund(owner.address, 1000, 1, 2000, { gasLimit: 1 * 10 ** 6 });
+    //         const owner_balance2 = await owner.getBalance();
+    //         expect(owner_balance2 - owner_balance1).to.most(999);
+    //     }).timeout(10000);
+    // })
+
     describe("Transactions", function () {
-        it("Should transfer tokens between accounts", async function () {
-            const { hardhatToken, owner, addr1, addr2 } = await loadFixture(
+        it("Should transfer ACoins between accounts", async function () {
+            const { hardhatACoin, owner, addr1, addr2 } = await loadFixture(
                 deployTokenFixture
             );
-            // Transfer 1 tokens from owner to addr1
-            await expect(
-                hardhatToken.transfer(addr1.address, 1)
-            ).to.changeTokenBalances(hardhatToken, [owner, addr1], [-1, 1]);
+            const tokenId = await hardhatACoin.mintNFTAnyone("This is a ACoin");
+            const tokenId_ = await hardhatACoin.getNFTs();
+            //mint succesfully
+            expect(tokenId_.length).to.equal(1);
 
-            // Transfer 1 tokens from addr1 to addr2
+            //transger an Acoin to addr1
+            await hardhatACoin.transfer(addr1.address, tokenId_[0], { gasLimit: 1 * 10 ** 6 });
+            const tokenId_1 = await hardhatACoin.getNFTs();
+            //transfer succesfully
+            expect(tokenId_1.length).to.equal(1);
+
+            // Transfer 50 tokens from addr1 to addr2
             // We use .connect(signer) to send a transaction from another account
-            await expect(
-                hardhatToken.connect(addr1).transfer(addr2.address, 1)
-            ).to.changeTokenBalances(hardhatToken, [addr1, addr2], [-1, 1]);
+            // await expect(
+            //     hardhatToken.connect(addr1).transfer(addr2.address, 50)
+            // ).to.changeTokenBalances(hardhatToken, [addr1, addr2], [-50, 50]);
         });
 
         it("should emit Transfer events", async function () {
@@ -70,16 +89,16 @@ describe("Token contract", function () {
                 deployTokenFixture
             );
 
-            // Transfer 1 tokens from owner to addr1
-            await expect(hardhatToken.transfer(addr1.address, 1))
+            // Transfer 50 tokens from owner to addr1
+            await expect(hardhatToken.transfer(addr1.address, 50))
                 .to.emit(hardhatToken, "Transfer")
-                .withArgs(owner.address, addr1.address, 1);
+                .withArgs(owner.address, addr1.address, 50);
 
-            // Transfer 1 tokens from addr1 to addr2
+            // Transfer 50 tokens from addr1 to addr2
             // We use .connect(signer) to send a transaction from another account
-            await expect(hardhatToken.connect(addr1).transfer(addr2.address, 1))
+            await expect(hardhatToken.connect(addr1).transfer(addr2.address, 50))
                 .to.emit(hardhatToken, "Transfer")
-                .withArgs(addr1.address, addr2.address, 1);
+                .withArgs(addr1.address, addr2.address, 50);
         });
 
         it("Should fail if sender doesn't have enough tokens", async function () {
