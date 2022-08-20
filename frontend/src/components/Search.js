@@ -1,6 +1,6 @@
 import React from "react";
-import { Button, Toast, Card, Typography, Space} from "@douyinfe/semi-ui";
-import { Copyrights } from "./Copyrights";
+import { Toast, Card, Typography, Space } from "@douyinfe/semi-ui";
+// import { Copyrights } from "./Copyrights";
 
 export class Search extends React.Component {
     constructor(props) {
@@ -12,7 +12,7 @@ export class Search extends React.Component {
     }
 
     render() {
-        const { Text, Paragraph, Title } = Typography;
+        const { Text } = Typography;
         const styles = {
             inputTitle: {
                 padding: "20px",
@@ -120,20 +120,21 @@ export class Search extends React.Component {
                         //     </div>
                         // )
                         return (
-                            <Card
-                                key={copyright.tokenID}
-                                title={copyright.tokenId}
-                                style={{ maxWidth: 360 }}
-                                shadows='always'
-                                headerExtraContent={
-                                    <Text link={{ href: 'https://www.google.com' }}>
-                                        More
-                                    </Text>
-                                }>
-                                <Space wrap>
-                                    {copyright.tokenURI}
-                                </Space>
-                            </Card>
+                            <div key={copyright.tokenID}>
+                                <Card
+                                    title={copyright.tokenId}
+                                    style={{ maxWidth: 512 }}
+                                    shadows='always'
+                                    headerExtraContent={
+                                        <Text link={{ href: 'https://www.google.com' }}>
+                                            More
+                                        </Text>
+                                    }>
+                                    <Space wrap>
+                                        {copyright.tokenURI}
+                                    </Space>
+                                </Card>
+                            </div>
                         )
                     })
                 }

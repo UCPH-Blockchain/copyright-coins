@@ -13,14 +13,15 @@ import { Verify } from "./Verify";
 import { PriceSet } from "./PriceSet";
 import { Transfer } from "./Transfer";
 import { Search } from "./Search";
-import { Result } from "./Result";
-import { Copyrights } from "./Copyrights";
+// import { Result } from "./Result";
+// import { Copyrights } from "./Copyrights";
 
 import crypto from 'crypto-js';
 
 const HARDHAT_NETWORK_ID = '31337';
-const ERROR_CODE_TX_REJECTED_BY_USER = 4001;
+// const ERROR_CODE_TX_REJECTED_BY_USER = 4001;
 const NUMBER_COIN_TO_WAIVE_COMMISSION = 100;
+const COMMISSION_PERCENTAGE = 1000;
 
 
 export class Dapp extends React.Component {
@@ -208,7 +209,7 @@ export class Dapp extends React.Component {
     //return copyright state after change
     async _setCopyrightSaleState(tokenId) {
         const sale_state = await this._token.isForSale(tokenId);
-        if (sale_state == 0) {
+        if (sale_state === 0) {
             await this._token.setForSale(tokenId, 1);
             return 1;
         } else {
@@ -225,14 +226,6 @@ export class Dapp extends React.Component {
         return true;
     }
 
-    //author transfer his copyright the other people
-    //return whether the transfer is successful
-    async _transCoprightToOther(recipientAd, tokenId) {
-        console.log("start transfer");
-        await this._token.transfer(recipientAd, tokenId);
-        console.log("transfer success");
-        return true;
-    }
 
     //verify if the copyright is belong to the author 
     //return the result of verify (1:yes, 0:no)
@@ -262,7 +255,7 @@ export class Dapp extends React.Component {
     //search copyright by the author's public key
     //return array like [{tokenId: tokenid1, tokenURI: URL1}, {tokenId: tokenid2, tokenURI: URL2}]
     async _searchAuthorsCopyright(authorAd) {
-        const copyrightList = new Array;
+        const copyrightList = [];
         const tokenIdAr = await this._token.getAllTokenIdsOf(authorAd);
 
         for (let i = 0; i < tokenIdAr.length; i++) {
@@ -277,7 +270,24 @@ export class Dapp extends React.Component {
 
     //buy copyright
     async _buyCopyright(tokenId) {
-        await this._token.purchase(tokenId);
+        const price = await this._token.priceOf(tokenId);
+        const commission = price/ COMMISSION_PERCENTAGE;
+        const totalPrice = (commission+price).toString();
+        const options = { value: ethers.utils.parseEther(totalPrice) };
+        const reciept = await this._token.purchase(tokenId, options);
+        return true;
+    }
+
+    //author transfer his copyright the other people
+    //return whether the transfer is successful
+    async _transCoprightToOther(recipientAd, tokenId) {
+        const price = await this._token.priceOf(tokenId);
+        const commission = price/ COMMISSION_PERCENTAGE;
+        const totalPrice = commission.toString();
+        const options = { value: ethers.utils.parseEther(totalPrice) };
+        console.log("start transfer");
+        await this._token.transfer(recipientAd, tokenId, options);
+        console.log("transfer success");
         return true;
     }
 
@@ -291,6 +301,4 @@ export class Dapp extends React.Component {
             return 0;
         }
     }
-
-
 }

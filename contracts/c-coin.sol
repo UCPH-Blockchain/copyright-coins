@@ -75,12 +75,13 @@ contract CCoin is ERC20 {
         }
     }
 
+    // get amount of the minter's CCoin balance
     function totalBalance(address account) public view returns (uint256) {
         uint256 balance = balanceOf(account);
         return balance;
     }
 
-    // get amount of the minter mint per day
+    // get amount of the minter try to mint per day
     function amountOf(address account) public view returns (uint256) {
         return mintPerDay[account].amount_per_day;
     }

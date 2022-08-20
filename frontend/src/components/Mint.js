@@ -1,5 +1,7 @@
 import React from "react";
 
+import { Toast } from "@douyinfe/semi-ui";
+
 export function Mint({ mintNFT, publicKey }) {
     const styles = {
         inputTitle: {
@@ -47,11 +49,15 @@ export function Mint({ mintNFT, publicKey }) {
                 onSubmit={(event) => {
                     event.preventDefault();
                     const formData = new FormData(event.target);
-                    // const recipient = formData.get("recipient");
                     const tokenURI = formData.get("tokenURI");
                     if (tokenURI) {
-                        const copyrightID = mintNFT(tokenURI);
-                        console.log(copyrightID);
+                        mintNFT(tokenURI).then(res => {
+                            console.log("mintNFT:", res);
+                            Toast.success({
+                                content: "Upload Successfully",
+                                duration: 3,
+                            });
+                        })
                     }
                 }}
             >
