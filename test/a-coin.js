@@ -192,7 +192,7 @@ describe("Token contract", function () {
             // expect(await hardhatACoin.priceOf(tokenId_[0])).to.equal(1);
             await hardhatACoin.setForSale(tokenId_[0], true);
 
-            const options = { value: ethers.utils.parseEther("1000000000000000"), gasLimit: 1 * 10 ** 6 }
+            const options = { value: ethers.utils.parseEther("1.001"), gasLimit: 1 * 10 ** 6 }
             await hardhatACoin.connect(addr1).purchase(tokenId_[0], options);
             const tokenId_1 = await hardhatACoin.connect(addr1).getNFTs();
             //purchase succesfully
@@ -211,7 +211,7 @@ describe("Token contract", function () {
             // expect(await hardhatACoin.priceOf(tokenId_[0])).to.equal(1);
             await hardhatACoin.setForSale(tokenId_[0], false);
 
-            const options = { value: ethers.utils.parseEther("1000000000000000"), gasLimit: 1 * 10 ** 6 }
+            const options = { value: ethers.utils.parseEther("1.001"), gasLimit: 1 * 10 ** 6 }
             await expect(hardhatACoin.connect(addr1).purchase(tokenId_[0], options))
                 .to.be.revertedWith("This token is not for sale");
         })
@@ -228,9 +228,9 @@ describe("Token contract", function () {
             // expect(await hardhatACoin.priceOf(tokenId_[0])).to.equal(1);
             await hardhatACoin.setForSale(tokenId_[0], true);
 
-            const options = { value: ethers.utils.parseEther("1000000000000000"), gasLimit: 1 * 10 ** 6 }
+            const options = { value: ethers.utils.parseEther("1.001"), gasLimit: 1 * 10 ** 6 }
             await expect(hardhatACoin.purchase(tokenId_[0], options))
-                .to.be.revertedWith("You cannot purchase your own token.");
+                .to.be.revertedWith("You can't purchase your own token");
         });
 
         it("Should not purchase when buyer doesn't have enough ether to pay", async function () {
@@ -241,9 +241,9 @@ describe("Token contract", function () {
             const tokenId_ = await hardhatACoin.getNFTs();
             //mint succesfully
             expect(tokenId_.length).to.equal(1);
-            await hardhatACoin.setPrice(tokenId_[0], 100000000000000);
+            await hardhatACoin.setPrice(tokenId_[0], 100);
             // expect(await hardhatACoin.priceOf(tokenId_[0])).to.equal(1);
-            await hardhatACoin.setForSale(tokenId_[0], false);
+            await hardhatACoin.setForSale(tokenId_[0], true);
 
             const options = { value: ethers.utils.parseEther("1"), gasLimit: 1 * 10 ** 6 }
             await expect(hardhatACoin.connect(addr1).purchase(tokenId_[0], options))
