@@ -25,7 +25,8 @@ contract ACoin is ERC721URIStorage, Ownable {
     mapping(uint256 => uint256) private _prices;
 
     mapping(address => uint256[]) private _NFTs;
-
+    
+    // tokenID to hash of the article
     mapping(uint256 => string) private _tokenMD5s;
 
     // The max uint256 value of solidity
@@ -170,14 +171,15 @@ contract ACoin is ERC721URIStorage, Ownable {
             msg.value >= _prices[tokenId] + commission,
             "You do not have enough ether to pay"
         );
+        address saler = ownerOf(tokenId);
 
         // Transfer the ETH to the original NFT owner
-        payable(ownerOf(tokenId)).transfer(_prices[tokenId]);
+        payable(saler).transfer(_prices[tokenId]);
         // Transfer the NFT ownership to the buyer
-        _transferNFT(ownerOf(tokenId), buyer, tokenId);
+        _transferNFT(saler, buyer, tokenId);
         // The buyer will get a CCoin as bonus
         cCoin.mintFT(buyer);
-        _giveBonus(ownerOf(tokenId));
+        _giveBonus(saler);
 
         return _refund(buyer, _prices[tokenId], commission, msg.value);
     }
