@@ -72,7 +72,7 @@ async function main() {
   console.log("The balance of signer2 is ", await signer2Contract.balanceOf(signer2.getAddress()));
   console.log("===========================")
   const options = { value: ethers.utils.parseEther("1.001") }
-  const reciept = await signer1Contract.transfer(signer2.getAddress(), 1, options);
+  const reciept = await signer2Contract.purchase(1, options);
   console.log("The reciept of purchase is", reciept);
   console.log("===========================")
   console.log("After transfer:")

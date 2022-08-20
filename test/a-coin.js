@@ -61,7 +61,7 @@ describe("Token contract", function () {
     //     }).timeout(10000);
     // })
 
-    describe("Transactions", function () {
+    describe("Transfer", function () {
         it("Should transfer ACoins between accounts", async function () {
             const { hardhatACoin, owner, addr1, addr2 } = await loadFixture(
                 deployTokenFixture
@@ -71,53 +71,183 @@ describe("Token contract", function () {
             //mint succesfully
             expect(tokenId_.length).to.equal(1);
 
+            await hardhatACoin.setPrice(tokenId_[0], 1);
+
             //transger an Acoin to addr1
             const options = { value: ethers.utils.parseEther("1.001"), gasLimit: 1 * 10 ** 6 }
             await hardhatACoin.transfer(addr1.address, tokenId_[0], options);
-            const tokenId_1 = await hardhatACoin.getNFTs();
+            const tokenId_1 = await hardhatACoin.connect(addr1).getNFTs();
             //transfer succesfully
             expect(tokenId_1.length).to.equal(1);
 
-            // Transfer 50 tokens from addr1 to addr2
-            // We use .connect(signer) to send a transaction from another account
-            // await expect(
-            //     hardhatToken.connect(addr1).transfer(addr2.address, 50)
-            // ).to.changeTokenBalances(hardhatToken, [addr1, addr2], [-50, 50]);
+            // Transfer an ACoin from addr1 to addr2
+            await hardhatACoin.connect(addr1).transfer(addr2.address, tokenId_1[0], options);
+            const tokenId_2 = await hardhatACoin.connect(addr2).getNFTs();
+            //transfer succesfully
+            expect(tokenId_2.length).to.equal(1);
         });
 
         it("should emit Transfer events", async function () {
-            const { hardhatToken, owner, addr1, addr2 } = await loadFixture(
+            const { hardhatACoin, owner, addr1, addr2 } = await loadFixture(
                 deployTokenFixture
             );
 
-            // Transfer 50 tokens from owner to addr1
-            await expect(hardhatToken.transfer(addr1.address, 50))
-                .to.emit(hardhatToken, "Transfer")
-                .withArgs(owner.address, addr1.address, 50);
+            const tokenId = await hardhatACoin.mintNFTAnyone("This is a ACoin");
+            const tokenId_ = await hardhatACoin.getNFTs();
+            //mint succesfully
+            expect(tokenId_.length).to.equal(1);
 
-            // Transfer 50 tokens from addr1 to addr2
-            // We use .connect(signer) to send a transaction from another account
-            await expect(hardhatToken.connect(addr1).transfer(addr2.address, 50))
-                .to.emit(hardhatToken, "Transfer")
-                .withArgs(addr1.address, addr2.address, 50);
+            await hardhatACoin.setPrice(tokenId_[0], 1);
+            const options = { value: ethers.utils.parseEther("1.001"), gasLimit: 1 * 10 ** 6 }
+
+            //transfer an Acoin to addr1
+            await expect(hardhatACoin.transfer(addr1.address, tokenId_[0], options))
+                .to.emit(hardhatACoin, "Transfer")
+                .withArgs(owner.address, addr1.address, tokenId_[0]);
+
+            // Transfer an Acoin from addr1 to addr2
+            await expect(hardhatACoin.connect(addr1).transfer(addr2.address, tokenId_[0], options))
+                .to.emit(hardhatACoin, "Transfer")
+                .withArgs(addr1.address, addr2.address, tokenId_[0]);
         });
 
-        it("Should fail if sender doesn't have enough tokens", async function () {
-            const { hardhatToken, owner, addr1 } = await loadFixture(
+        it("Should fail if sender transfer other's ACoin", async function () {
+            const { hardhatACoin, owner, addr1 } = await loadFixture(
                 deployTokenFixture
             );
-            const initialOwnerBalance = await hardhatToken.balanceOf(owner.address);
 
-            // Try to send 1 token from addr1 (0 tokens) to owner (1000 tokens).
-            // `require` will evaluate false and revert the transaction.
+            const tokenId = await hardhatACoin.mintNFTAnyone("This is a ACoin");
+            const tokenId_ = await hardhatACoin.getNFTs();
+
+            const initialOwnerBalance = await hardhatACoin.balanceOf(owner.address);
+
+            // Try to send 1 ACoin from addr1 (0 tokens) to owner.
+            const options = { value: ethers.utils.parseEther("1.001"), gasLimit: 1 * 10 ** 6 }
             await expect(
-                hardhatToken.connect(addr1).transfer(owner.address, 1)
-            ).to.be.revertedWith("Not enough tokens");
+                hardhatACoin.connect(addr1).transfer(owner.address, tokenId_[0], options)
+            ).to.be.revertedWith("It is not your token, so you cannot transfer it.");
 
             // Owner balance shouldn't have changed.
-            expect(await hardhatToken.balanceOf(owner.address)).to.equal(
+            expect(await hardhatACoin.balanceOf(owner.address)).to.equal(
+                initialOwnerBalance
+            );
+        });
+
+        it("Should fail if sender transfer ACoin to itself", async function () {
+            const { hardhatACoin, owner, addr1 } = await loadFixture(
+                deployTokenFixture
+            );
+
+            const tokenId = await hardhatACoin.mintNFTAnyone("This is a ACoin");
+            const tokenId_ = await hardhatACoin.getNFTs();
+
+            const initialOwnerBalance = await hardhatACoin.balanceOf(owner.address);
+
+            // Try to send 1 ACoin from addr1 (0 tokens) to owner.
+            const options = { value: ethers.utils.parseEther("1.001"), gasLimit: 1 * 10 ** 6 }
+            await expect(
+                hardhatACoin.transfer(owner.address, tokenId_[0], options)
+            ).to.be.revertedWith("You cannot transfer to yourself.");
+
+            // Owner balance shouldn't have changed.
+            expect(await hardhatACoin.balanceOf(owner.address)).to.equal(
+                initialOwnerBalance
+            );
+        });
+
+        it("Should fail if sender doesn't have enough ACoin", async function () {
+            const { hardhatACoin, owner, addr1 } = await loadFixture(
+                deployTokenFixture
+            );
+
+            const tokenId = await hardhatACoin.mintNFTAnyone("This is a ACoin");
+            const tokenId_ = await hardhatACoin.getNFTs();
+            await hardhatACoin.setPrice(tokenId_[0], 10000000000);
+
+            const initialOwnerBalance = await hardhatACoin.balanceOf(owner.address);
+
+            // Try to send 1 ACoin from addr1 (0 tokens) to owner.
+            const options = { value: ethers.utils.parseEther("1.001"), gasLimit: 1 * 10 ** 6 }
+            await expect(
+                hardhatACoin.transfer(addr1.address, tokenId_[0], options)
+            ).to.be.revertedWith("You do not have enough ether to pay");
+
+            // Owner balance shouldn't have changed.
+            expect(await hardhatACoin.balanceOf(owner.address)).to.equal(
                 initialOwnerBalance
             );
         });
     });
-});
+
+    describe("Purchase", function () {
+        it("Should purchase an ACoin", async function () {
+            const { hardhatACoin, owner, addr1 } = await loadFixture(
+                deployTokenFixture
+            );
+            const tokenId = await hardhatACoin.mintNFTAnyone("This is a ACoin");
+            const tokenId_ = await hardhatACoin.getNFTs();
+            //mint succesfully
+            expect(tokenId_.length).to.equal(1);
+            await hardhatACoin.setPrice(tokenId_[0], 1);
+            // expect(await hardhatACoin.priceOf(tokenId_[0])).to.equal(1);
+            await hardhatACoin.setForSale(tokenId_[0], true);
+
+            const options = { value: ethers.utils.parseEther("1000000000000000"), gasLimit: 1 * 10 ** 6 }
+            await hardhatACoin.connect(addr1).purchase(tokenId_[0], options);
+            const tokenId_1 = await hardhatACoin.connect(addr1).getNFTs();
+            //purchase succesfully
+            expect(tokenId_1.length).to.equal(1);
+        })
+
+        it("Should not purchase an ACoin when it cannot be sold", async function () {
+            const { hardhatACoin, owner, addr1 } = await loadFixture(
+                deployTokenFixture
+            );
+            const tokenId = await hardhatACoin.mintNFTAnyone("This is a ACoin");
+            const tokenId_ = await hardhatACoin.getNFTs();
+            //mint succesfully
+            expect(tokenId_.length).to.equal(1);
+            await hardhatACoin.setPrice(tokenId_[0], 1);
+            // expect(await hardhatACoin.priceOf(tokenId_[0])).to.equal(1);
+            await hardhatACoin.setForSale(tokenId_[0], false);
+
+            const options = { value: ethers.utils.parseEther("1000000000000000"), gasLimit: 1 * 10 ** 6 }
+            await expect(hardhatACoin.connect(addr1).purchase(tokenId_[0], options))
+                .to.be.revertedWith("This token is not for sale");
+        })
+
+        it("Should not purchase your own ACoin", async function () {
+            const { hardhatACoin, owner, addr1 } = await loadFixture(
+                deployTokenFixture
+            );
+            const tokenId = await hardhatACoin.mintNFTAnyone("This is a ACoin");
+            const tokenId_ = await hardhatACoin.getNFTs();
+            //mint succesfully
+            expect(tokenId_.length).to.equal(1);
+            await hardhatACoin.setPrice(tokenId_[0], 1);
+            // expect(await hardhatACoin.priceOf(tokenId_[0])).to.equal(1);
+            await hardhatACoin.setForSale(tokenId_[0], true);
+
+            const options = { value: ethers.utils.parseEther("1000000000000000"), gasLimit: 1 * 10 ** 6 }
+            await expect(hardhatACoin.purchase(tokenId_[0], options))
+                .to.be.revertedWith("You cannot purchase your own token.");
+        });
+
+        it("Should not purchase when buyer doesn't have enough ether to pay", async function () {
+            const { hardhatACoin, owner, addr1 } = await loadFixture(
+                deployTokenFixture
+            );
+            const tokenId = await hardhatACoin.mintNFTAnyone("This is a ACoin");
+            const tokenId_ = await hardhatACoin.getNFTs();
+            //mint succesfully
+            expect(tokenId_.length).to.equal(1);
+            await hardhatACoin.setPrice(tokenId_[0], 100000000000000);
+            // expect(await hardhatACoin.priceOf(tokenId_[0])).to.equal(1);
+            await hardhatACoin.setForSale(tokenId_[0], false);
+
+            const options = { value: ethers.utils.parseEther("1"), gasLimit: 1 * 10 ** 6 }
+            await expect(hardhatACoin.connect(addr1).purchase(tokenId_[0], options))
+                .to.be.revertedWith("You do not have enough ether to pay");
+        });
+    });
+})
