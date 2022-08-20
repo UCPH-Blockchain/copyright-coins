@@ -6,12 +6,12 @@ describe("Token contract", function () {
     async function deployTokenFixture() {
         // Get the ContractFactory and Signers here.
         const ACoin = await ethers.getContractFactory("ACoin");
-        const [owner, addr1, addr2] = await ethers.getSigners();
+        const [owner, addr1, addr2, addr3, addr4] = await ethers.getSigners();
 
         const hardhatACoin = await ACoin.deploy();
         await hardhatACoin.deployed();
 
-        return { ACoin, hardhatACoin, owner, addr1, addr2 };
+        return { ACoin, hardhatACoin, owner, addr1, addr2, addr3, addr4 };
     }
 
     describe("Deployment", function () {
