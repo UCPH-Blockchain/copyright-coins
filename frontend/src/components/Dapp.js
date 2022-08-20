@@ -21,6 +21,7 @@ import crypto from 'crypto-js';
 const HARDHAT_NETWORK_ID = '31337';
 // const ERROR_CODE_TX_REJECTED_BY_USER = 4001;
 const NUMBER_COIN_TO_WAIVE_COMMISSION = 100;
+const COMMISSION_PERCENTAGE = 1000;
 
 
 export class Dapp extends React.Component {
@@ -277,7 +278,11 @@ export class Dapp extends React.Component {
 
     //buy copyright
     async _buyCopyright(tokenId) {
-        await this._token.purchase(tokenId);
+        const price = await this._token.priceOf(tokenId);
+        const commission = price/ COMMISSION_PERCENTAGE;
+        const totalPrice = (commission+price).toString();
+        const options = { value: ethers.utils.parseEther(totalPrice) };
+        const reciept = await this._token.purchase(tokenId, options);
         return true;
     }
 
