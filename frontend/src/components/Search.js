@@ -120,20 +120,21 @@ export class Search extends React.Component {
                         //     </div>
                         // )
                         return (
-                            <Card
-                                key={copyright.tokenID}
-                                title={copyright.tokenId}
-                                style={{ maxWidth: 512 }}
-                                shadows='always'
-                                headerExtraContent={
-                                    <Text link={{ href: 'https://www.google.com' }}>
-                                        More
-                                    </Text>
-                                }>
-                                <Space wrap>
-                                    {copyright.tokenURI}
-                                </Space>
-                            </Card>
+                            <div key={copyright.tokenID}>
+                                <Card
+                                    title={copyright.tokenId}
+                                    style={{ maxWidth: 512 }}
+                                    shadows='always'
+                                    headerExtraContent={
+                                        <Text link={{ href: 'https://www.google.com' }}>
+                                            More
+                                        </Text>
+                                    }>
+                                    <Space wrap>
+                                        {copyright.tokenURI}
+                                    </Space>
+                                </Card>
+                            </div>
                         )
                     })
                 }

@@ -1,5 +1,7 @@
 import React from "react";
 
+import { Toast } from "@douyinfe/semi-ui";
+
 export function PriceSet({ setPrice }) {
     const styles = {
         inputTitle: {
@@ -51,7 +53,18 @@ export function PriceSet({ setPrice }) {
                     const price = formData.get("price");
 
                     if (tokenID && price) {
-                        setPrice(tokenID, price);
+                        setPrice(tokenID, price).then(res => {
+                            console.log("setPrice:", res);
+                            Toast.success({
+                                content: "Set Price Successfully",
+                                duration: 3,
+                            });
+                        }).catch(err => {
+                            Toast.error({
+                                content: "Set Price Failed\n" + err,
+                                duration: 0,
+                            });
+                        });
                     }
                 }}
             >

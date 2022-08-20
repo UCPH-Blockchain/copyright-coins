@@ -146,8 +146,13 @@ contract ACoin is ERC721URIStorage, Ownable {
     {
         _requireMinted(tokenId);
         require(
-            _msgSender() != ownerOf(tokenId),
-            "You cannot transfer your token to yourself"
+            _msgSender() == ownerOf(tokenId),
+            "It is not your token, so you cannot transfer it."
+        );
+
+        require(
+            recipient != ownerOf(tokenId),
+            "You cannot transfer to yourself."
         );
 
         uint commission = _prices[tokenId] / COMMISSION_PERCENTAGE;

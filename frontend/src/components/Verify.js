@@ -60,9 +60,9 @@ export function Verify({ verifyNFT }) {
                                 duration: 3,
                             });
                         }).catch(err => {
-                            Toast.fail({
+                            Toast.error({
                                 content: "Verify Failed" + err,
-                                duration: 3,
+                                duration: 0,
                             });
                         })
                     }

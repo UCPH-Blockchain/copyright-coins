@@ -63,7 +63,7 @@ export function Transfer({ transferNFT }) {
                         }).catch(err => {
                             Toast.error({
                                 content: "Transfer Failed" + err,
-                                duration: 3,
+                                duration: 0,
                             });
                         })
                     }
