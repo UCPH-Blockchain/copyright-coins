@@ -23,91 +23,138 @@ describe("Token contract", function () {
   // We define a fixture to reuse the same setup in every test. We use
   // loadFixture to run this setup once, snapshot that state, and reset Hardhat
   // Network to that snapshopt in every test.
-  async function deployTokenFixture() {
+  async function deployATokenFixture() {
     // Get the ContractFactory and Signers here.
-    const Token = await ethers.getContractFactory("CCoin");
-    const [accountOwner, addr1, addr2] = await ethers.getSigners();
+    const TokenA = await ethers.getContractFactory("ACoin");
+    const [accountOwnerA, addr1, addr2] = await ethers.getSigners();
 
     // To deploy our contract, we just have to call Token.deploy() and await
     // its deployed() method, which happens onces its transaction has been
     // mined.
-    const hardhatToken = await Token.deploy();
+    const hardhatAToken = await TokenA.deploy();
 
-    await hardhatToken.deployed();
+    await hardhatAToken.deployed();
 
     // Fixtures can return anything you consider useful for your tests
-    return { Token, hardhatToken, accountOwner, addr1, addr2 };
+    return { TokenA, hardhatAToken, accountOwnerA, addr1, addr2 };
   }
 
-  // You can nest describe calls to create subsections.
-  describe("Deployment", function () {
-    // `it` is another Mocha function. This is the one you use to define each
-    // of your tests. It receives the test name, and a callback function.
-    //
-    // If the callback function is async, Mocha will `await` it.
-    it("Should set the right owner", async function () {
-      // We use loadFixture to setup our environment, and then assert that
-      // things went well
-      const { hardhatToken, accountOwner } = await loadFixture(deployTokenFixture);
+  async function deployCTokenFixture() {
+    // Get the ContractFactory and Signers here.
+    const TokenC = await ethers.getContractFactory("CCoin");
+    const [accountOwnerC, addr1, addr2] = await ethers.getSigners();
 
-      // `expect` receives a value and wraps it in an assertion object. These
-      // objects have a lot of utility methods to assert values.
+    // To deploy our contract, we just have to call Token.deploy() and await
+    // its deployed() method, which happens onces its transaction has been
+    // mined.
+    const hardhatCToken = await TokenC.deploy();
 
-      // This test expects the owner variable stored in the contract to be
-      // equal to our Signer's owner.
-      expect(await hardhatToken.accountOwner()).to.equal(accountOwner.address);
+    await hardhatCToken.deployed();
+
+    // Fixtures can return anything you consider useful for your tests
+    return { TokenC, hardhatCToken, accountOwnerC, addr1, addr2 };
+  }
+
+  async function deployTokenFixture() {
+    const TokenA = await ethers.getContractFactory("ACoin");
+    const [accountOwner, addr1, addr2] = await ethers.getSigners();
+  
+      // To deploy our contract, we just have to call Token.deploy() and await
+      // its deployed() method, which happens onces its transaction has been
+      // mined.
+    const hardhatAToken = await TokenA.deploy();
+  
+    await hardhatAToken.deployed();
+
+    const TokenC = await ethers.getContractFactory("CCoin");
+    // To deploy our contract, we just have to call Token.deploy() and await
+    // its deployed() method, which happens onces its transaction has been
+    // mined.
+    const hardhatCToken = await TokenC.deploy(hardhatAToken.address);
+
+    await hardhatCToken.deployed();
+
+    // Fixtures can return anything you consider useful for your tests
+    return { TokenA, TokenC, hardhatAToken, hardhatCToken, accountOwner, addr1, addr2 };
+  }
+
+  describe("only ACoin can call CCoin", function () {
+    it("MintFT in CCoin", async function () {
+      const { hardhatCToken, accountOwner } = await loadFixture(
+            deployTokenFixture
+          );
+      await expect(
+        hardhatCToken.mintFT(accountOwner.address)
+      ).to.be.revertedWith("Only ACoin contract can call this CCoin function.");
     });
-  });
 
-
-
-
-  describe("Transactions", function () {
-    it("Should mint coins per account", async function () {
-      const { hardhatToken, accountOwner, addr1, addr2 } = await loadFixture(
-        deployTokenFixture
-      );
-      // Transfer 50 tokens from owner to addr1
-      await hardhatToken.mintFT(addr1.address);
-      await hardhatToken.mintFT(addr1.address);
-      await hardhatToken.mintFT(addr2.address);
-      await hardhatToken.mintFT(addr2.address);
-      await hardhatToken.mintFT(addr2.address);
-      await hardhatToken.mintFT(accountOwner.address);
-      expect(Number(await hardhatToken.amountOf(accountOwner.address))).to.equal(1);
-      expect(Number(await hardhatToken.amountOf(addr1.address))).to.equal(2);
-      expect(Number(await hardhatToken.amountOf(addr2.address))).to.equal(3);
-    });
-
-    it("Should reward an account", async function () {
-        const { hardhatToken, accountOwner, addr1, addr2 } = await loadFixture(
-          deployTokenFixture
-        );
-        await hardhatToken.mintFT(accountOwner.address);
-        await hardhatToken.mintFT(accountOwner.address);
-        await hardhatToken.mintFT(accountOwner.address);
-        await hardhatToken.reward(addr1.address, 3);
-        expect(Number(await hardhatToken.TotleBalance(addr1.address))).to.equal(3);
-        await hardhatToken.connect(addr1).reward(addr2.address, 3);
-        expect(Number(await hardhatToken.TotleBalance(addr2.address))).to.equal(3);
+    it("reduceBalance in CCoin", async function () {
+      const { hardhatCToken, accountOwner } = await loadFixture(
+            deployTokenFixture
+          );
+      await expect(
+        hardhatCToken.mintManyFT(accountOwner.address, 33)
+      ).to.be.revertedWith("Only ACoin contract can call this CCoin function.");
       });
 
-    it("Should fail if sender doesn't have enough tokens", async function () {
-      const { hardhatToken, accountOwner, addr1 } = await loadFixture(
+      it("mintManyFT in CCoin", async function () {
+        const { hardhatCToken, accountOwner } = await loadFixture(
+              deployTokenFixture
+            );
+        await expect(
+          hardhatCToken.reduceBalance(accountOwner.address, 33)
+        ).to.be.revertedWith("Only ACoin contract can call this CCoin function.");
+        });
+
+      it("mintTransferCCoin in CCoin", async function () {
+        const { hardhatCToken, accountOwner} = await loadFixture(
+               deployTokenFixture
+            );
+        await expect(
+           hardhatCToken.mintTransferCCoin(accountOwner.address, 33)
+        ).to.be.revertedWith("Only ACoin contract can call this CCoin function.");
+      });
+  });
+
+  describe("Transactions", function () {
+    it("Should mint Ccoins through ACoin", async function () {
+      const { hardhatAToken} = await loadFixture(
         deployTokenFixture
       );
-      const initialOwnerBalance = await hardhatToken.TotleBalance(accountOwner.address);
-
-      // Try to send 1 token from addr1 (0 tokens) to owner (1000 tokens).
-      // `require` will evaluate false and revert the transaction.
-      await expect(
-        hardhatToken.connect(addr1).reward(accountOwner.address, 1)
-      ).to.be.revertedWith("Not enough tokens");
-
-      // Owner balance shouldn't have changed.
-      expect(await hardhatToken.TotleBalance(accountOwner.address)).to.equal(
-        initialOwnerBalance
-      );
+      await hardhatAToken.cCoinMintFT();
+      expect(Number(await hardhatAToken.cCoinAmountOf())).to.equal(1);
     });
+
+    it("Should mint many Ccoins through ACoin", async function () {
+        const { hardhatAToken} = await loadFixture(
+          deployTokenFixture
+        );
+        await hardhatAToken.cCoinMintManyFT(10);
+        expect(Number(await hardhatAToken.cCoinAmountOf())).to.equal(10);
+        expect(Number(await hardhatAToken.cCoinTotalBlanceOf())).to.equal(10);
+
+        await hardhatAToken.cCoinMintManyFT(1001);
+        expect(Number(await hardhatAToken.cCoinAmountOf())).to.equal(1011);
+        expect(Number(await hardhatAToken.cCoinTotalBlanceOf())).to.equal(1000);
+      });
+
+    
+
+    it("Should reduce CCoins through ACoins", async function () {
+        const { hardhatAToken } = await loadFixture(
+          deployTokenFixture
+        );
+
+        await hardhatAToken.cCoinMintManyFT(100);
+        expect(Number(await hardhatAToken.cCoinTotalBlanceOf())).to.equal(100);
+
+        await hardhatAToken.cCoinReduceBalance(10);
+        expect(Number(await hardhatAToken.cCoinTotalBlanceOf())).to.equal(90);
+
+        await expect(
+            hardhatAToken.cCoinReduceBalance(100)
+         ).to.be.revertedWith("ERC20: burn amount exceeds balance");
+      });
+
   });
 });

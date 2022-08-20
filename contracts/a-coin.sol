@@ -363,8 +363,24 @@ contract ACoin is ERC721URIStorage, Ownable {
         return cCoin.amountOf(_msgSender());
     }
 
+    function cCoinMintFT() public {
+        cCoin.mintFT(_msgSender());
+    }
+
+    function cCoinMintManyFT(uint256 Mamount) public {
+        cCoin.mintManyFT(_msgSender(), Mamount);
+    }
+
     function getCCoin() public view returns (CCoin) {
         return cCoin;
+    }
+
+    function cCoinReduceBalance(uint256 amount) public {
+        cCoin.reduceBalance(_msgSender(), amount);
+    }
+
+    function cCoinMintTransferCCoin(address to, uint256 amount) public {
+        cCoin.mintTransferCCoin(to, amount);
     }
 
     event Received(address, uint);
