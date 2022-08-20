@@ -40,7 +40,7 @@ export function ConnectWallet({ connectWallet, networkError, dismiss }) {
         buttonStyle: {
             width: 190,
             height: 50,
-            backgroundColor: "white",
+            // backgroundColor: "white",
             fontSize: "20px",
             backgroundColor: "#a3d9f5",
             color: "black",
