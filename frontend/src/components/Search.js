@@ -140,13 +140,9 @@ export class Search extends React.Component {
                                     style={{ maxWidth: 512 }}
                                     shadows='always'
                                     headerExtraContent={
-                                        <Text link={{ href: copyright.tokenURI, target:"_blank"}}>
-                                            copyright Link
-                                        </Text>
-                                    }
-                                    >
-                                    <Space wrap>
-                                        {<div>
+                                        <>
+                                        <Space wrap>
+                                            <Tag>Price: {`${copyright.tokenPrice/1000000000000000000}`}</Tag>
                                             {this.state.isAuthor ? (
                                             <IsonSale
                                                 NFTID={copyright.tokenId}
@@ -159,10 +155,15 @@ export class Search extends React.Component {
                                                 NFTID={copyright.tokenId}
                                                 purchaseNFT={(tokenID) => this.props.buyCopyright(tokenID)}/>
                                                 )}
-                                        </div>}
-                                        <div>
-                                            <Tag>{`${copyright.tokenPrice/1000000000000000000}`}</Tag>
-                                        </div>
+                                            
+                                        </Space>
+                                        </>
+                                    }
+                                    >
+                                    <Space wrap>
+                                        <Text link={{ href: copyright.tokenURI, target:"_blank"}}>
+                                            {`${copyright.tokenURI}`}
+                                        </Text>
                                     </Space>
                                 </Card>
                             </div>
