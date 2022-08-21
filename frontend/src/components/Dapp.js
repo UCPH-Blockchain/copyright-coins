@@ -131,6 +131,16 @@ export class Dapp extends React.Component {
                                 searchNFT={(publicKey) =>
                                     this._searchAuthorsCopyright(publicKey)
                                 }
+                                buyCopyright ={(tokenId) =>
+                                    this._buyCopyright(tokenId)
+                                }
+                                setOnSaleState={(tokenId)=>
+                                    this._setCopyrightSaleState(tokenId) 
+                                }
+                                selectedAddress={this.state.selectedAddress
+                                }
+
+
                             />
                         }
                     </div>
@@ -142,7 +152,7 @@ export class Dapp extends React.Component {
 
     async _connectWallet() {
         const [selectedAddress] = await window.ethereum.request({ method: 'eth_requestAccounts' });
-        console.log("selectedAddress", selectedAddress);
+        // console.log("selectedAddress", selectedAddress);
         if (!this._checkNetwork()) {
             return;
         }
@@ -209,10 +219,13 @@ export class Dapp extends React.Component {
     //return copyright state after change
     async _setCopyrightSaleState(tokenId) {
         const sale_state = await this._token.isForSale(tokenId);
-        if (sale_state === 0) {
+        console.log("sale_state",sale_state);
+        if (sale_state == 0) {
+            console.log("sale_state after change",1);
             await this._token.setForSale(tokenId, 1);
             return 1;
         } else {
+            console.log("sale_state after change",0);
             await this._token.setForSale(tokenId, 0);
             return 0;
         }
@@ -261,7 +274,8 @@ export class Dapp extends React.Component {
         for (let i = 0; i < tokenIdAr.length; i++) {
             const tokenId = Number(tokenIdAr[i]);
             const tokenURI = await this._token.tokenURI(tokenId);
-            const nft_Ar = {tokenId, tokenURI};
+            const tokenPrice = await this._token.priceOf(tokenId);
+            const nft_Ar = {tokenId, tokenURI, tokenPrice};
             copyrightList.push(nft_Ar);
         }
         console.log(copyrightList);
@@ -271,6 +285,7 @@ export class Dapp extends React.Component {
     //buy copyright
     async _buyCopyright(tokenId) {
         const price = await this._token.priceOf(tokenId);
+        console.log("this._token.priceOf(tokenId)",price);
         const commission = price/ COMMISSION_PERCENTAGE;
         const totalPrice = (commission+price).toString();
         const options = { value: ethers.utils.parseEther(totalPrice) };

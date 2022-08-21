@@ -1,5 +1,7 @@
 import React from "react";
-import { Toast, Card, Typography, Space, Button } from "@douyinfe/semi-ui";
+import { Toast, Card, Typography, Space, Button, Tag, Text } from "@douyinfe/semi-ui";
+import { Purchase } from "./Purchase";
+import { IsonSale } from "./IsonSale";
 // import { Copyrights } from "./Copyrights";
 
 export class Search extends React.Component {
@@ -9,22 +11,7 @@ export class Search extends React.Component {
             publicKey: "",
             copyrightList: [],
             isAuthor: false,
-            isOnsale: false,
         };
-        this.OnSaleClick = this.OnSaleClick.bind(this);
-        this.NotOnSaleClick = this.NotOnSaleClick.bind(this);
-    }
-
-    OnSaleClick() {
-        this.setState({isOnsale: true});
-        console.log("set copyright is on sale");
-        console.log(this.isOnsale);
-    }
-    
-    NotOnSaleClick() {
-        this.setState({isOnsale: false});
-        console.log("set copyright is not on sale");
-        console.log(this.isOnsale);
     }
 
     render() {
@@ -83,14 +70,7 @@ export class Search extends React.Component {
         //     }
         // }
 
-        const isOnsale = this.state.isOnsale;
-        let isOnsaleButton;
-        if (isOnsale) {
-            isOnsaleButton = <Button onClick={this.OnSaleClick} />;
-        } else {
-            isOnsaleButton = <Button onClick={this.NotOnSaleClick} />;
-        }
-
+        let that = this;
 
         return (
             <div>
@@ -104,13 +84,21 @@ export class Search extends React.Component {
                         if (publicKey) {
                             this.props.searchNFT(publicKey).then(
                                 res => {
-                                    console.log("copyrightList:", res);
-                                    this.setState({
+                                    console.log("result List:", res);
+                                    that.setState({
                                         copyrightList: res
                                     })
                                     Toast.success(successToast);
                                 }
                             )
+                            console.log("selectedAddress:", this.props.selectedAddress);
+                            console.log("publicKey:", publicKey);
+                            if(that.props.selectedAddress == publicKey){
+                                that.setState({isAuthor: true});
+                                
+                            }else{
+                                console.log("not author");
+                            }
                         }
                     }}
                 >
@@ -146,26 +134,36 @@ export class Search extends React.Component {
                         //     </div>
                         // )
                         return (
-                            <div key={copyright.tokenID}>
+                            <div key={copyright.tokenId}>
                                 <Card
                                     title={"copyright ID: "+copyright.tokenId}
                                     style={{ maxWidth: 512 }}
                                     shadows='always'
                                     headerExtraContent={
-                                        <Text link={{ href: copyright.tokenURI}}>
-                                            copyright Link
-                                        </Text>
+                                        <>
+                                        <Space wrap>
+                                            <Tag>Price: {`${copyright.tokenPrice/1000000000000000000}`}</Tag>
+                                            {this.state.isAuthor ? (
+                                            <IsonSale
+                                                NFTID={copyright.tokenId}
+                                                setOnSaleState={(tokenID) => this.props.setOnSaleState(tokenID)}/>
+                                            ) : (
+                                            // <IsonSale
+                                            //     NFTID={copyright.tokenId}
+                                            //     setOnSaleState={(tokenID) => this.props.setOnSaleState(tokenID)}/>
+                                            <Purchase
+                                                NFTID={copyright.tokenId}
+                                                purchaseNFT={(tokenID) => this.props.buyCopyright(tokenID)}/>
+                                                )}
+                                            
+                                        </Space>
+                                        </>
                                     }
                                     >
                                     <Space wrap>
-                                        {<div>
-                                            {this.state.isAuthor ? (
-                                            <div className="btn-margin-right">
-                                            <Button>BUY</Button></div>
-                                            ) : (
-                                            <div className="btn-margin-right">
-                                            <Button>BUY2</Button></div>)}
-                                        </div>}
+                                        <Text link={{ href: copyright.tokenURI, target:"_blank"}}>
+                                            {`${copyright.tokenURI}`}
+                                        </Text>
                                     </Space>
                                 </Card>
                             </div>

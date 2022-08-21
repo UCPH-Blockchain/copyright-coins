@@ -1,30 +1,31 @@
 import React from "react";
 import { Toast, Button } from "@douyinfe/semi-ui";
 
-export class Purchase extends React.Component {
+export class IsonSale extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {onSale: false,};
     }
     render() {
-
+        console.log("this.props.NFTID",this.props.NFTID)
         const successToast = {
-            content: 'purchase Successfully',
+            content: 'set On Sale State Successfully',
             duration: 3,
         }
-
+        let that = this;
         return (
             <div>
-
                 <Button
                     onClick={() => {
-                        // const formData = new FormData(event.target);
-                        // const tokenID = formData.get("tokenID");
                         console.log("this.props.NFTID",this.props.NFTID)
 
                         if (this.props.NFTID) {
-                            this.props.purchaseNFT(this.props.NFTID).then(
+                            
+                            this.props.setOnSaleState(this.props.NFTID).then(
                                 res => {
-                                    console.log("purchase successful");
+                                    console.log("res",res);
+                                    console.log("set On Sale State Successfully");
+                                    that.setState({onSale: res});
                                     Toast.success(successToast);
                                 }
                             ).catch(err => {
@@ -36,9 +37,11 @@ export class Purchase extends React.Component {
                                 });
                             })
                         }
-                    }}>
-                    BUY</Button>
-
+                    }}
+                    theme='solid' type={this.state.onSale?'primary':'tertiary'} style={{ marginRight: 8 }}
+                    >
+                    {this.state.onSale? "ON SALE": "NOT ON SALE"} </Button>
+                    {/* type={this.state.onSale?'primary':'tertiary' */}
             </div>
         );
     }
