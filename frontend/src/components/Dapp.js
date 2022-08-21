@@ -136,7 +136,8 @@ export class Dapp extends React.Component {
                                 }
                                 setOnSaleState={(tokenId)=>
                                     this._setCopyrightSaleState(tokenId) 
-
+                                }
+                                selectedAddress={this.state.selectedAddress
                                 }
 
 

@@ -30,7 +30,7 @@ contract ACoin is ERC721URIStorage, Ownable {
     mapping(uint256 => string) private _tokenMD5s;
 
     // The max uint256 value of solidity
-    uint256 private constant MAX_INT = 2**256 - 1;
+    uint256 private constant MAX_INT = 0;
     uint256 private constant NUM_CCOIN_TO_WAIVE_COMMISSION = 100;
     uint256 private constant COMMISSION_PERCENTAGE = 1000;
 

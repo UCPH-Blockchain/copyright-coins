@@ -70,6 +70,8 @@ export class Search extends React.Component {
         //     }
         // }
 
+        let that = this;
+
         return (
             <div>
                 <div style={styles.mainTitle}><b>Search Copyright</b></div>
@@ -83,16 +85,19 @@ export class Search extends React.Component {
                             this.props.searchNFT(publicKey).then(
                                 res => {
                                     console.log("result List:", res);
-                                    this.setState({
+                                    that.setState({
                                         copyrightList: res
                                     })
                                     Toast.success(successToast);
                                 }
                             )
-                            if(this.props.selectedAddress == publicKey){
-                                this.setState({isAuthor: true});
-                                console.log("selectedAddress:", this.props.selectedAddress);
-                                console.log("publicKey:", publicKey);
+                            console.log("selectedAddress:", this.props.selectedAddress);
+                            console.log("publicKey:", publicKey);
+                            if(that.props.selectedAddress == publicKey){
+                                that.setState({isAuthor: true});
+                                
+                            }else{
+                                console.log("not author");
                             }
                         }
                     }}
@@ -147,16 +152,16 @@ export class Search extends React.Component {
                                                 NFTID={copyright.tokenId}
                                                 setOnSaleState={(tokenID) => this.props.setOnSaleState(tokenID)}/>
                                             ) : (
-                                            <IsonSale
-                                                NFTID={copyright.tokenId}
-                                                setOnSaleState={(tokenID) => this.props.setOnSaleState(tokenID)}/>
-                                            // <Purchase
+                                            // <IsonSale
                                             //     NFTID={copyright.tokenId}
-                                            //     purchaseNFT={(tokenID) => this.props.buyCopyright(tokenID)}/>
+                                            //     setOnSaleState={(tokenID) => this.props.setOnSaleState(tokenID)}/>
+                                            <Purchase
+                                                NFTID={copyright.tokenId}
+                                                purchaseNFT={(tokenID) => this.props.buyCopyright(tokenID)}/>
                                                 )}
                                         </div>}
                                         <div>
-                                            {/* <Tag>{`${copyright.tokenID}`}</Tag> */}
+                                            <Tag>{`${copyright.tokenPrice/1000000000000000000}`}</Tag>
                                         </div>
                                     </Space>
                                 </Card>
