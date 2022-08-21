@@ -19,7 +19,7 @@ const { BigNumber } = require("ethers");
 // `describe` receives the name of a section of your test suite, and a
 // callback. The callback must define the tests of that section. This callback
 // can't be an async function.
-describe("Token contract", function () {
+describe("CCoin contract", function () {
   // We define a fixture to reuse the same setup in every test. We use
   // loadFixture to run this setup once, snapshot that state, and reset Hardhat
   // Network to that snapshopt in every test.
@@ -58,12 +58,12 @@ describe("Token contract", function () {
   async function deployTokenFixture() {
     const TokenA = await ethers.getContractFactory("ACoin");
     const [accountOwner, addr1, addr2] = await ethers.getSigners();
-  
-      // To deploy our contract, we just have to call Token.deploy() and await
-      // its deployed() method, which happens onces its transaction has been
-      // mined.
+
+    // To deploy our contract, we just have to call Token.deploy() and await
+    // its deployed() method, which happens onces its transaction has been
+    // mined.
     const hardhatAToken = await TokenA.deploy();
-  
+
     await hardhatAToken.deployed();
 
     const TokenC = await ethers.getContractFactory("CCoin");
@@ -81,8 +81,8 @@ describe("Token contract", function () {
   describe("only ACoin can call CCoin", function () {
     it("MintFT in CCoin", async function () {
       const { hardhatCToken, accountOwner } = await loadFixture(
-            deployTokenFixture
-          );
+        deployTokenFixture
+      );
       await expect(
         hardhatCToken.mintFT(accountOwner.address)
       ).to.be.revertedWith("Only ACoin contract can call this CCoin function.");
@@ -90,35 +90,35 @@ describe("Token contract", function () {
 
     it("reduceBalance in CCoin", async function () {
       const { hardhatCToken, accountOwner } = await loadFixture(
-            deployTokenFixture
-          );
+        deployTokenFixture
+      );
       await expect(
         hardhatCToken.mintManyFT(accountOwner.address, 33)
       ).to.be.revertedWith("Only ACoin contract can call this CCoin function.");
-      });
+    });
 
-      it("mintManyFT in CCoin", async function () {
-        const { hardhatCToken, accountOwner } = await loadFixture(
-              deployTokenFixture
-            );
-        await expect(
-          hardhatCToken.reduceBalance(accountOwner.address, 33)
-        ).to.be.revertedWith("Only ACoin contract can call this CCoin function.");
-        });
+    it("mintManyFT in CCoin", async function () {
+      const { hardhatCToken, accountOwner } = await loadFixture(
+        deployTokenFixture
+      );
+      await expect(
+        hardhatCToken.reduceBalance(accountOwner.address, 33)
+      ).to.be.revertedWith("Only ACoin contract can call this CCoin function.");
+    });
 
-      it("mintTransferCCoin in CCoin", async function () {
-        const { hardhatCToken, accountOwner} = await loadFixture(
-               deployTokenFixture
-            );
-        await expect(
-           hardhatCToken.mintTransferCCoin(accountOwner.address, 33)
-        ).to.be.revertedWith("Only ACoin contract can call this CCoin function.");
-      });
+    it("mintTransferCCoin in CCoin", async function () {
+      const { hardhatCToken, accountOwner } = await loadFixture(
+        deployTokenFixture
+      );
+      await expect(
+        hardhatCToken.mintTransferCCoin(accountOwner.address, 33)
+      ).to.be.revertedWith("Only ACoin contract can call this CCoin function.");
+    });
   });
 
   describe("Transactions", function () {
     it("Should mint Ccoins through ACoin", async function () {
-      const { hardhatAToken} = await loadFixture(
+      const { hardhatAToken } = await loadFixture(
         deployTokenFixture
       );
       await hardhatAToken.cCoinMintFT();
@@ -126,35 +126,35 @@ describe("Token contract", function () {
     });
 
     it("Should mint many Ccoins through ACoin", async function () {
-        const { hardhatAToken} = await loadFixture(
-          deployTokenFixture
-        );
-        await hardhatAToken.cCoinMintManyFT(10);
-        expect(Number(await hardhatAToken.cCoinAmountOf())).to.equal(10);
-        expect(Number(await hardhatAToken.cCoinTotalBlanceOf())).to.equal(10);
+      const { hardhatAToken } = await loadFixture(
+        deployTokenFixture
+      );
+      await hardhatAToken.cCoinMintManyFT(10);
+      expect(Number(await hardhatAToken.cCoinAmountOf())).to.equal(10);
+      expect(Number(await hardhatAToken.cCoinTotalBlanceOf())).to.equal(10);
 
-        await hardhatAToken.cCoinMintManyFT(1001);
-        expect(Number(await hardhatAToken.cCoinAmountOf())).to.equal(1011);
-        expect(Number(await hardhatAToken.cCoinTotalBlanceOf())).to.equal(1000);
-      });
+      await hardhatAToken.cCoinMintManyFT(1001);
+      expect(Number(await hardhatAToken.cCoinAmountOf())).to.equal(1011);
+      expect(Number(await hardhatAToken.cCoinTotalBlanceOf())).to.equal(1000);
+    });
 
-    
+
 
     it("Should reduce CCoins through ACoins", async function () {
-        const { hardhatAToken } = await loadFixture(
-          deployTokenFixture
-        );
+      const { hardhatAToken } = await loadFixture(
+        deployTokenFixture
+      );
 
-        await hardhatAToken.cCoinMintManyFT(100);
-        expect(Number(await hardhatAToken.cCoinTotalBlanceOf())).to.equal(100);
+      await hardhatAToken.cCoinMintManyFT(100);
+      expect(Number(await hardhatAToken.cCoinTotalBlanceOf())).to.equal(100);
 
-        await hardhatAToken.cCoinReduceBalance(10);
-        expect(Number(await hardhatAToken.cCoinTotalBlanceOf())).to.equal(90);
+      await hardhatAToken.cCoinReduceBalance(10);
+      expect(Number(await hardhatAToken.cCoinTotalBlanceOf())).to.equal(90);
 
-        await expect(
-            hardhatAToken.cCoinReduceBalance(100)
-         ).to.be.revertedWith("ERC20: burn amount exceeds balance");
-      });
+      await expect(
+        hardhatAToken.cCoinReduceBalance(100)
+      ).to.be.revertedWith("ERC20: burn amount exceeds balance");
+    });
 
   });
 });

@@ -2,7 +2,7 @@ const { expect } = require("chai");
 const { loadFixture } = require("@nomicfoundation/hardhat-network-helpers");
 const { BigNumber } = require("ethers");
 
-describe("Token contract", function () {
+describe("ACoin contract", function () {
     async function deployTokenFixture() {
         // Get the ContractFactory and Signers here.
         const ACoin = await ethers.getContractFactory("ACoin");
@@ -194,7 +194,7 @@ describe("Token contract", function () {
 
             //refund successfully
             const finalBalance = await addr1.getBalance();
-            expect(BigNumber.from(initialBalance).sub(BigNumber.from(finalBalance))).to.most(ethers.utils.parseEther("1.00101"));
+            expect(BigNumber.from(initialBalance).sub(BigNumber.from(finalBalance))).to.most(ethers.utils.parseEther("1.002"));
         })
 
         it("Should purchase an ACoin when Ccoin can waive commission fee", async function () {
@@ -218,7 +218,7 @@ describe("Token contract", function () {
 
             //refund successfully
             const finalBalance = await addr1.getBalance();
-            expect(BigNumber.from(initialBalance).sub(BigNumber.from(finalBalance))).to.most(ethers.utils.parseEther("1.0001"));
+            expect(BigNumber.from(initialBalance).sub(BigNumber.from(finalBalance))).to.most(ethers.utils.parseEther("1.001"));
 
             // //waive commission fee successfully
             expect(await hardhatACoin.connect(addr1).cCoinBalanceOf()).to.equal(24);
