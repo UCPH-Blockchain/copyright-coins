@@ -64,6 +64,16 @@ npm start
 ```
 启动页面。
 
+## test 
+在deploy之后，运行以下命令
+'''
+npx hardhat test
+'''
+或者，通过以下命令运行单个文件
+'''
+npx hardhat test --network localhost test/c-coin.js
+'''
+
 ## TODO
 
 ### Solidity

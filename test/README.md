@@ -1,1 +1,0 @@
-# npx hardhat test --network localhost test/c-coin.js
