@@ -39,7 +39,7 @@ export class IsonSale extends React.Component {
                     }}
                     // theme='solid' type='primary' style={{ marginRight: 8 }}
                     >
-                    BUY</Button>
+                    ON SALE</Button>
                     {/* type={this.state.onSale?'primary':'tertiary' */}
             </div>
         );

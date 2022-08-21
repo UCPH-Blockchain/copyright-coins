@@ -1,6 +1,7 @@
 import React from "react";
 import { Toast, Card, Typography, Space, Button, Tag, Text } from "@douyinfe/semi-ui";
 import { Purchase } from "./Purchase";
+import { IsonSale } from "./IsonSale";
 // import { Copyrights } from "./Copyrights";
 
 export class Search extends React.Component {
