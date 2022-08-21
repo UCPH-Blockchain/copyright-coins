@@ -76,10 +76,6 @@ describe("Token contract", function () {
             const tokenId_2 = await hardhatACoin.connect(addr2).getNFTs();
             //transfer succesfully
             expect(tokenId_2.length).to.equal(1);
-
-            //refund successfully
-            // expect(hardhatACoin.balanceOf(owner.address)).to.most(1);
-
         });
 
         it("should emit Transfer events", async function () {
@@ -186,15 +182,19 @@ describe("Token contract", function () {
             await hardhatACoin.setPrice(tokenId_[0], 1);
             // expect(await hardhatACoin.priceOf(tokenId_[0])).to.equal(1);
             await hardhatACoin.setForSale(tokenId_[0], true);
+            const initialBalance = await addr1.getBalance();
 
+            //buyer paid more than required
             const options = { value: ethers.utils.parseEther("3.001"), gasLimit: 1 * 10 ** 6 }
             await hardhatACoin.connect(addr1).purchase(tokenId_[0], options);
             const tokenId_1 = await hardhatACoin.connect(addr1).getNFTs();
+
             //purchase succesfully
             expect(tokenId_1.length).to.equal(1);
 
             //refund successfully
-            expect(await hardhatACoin.balanceOf(addr1.address)).to.equal(2);
+            const finalBalance = await addr1.getBalance();
+            expect(BigNumber.from(initialBalance).sub(BigNumber.from(finalBalance))).to.most(ethers.utils.parseEther("1.00101"));
         })
 
         it("Should purchase an ACoin when Ccoin can waive commission fee", async function () {
@@ -203,141 +203,174 @@ describe("Token contract", function () {
             );
             const tokenId = await hardhatACoin.mintNFTAnyone("This is a ACoin");
             const tokenId_ = await hardhatACoin.getNFTs();
-            await hardhatACoin.setPrice(tokenId_[0], 100);
+            await hardhatACoin.setPrice(tokenId_[0], 1);
             await hardhatACoin.setForSale(tokenId_[0], true);
 
             //addr1 mint more than 100 Ccoin that can waive commission fee
             await hardhatACoin.connect(addr1).cCoinMintManyFT(123);
             const initialBalance = await addr1.getBalance();
-            // expect(await addr1.getBalance()).to.equal(ethers.utils.parseEther("0.1"));
 
-            const options = { value: ethers.utils.parseEther("100.1"), gasLimit: 1 * 10 ** 6 }
+            const options = { value: ethers.utils.parseEther("1.001"), gasLimit: 1 * 10 ** 6 }
             await hardhatACoin.connect(addr1).purchase(tokenId_[0], options);
             const tokenId_1 = await hardhatACoin.connect(addr1).getNFTs();
             //purchase succesfully
-            // expect(tokenId_1.length).to.equal(1);
+            expect(tokenId_1.length).to.equal(1);
 
             //refund successfully
-            // expect(await addr1.getBalance()).to.equal(initialBalance_);
-            const finalBalance = await addr1.getBalance()
-            expect(initialBalance - finalBalance).to.least(ethers.utils.parseEther("0.1"));
+            const finalBalance = await addr1.getBalance();
+            expect(BigNumber.from(initialBalance).sub(BigNumber.from(finalBalance))).to.most(ethers.utils.parseEther("1.0001"));
 
             // //waive commission fee successfully
-            // expect(await hardhatACoin.connect(addr1).cCoinBalanceOf()).to.equal(23);
+            expect(await hardhatACoin.connect(addr1).cCoinBalanceOf()).to.equal(24);
         })
 
-        // it("Should purchase an ACoin when Ccoin cannot waive commission fee", async function () {
-        //     const { hardhatACoin, owner, addr1 } = await loadFixture(
-        //         deployTokenFixture
-        //     );
-        //     const tokenId = await hardhatACoin.mintNFTAnyone("This is a ACoin");
-        //     const tokenId_ = await hardhatACoin.getNFTs();
-        //     //mint succesfully
-        //     expect(tokenId_.length).to.equal(1);
-        //     await hardhatACoin.setPrice(tokenId_[0], 1);
-        //     // expect(await hardhatACoin.priceOf(tokenId_[0])).to.equal(1);
-        //     await hardhatACoin.setForSale(tokenId_[0], true);
-        //     //addr1 mint more than 100 Ccoin that can waive commission fee
-        //     await hardhatACoin.connect(addr1).cCoinMintManyFT(12);
-        //     const options = { value: ethers.utils.parseEther("1.001"), gasLimit: 1 * 10 ** 6 }
-        //     await hardhatACoin.connect(addr1).purchase(tokenId_[0], options);
-        //     const tokenId_1 = await hardhatACoin.connect(addr1).getNFTs();
-        //     //purchase succesfully
-        //     expect(tokenId_1.length).to.equal(1);
+        it("Should purchase an ACoin when Ccoin cannot waive commission fee", async function () {
+            const { hardhatACoin, owner, addr1 } = await loadFixture(
+                deployTokenFixture
+            );
+            const tokenId = await hardhatACoin.mintNFTAnyone("This is a ACoin");
+            const tokenId_ = await hardhatACoin.getNFTs();
+            //mint succesfully
+            expect(tokenId_.length).to.equal(1);
+            await hardhatACoin.setPrice(tokenId_[0], 1);
+            // expect(await hardhatACoin.priceOf(tokenId_[0])).to.equal(1);
+            await hardhatACoin.setForSale(tokenId_[0], true);
+            //addr1 mint more than 100 Ccoin that can waive commission fee
+            await hardhatACoin.connect(addr1).cCoinMintManyFT(12);
+            const options = { value: ethers.utils.parseEther("1.001"), gasLimit: 1 * 10 ** 6 }
+            await hardhatACoin.connect(addr1).purchase(tokenId_[0], options);
+            const tokenId_1 = await hardhatACoin.connect(addr1).getNFTs();
+            //purchase succesfully
+            expect(tokenId_1.length).to.equal(1);
 
-        //     //refund successfully
-        //     expect(await hardhatACoin.connect(addr1).cCoinBalanceOf()).to.equal(13);
-        // })
+            //refund successfully
+            expect(await hardhatACoin.connect(addr1).cCoinBalanceOf()).to.equal(13);
+        })
 
-        // it("Should not purchase an ACoin when it cannot be sold", async function () {
-        //     const { hardhatACoin, owner, addr1 } = await loadFixture(
-        //         deployTokenFixture
-        //     );
-        //     const tokenId = await hardhatACoin.mintNFTAnyone("This is a ACoin");
-        //     const tokenId_ = await hardhatACoin.getNFTs();
-        //     //mint succesfully
-        //     expect(tokenId_.length).to.equal(1);
-        //     await hardhatACoin.setPrice(tokenId_[0], 1);
-        //     // expect(await hardhatACoin.priceOf(tokenId_[0])).to.equal(1);
-        //     await hardhatACoin.setForSale(tokenId_[0], false);
+        it("Should not purchase an ACoin when it cannot be sold", async function () {
+            const { hardhatACoin, owner, addr1 } = await loadFixture(
+                deployTokenFixture
+            );
+            const tokenId = await hardhatACoin.mintNFTAnyone("This is a ACoin");
+            const tokenId_ = await hardhatACoin.getNFTs();
+            //mint succesfully
+            expect(tokenId_.length).to.equal(1);
+            await hardhatACoin.setPrice(tokenId_[0], 1);
+            // expect(await hardhatACoin.priceOf(tokenId_[0])).to.equal(1);
+            await hardhatACoin.setForSale(tokenId_[0], false);
 
-        //     const options = { value: ethers.utils.parseEther("1.001"), gasLimit: 1 * 10 ** 6 }
-        //     await expect(hardhatACoin.connect(addr1).purchase(tokenId_[0], options))
-        //         .to.be.revertedWith("This token is not for sale");
-        // })
+            const options = { value: ethers.utils.parseEther("1.001"), gasLimit: 1 * 10 ** 6 }
+            await expect(hardhatACoin.connect(addr1).purchase(tokenId_[0], options))
+                .to.be.revertedWith("This token is not for sale");
+        })
 
-        // it("Should not purchase your own ACoin", async function () {
-        //     const { hardhatACoin, owner, addr1 } = await loadFixture(
-        //         deployTokenFixture
-        //     );
-        //     const tokenId = await hardhatACoin.mintNFTAnyone("This is a ACoin");
-        //     const tokenId_ = await hardhatACoin.getNFTs();
-        //     //mint succesfully
-        //     expect(tokenId_.length).to.equal(1);
-        //     await hardhatACoin.setPrice(tokenId_[0], 1);
-        //     // expect(await hardhatACoin.priceOf(tokenId_[0])).to.equal(1);
-        //     await hardhatACoin.setForSale(tokenId_[0], true);
+        it("Should not purchase your own ACoin", async function () {
+            const { hardhatACoin, owner, addr1 } = await loadFixture(
+                deployTokenFixture
+            );
+            const tokenId = await hardhatACoin.mintNFTAnyone("This is a ACoin");
+            const tokenId_ = await hardhatACoin.getNFTs();
+            //mint succesfully
+            expect(tokenId_.length).to.equal(1);
+            await hardhatACoin.setPrice(tokenId_[0], 1);
+            // expect(await hardhatACoin.priceOf(tokenId_[0])).to.equal(1);
+            await hardhatACoin.setForSale(tokenId_[0], true);
 
-        //     const options = { value: ethers.utils.parseEther("1.001"), gasLimit: 1 * 10 ** 6 }
-        //     await expect(hardhatACoin.purchase(tokenId_[0], options))
-        //         .to.be.revertedWith("You can't purchase your own token");
-        // });
+            const options = { value: ethers.utils.parseEther("1.001"), gasLimit: 1 * 10 ** 6 }
+            await expect(hardhatACoin.purchase(tokenId_[0], options))
+                .to.be.revertedWith("You can't purchase your own token");
+        });
 
-        // it("Should not purchase when buyer doesn't have enough ether to pay", async function () {
-        //     const { hardhatACoin, owner, addr1 } = await loadFixture(
-        //         deployTokenFixture
-        //     );
-        //     const tokenId = await hardhatACoin.mintNFTAnyone("This is a ACoin");
-        //     const tokenId_ = await hardhatACoin.getNFTs();
-        //     //mint succesfully
-        //     expect(tokenId_.length).to.equal(1);
-        //     await hardhatACoin.setPrice(tokenId_[0], 100);
-        //     // expect(await hardhatACoin.priceOf(tokenId_[0])).to.equal(1);
-        //     await hardhatACoin.setForSale(tokenId_[0], true);
+        it("Should not purchase when buyer doesn't have enough ether to pay", async function () {
+            const { hardhatACoin, owner, addr1 } = await loadFixture(
+                deployTokenFixture
+            );
+            const tokenId = await hardhatACoin.mintNFTAnyone("This is a ACoin");
+            const tokenId_ = await hardhatACoin.getNFTs();
+            //mint succesfully
+            expect(tokenId_.length).to.equal(1);
+            await hardhatACoin.setPrice(tokenId_[0], 100);
+            // expect(await hardhatACoin.priceOf(tokenId_[0])).to.equal(1);
+            await hardhatACoin.setForSale(tokenId_[0], true);
 
-        //     const options = { value: ethers.utils.parseEther("1"), gasLimit: 1 * 10 ** 6 }
-        //     await expect(hardhatACoin.connect(addr1).purchase(tokenId_[0], options))
-        //         .to.be.revertedWith("You do not have enough ether to pay");
-        // });
+            const options = { value: ethers.utils.parseEther("1"), gasLimit: 1 * 10 ** 6 }
+            await expect(hardhatACoin.connect(addr1).purchase(tokenId_[0], options))
+                .to.be.revertedWith("You do not have enough ether to pay");
+        });
     });
 
-    //     describe("Bonus", function () {
+    describe("Bonus", function () {
+        var initialBalance_0
+        var initialBalance_1;
+        var initialBalance_2;
+        var initialBalance_3;
+        var initialBalance_4;
+        var finalBalance_0;
+        var finalBalance_1;
+        var finalBalance_2;
+        var finalBalance_3;
+        var finalBalance_4;
+        it("Should finish several purchas processes", async function () {
+            const { hardhatACoin, owner, addr1, addr2, addr3, addr4 } = await loadFixture(
+                deployTokenFixture
+            );
+            const tokenIdOwner = await hardhatACoin.mintNFTAnyone("This is a ACoin1");
+            const tokenId1 = await hardhatACoin.connect(addr1).mintNFTAnyone("This is a ACoin2");
+            const tokenId2 = await hardhatACoin.connect(addr2).mintNFTAnyone("This is a ACoin3");
+            const tokenId3 = await hardhatACoin.connect(addr3).mintNFTAnyone("This is a ACoin4");
+            const tokenId4 = await hardhatACoin.connect(addr4).mintNFTAnyone("This is a ACoin5");
+            const tokenId_Owner = await hardhatACoin.getNFTs();
+            const tokenId_1 = await hardhatACoin.connect(addr1).getNFTs();
+            const tokenId_2 = await hardhatACoin.connect(addr2).getNFTs();
+            const tokenId_3 = await hardhatACoin.connect(addr3).getNFTs();
+            const tokenId_4 = await hardhatACoin.connect(addr4).getNFTs();
+            const options = { value: ethers.utils.parseEther("1.001"), gasLimit: 1 * 10 ** 6 }
 
-    //         it("Should get bounus", async function () {
-    //             const { hardhatACoin, owner, addr1, addr2, addr3, addr4 } = await loadFixture(
-    //                 deployTokenFixture
-    //             );
-    //             const tokenIdOwner = await hardhatACoin.mintNFTAnyone("This is a ACoin1");
-    //             const tokenId1 = await hardhatACoin.connect(addr1).mintNFTAnyone("This is a ACoin2");
-    //             const tokenId2 = await hardhatACoin.connect(addr2).mintNFTAnyone("This is a ACoin3");
-    //             const tokenId3 = await hardhatACoin.connect(addr3).mintNFTAnyone("This is a ACoin4");
-    //             const tokenId4 = await hardhatACoin.connect(addr4).mintNFTAnyone("This is a ACoin5");
-    //             const tokenId_Owner = await hardhatACoin.getNFTs();
-    //             const tokenId_1 = await hardhatACoin.connect(addr1).getNFTs();
-    //             const tokenId_2 = await hardhatACoin.connect(addr2).getNFTs();
-    //             const tokenId_3 = await hardhatACoin.connect(addr3).getNFTs();
-    //             const tokenId_4 = await hardhatACoin.connect(addr4).getNFTs();
-    //             const options = { value: ethers.utils.parseEther("1.001"), gasLimit: 1 * 10 ** 6 }
+            await hardhatACoin.setPrice(tokenId_Owner[0], 1);
+            await hardhatACoin.setForSale(tokenId_Owner[0], true);
 
-    //             await hardhatACoin.setPrice(tokenId_Owner[0], 1);
-    //             await hardhatACoin.setForSale(tokenId_Owner[0], true);
+            await hardhatACoin.connect(addr1).setPrice(tokenId_1[0], 1);
+            await hardhatACoin.connect(addr1).setForSale(tokenId_1[0], true);
 
-    //             await hardhatACoin.connect(addr1).setPrice(tokenId_1[0], 1);
-    //             await hardhatACoin.connect(addr1).setForSale(tokenId_1[0], true);
+            await hardhatACoin.connect(addr2).setPrice(tokenId_2[0], 1);
+            await hardhatACoin.connect(addr2).setForSale(tokenId_2[0], true);
 
-    //             await hardhatACoin.connect(addr2).setPrice(tokenId_2[0], 1);
-    //             await hardhatACoin.connect(addr2).setForSale(tokenId_2[0], true);
+            await hardhatACoin.connect(addr3).setPrice(tokenId_3[0], 1);
+            await hardhatACoin.connect(addr3).setForSale(tokenId_3[0], true);
 
-    //             await hardhatACoin.connect(addr3).setPrice(tokenId_3[0], 1);
-    //             await hardhatACoin.connect(addr3).setForSale(tokenId_3[0], true);
+            await hardhatACoin.connect(addr4).setPrice(tokenId_4[0], 1);
+            await hardhatACoin.connect(addr4).setForSale(tokenId_4[0], true);
 
-    //             await hardhatACoin.connect(addr4).setPrice(tokenId_4[0], 1);
-    //             await hardhatACoin.connect(addr4).setForSale(tokenId_4[0], true);
+            initialBalance_0 = await owner.getBalance();
+            initialBalance_1 = await addr1.getBalance();
+            initialBalance_2 = await addr2.getBalance();
+            initialBalance_3 = await addr3.getBalance();
+            initialBalance_4 = await addr4.getBalance();
 
-    //             await hardhatACoin.connect(addr1).purchase(tokenId_Owner[0], options)
-    //             await hardhatACoin.connect(addr2).purchase(tokenId_3[0], options)
-    //             await hardhatACoin.connect(addr4).purchase(tokenId_2[0], options)
+            setTimeout(function () {
+                console.log('waiting over.');
+                done();
+            }, 3000)
 
-    //         })
-    //     })
+            await hardhatACoin.connect(addr1).purchase(tokenId_Owner[0], options)
+            await hardhatACoin.connect(addr2).purchase(tokenId_3[0], options)
+            await hardhatACoin.connect(addr4).purchase(tokenId_2[0], options)
+
+            finalBalance_0 = await owner.getBalance();
+            finalBalance_1 = await addr1.getBalance();
+            finalBalance_2 = await addr2.getBalance();
+            finalBalance_3 = await addr3.getBalance();
+            finalBalance_4 = await addr4.getBalance();
+
+        })
+
+        it("Should bonus after 3 seconds", async function () {
+            setTimeout(function () {
+                console.log('waiting over.');
+                done();
+            }, 3000);
+            expect(BigNumber.from(finalBalance_0).sub(BigNumber.from(initialBalance_0))).to.least(ethers.utils.parseEther("1.0003"));
+        })
+
+    })
 })
