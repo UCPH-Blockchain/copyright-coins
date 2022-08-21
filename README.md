@@ -51,33 +51,35 @@ Any funds sent to them on Mainnet or any other live network WILL BE LOST.
 
 ## 前端
 先进入到frontend目录下
-'''
+```
 cd frontend
-'''
-
-之后用 "npm install" 安装依赖
-
-启动页面
-'''
+```
+之后用
+```
+npm install
+```
+安装依赖，再用
+```
 npm start
-'''
+```
+启动页面。
 
 ## TODO
 
 ### Solidity
 #### NFT（也就是ACoin）
-- [ ] mint和transfer等基本功能实现
+- [x] mint和transfer等基本功能实现
 
 #### FT（也就是CCoin）
-- [ ] mint和transfer等基本功能实现
+- [x] mint和transfer等基本功能实现
 
 #### 测试
-- [ ] 参照[Testing contracts](https://hardhat.org/hardhat-runner/docs/guides/test-contracts)编写测试
+- [x] 参照[Testing contracts](https://hardhat.org/hardhat-runner/docs/guides/test-contracts)编写测试
 
 ### 前后端
 #### 后端
-- [ ] 与智能合约交互的函数
-- [ ] 为前端提供API
+- [x] 与智能合约交互的函数
+- [x] 为前端提供API
 
 #### 前端
 - [ ] 调用后端API，与智能合约交互

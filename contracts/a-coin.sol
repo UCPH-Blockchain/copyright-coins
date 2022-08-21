@@ -148,10 +148,18 @@ contract ACoin is ERC721URIStorage, Ownable {
             console.log("extraFund: ", extraFund);
             console.log("balance of contract: ", address(this).balance);
             // payable(recipient).transfer(extraFund);
-            (bool sent, bytes memory data) = payable(recipient).call{value: extraFund}("");
-            require(sent, "In _refund(), Failed to send Ether. The contract may not have enough balance");
+            (bool sent, bytes memory data) = payable(recipient).call{
+                value: extraFund
+            }("");
+            require(
+                sent,
+                "In _refund(), Failed to send Ether. The contract may not have enough balance"
+            );
         }
-        console.log("balance of contract after refund: ", address(this).balance);
+        console.log(
+            "balance of contract after refund: ",
+            address(this).balance
+        );
         return waiveCommission;
     }
 
@@ -191,11 +199,11 @@ contract ACoin is ERC721URIStorage, Ownable {
 
         uint commission = getCommission(_prices[tokenId]);
         uint paid = msg.value;
-        require(
-            paid >= commission,
-            "You do not have enough ether to pay"
+        require(paid >= commission, "You do not have enough ether to pay");
+        console.log(
+            "In transfer(), the balance of contract is: ",
+            address(this).balance
         );
-        console.log("In transfer(), the balance of contract is: ", address(this).balance);
         _transferNFT(_msgSender(), recipient, tokenId);
         return _refund(recipient, 0, commission, paid);
     }
@@ -205,6 +213,12 @@ contract ACoin is ERC721URIStorage, Ownable {
     }
 
     function purchase(uint256 tokenId) public payable returns (bool) {
+        
+        console.log(
+            "In purchase(), the balance of contract is: ",
+            address(this).balance
+        );
+
         _requireMinted(tokenId);
         require(_forSale[tokenId], "This token is not for sale");
         address buyer = _msgSender();
@@ -212,23 +226,44 @@ contract ACoin is ERC721URIStorage, Ownable {
 
         uint commission = getCommission(_prices[tokenId]);
         uint paid = msg.value;
+        console.log("paid in purchase: ", paid);
         require(
             paid >= _prices[tokenId] + commission,
             "You do not have enough ether to pay"
         );
         address saler = ownerOf(tokenId);
-
+        console.log(
+            "In purchase(), the balance of contract is: ",
+            address(this).balance
+        );
         // Transfer the ETH to the original NFT owner
         // payable(saler).transfer(_prices[tokenId]);
-        (bool sent, bytes memory data) = payable(saler).call{value: _prices[tokenId]}("");
-        require(sent, "In purchase(): Failed to send Ether. The contract may not have enough balance");
+        (bool sent, bytes memory data) = payable(saler).call{
+            value: _prices[tokenId]
+        }("");
+        console.log(
+            "In purchase(), the balance of contract is: ",
+            address(this).balance
+        );
+        require(
+            sent,
+            "In purchase(): Failed to send Ether. The contract may not have enough balance"
+        );
         // Transfer the NFT ownership to the buyer
         _transferNFT(saler, buyer, tokenId);
         // The buyer will get a CCoin as bonus
         cCoin.mintFT(buyer);
+        console.log(
+            "In purchase(), the balance of contract is: ",
+            address(this).balance
+        );
+        bool waiveCommission = _refund(buyer, _prices[tokenId], commission, paid);
+        console.log(
+            "In purchase(), the balance of contract is: ",
+            address(this).balance
+        );
         _giveBonus(saler);
-
-        return _refund(buyer, _prices[tokenId], commission, paid);
+        return waiveCommission;
     }
 
     function _giveBonus(address user) private {
@@ -246,8 +281,13 @@ contract ACoin is ERC721URIStorage, Ownable {
             );
             for (uint i = 0; i < addressToBeGivenBonus.length; i++) {
                 // payable(addressToBeGivenBonus[i]).transfer(bonus);
-                (bool sent, bytes memory data) = payable(addressToBeGivenBonus[i]).call{value: bonus}("");
-                require(sent, "In _giveBonus(), Failed to send Ether. The contract may not have enough balance");
+                (bool sent, bytes memory data) = payable(
+                    addressToBeGivenBonus[i]
+                ).call{value: bonus}("");
+                require(
+                    sent,
+                    "In _giveBonus(), Failed to send Ether. The contract may not have enough balance"
+                );
                 _numSales[addressToBeGivenBonus[i]] = 0;
             }
             delete addressToBeGivenBonus;
