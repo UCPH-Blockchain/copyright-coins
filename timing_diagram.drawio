@@ -1,0 +1,435 @@
+<mxfile host="65bd71144e">
+    <diagram id="SziA-ImBaRz1ztO4Bhjf" name="Page-1">
+        <mxGraphModel dx="954" dy="725" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="3" value="user" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;lifelineDashed=0;" vertex="1" parent="1">
+                    <mxGeometry x="90" y="40" width="100" height="1060" as="geometry"/>
+                </mxCell>
+                <mxCell id="42" value="&lt;span style=&quot;font-size: 12px&quot;&gt;request&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;font-size: 12px&quot;&gt;transfer copyright&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;font-size: 12px&quot;&gt;to others,&lt;br&gt;&lt;/span&gt;ID of copyright,&amp;nbsp;&lt;span style=&quot;font-size: 12px&quot;&gt;public key of receipient&lt;br&gt;&lt;/span&gt;" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=open;endFill=0;" edge="1" parent="3">
+                    <mxGeometry x="0.0169" width="160" relative="1" as="geometry">
+                        <mxPoint x="50" y="430" as="sourcePoint"/>
+                        <mxPoint x="286" y="430" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="141" y="430"/>
+                        </Array>
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="49" value="&lt;span style=&quot;font-size: 12px&quot;&gt;request&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;font-size: 12px&quot;&gt;search copyrights&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;font-size: 12px&quot;&gt;by author&lt;/span&gt;&lt;span style=&quot;font-size: 12px&quot;&gt;,&lt;br&gt;&lt;/span&gt;&lt;span style=&quot;font-size: 12px&quot;&gt;public key of author&lt;br&gt;&lt;/span&gt;" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=open;endFill=0;" edge="1" parent="3">
+                    <mxGeometry x="0.0169" width="160" relative="1" as="geometry">
+                        <mxPoint x="49" y="520" as="sourcePoint"/>
+                        <mxPoint x="285" y="520" as="targetPoint"/>
+                        <Array as="points"/>
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="77" value="" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=block;endFill=1;dashed=1;" edge="1" parent="3">
+                    <mxGeometry width="160" relative="1" as="geometry">
+                        <mxPoint x="285" y="1000" as="sourcePoint"/>
+                        <mxPoint x="50" y="1000" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="140" y="1000"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="78" value="&lt;span style=&quot;font-size: 12px&quot;&gt;buy&lt;/span&gt; successfully&amp;nbsp;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="77">
+                    <mxGeometry x="0.0043" y="1" relative="1" as="geometry">
+                        <mxPoint x="2" y="-1" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="7" value="blockchain" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;" vertex="1" parent="1">
+                    <mxGeometry x="580" y="40" width="100" height="1040" as="geometry"/>
+                </mxCell>
+                <mxCell id="8" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;fillColor=#808080;" vertex="1" parent="7">
+                    <mxGeometry x="45" y="90" width="10" height="950" as="geometry"/>
+                </mxCell>
+                <mxCell id="29" value="" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=block;endFill=1;dashed=1;" edge="1" parent="7">
+                    <mxGeometry width="160" relative="1" as="geometry">
+                        <mxPoint x="45" y="290" as="sourcePoint"/>
+                        <mxPoint x="-190" y="290" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="-100" y="290"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="30" value="set successfully" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="29">
+                    <mxGeometry x="0.0043" y="1" relative="1" as="geometry">
+                        <mxPoint x="2" y="-1" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="44" value="&lt;span style=&quot;font-size: 12px&quot;&gt;transfer copyright&lt;/span&gt;&lt;span style=&quot;font-size: 12px&quot;&gt;&lt;br&gt;&lt;/span&gt;" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=open;endFill=0;" edge="1" parent="7">
+                    <mxGeometry x="0.0169" width="160" relative="1" as="geometry">
+                        <mxPoint x="-191" y="430" as="sourcePoint"/>
+                        <mxPoint x="45" y="430" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="-100" y="430"/>
+                        </Array>
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="52" value="" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=block;endFill=1;dashed=1;" edge="1" parent="7">
+                    <mxGeometry width="160" relative="1" as="geometry">
+                        <mxPoint x="45" y="550" as="sourcePoint"/>
+                        <mxPoint x="-190" y="550" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="-100" y="550"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="53" value="&lt;span style=&quot;font-size: 12px&quot;&gt;search&lt;/span&gt;&amp;nbsp;successful, &lt;br&gt;return token ID, URL,&lt;br&gt;&amp;nbsp;price, sale state of copyright&amp;nbsp;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="52">
+                    <mxGeometry x="0.0043" y="1" relative="1" as="geometry">
+                        <mxPoint x="2" y="-1" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="57" value="&lt;span style=&quot;font-size: 12px&quot;&gt;verify if the copyright&amp;nbsp;&lt;/span&gt;&lt;br style=&quot;font-size: 12px&quot;&gt;&lt;span style=&quot;font-size: 12px&quot;&gt;belongs to the author&lt;/span&gt;&lt;span style=&quot;font-size: 12px&quot;&gt;&lt;br&gt;&lt;/span&gt;" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=open;endFill=0;" edge="1" parent="7">
+                    <mxGeometry x="0.0254" width="160" relative="1" as="geometry">
+                        <mxPoint x="-190" y="650" as="sourcePoint"/>
+                        <mxPoint x="46" y="650" as="targetPoint"/>
+                        <Array as="points"/>
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="65" value="&lt;div style=&quot;text-align: left&quot;&gt;&lt;span style=&quot;font-size: 12px&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;/div&gt;&lt;span style=&quot;font-size: 12px&quot;&gt;&amp;nbsp;&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;font-size: 12px&quot;&gt;&lt;br&gt;&lt;/span&gt;" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=open;endFill=0;" edge="1" parent="7">
+                    <mxGeometry x="0.2797" y="-80" width="160" relative="1" as="geometry">
+                        <mxPoint x="-191" y="760" as="sourcePoint"/>
+                        <mxPoint x="45" y="760" as="targetPoint"/>
+                        <Array as="points"/>
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="81" value="&lt;span style=&quot;font-size: 12px ; text-align: left ; font-family: &amp;#34;helvetica&amp;#34;&quot;&gt;check if the user get a&lt;/span&gt;&lt;br style=&quot;font-size: 12px ; text-align: left ; font-family: &amp;#34;helvetica&amp;#34;&quot;&gt;&lt;span style=&quot;font-size: 12px ; text-align: left ; font-family: &amp;#34;helvetica&amp;#34;&quot;&gt;commission fee waiver &lt;br&gt;during this purchase&lt;/span&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="65">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="75" value="" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=block;endFill=1;dashed=1;" edge="1" parent="7">
+                    <mxGeometry width="160" relative="1" as="geometry">
+                        <mxPoint x="45" y="1000" as="sourcePoint"/>
+                        <mxPoint x="-190" y="1000" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="-100" y="1000"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="76" value="&lt;span style=&quot;font-size: 12px&quot;&gt;buy&lt;/span&gt; successfully&amp;nbsp;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="75">
+                    <mxGeometry x="0.0043" y="1" relative="1" as="geometry">
+                        <mxPoint x="2" y="-1" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="9" value="frontend" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;" vertex="1" parent="1">
+                    <mxGeometry x="330" y="40" width="100" height="1060" as="geometry"/>
+                </mxCell>
+                <mxCell id="10" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;" vertex="1" parent="9">
+                    <mxGeometry x="45" y="90" width="15" height="970" as="geometry"/>
+                </mxCell>
+                <mxCell id="15" value="connect to matamask,&lt;br&gt;get user's public key" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=open;endFill=0;exitX=0.933;exitY=0.025;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="9" source="10" target="10">
+                    <mxGeometry x="-0.3055" width="160" relative="1" as="geometry">
+                        <mxPoint x="130" y="310" as="sourcePoint"/>
+                        <mxPoint x="70" y="120" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="100" y="90"/>
+                            <mxPoint x="130" y="90"/>
+                            <mxPoint x="140" y="110"/>
+                            <mxPoint x="130" y="120"/>
+                        </Array>
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="22" value="" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=block;endFill=1;dashed=1;" edge="1" parent="9" target="3">
+                    <mxGeometry width="160" relative="1" as="geometry">
+                        <mxPoint x="40" y="200" as="sourcePoint"/>
+                        <mxPoint x="-180" y="200" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="-90" y="200"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="23" value="mint successful, &lt;br&gt;return copyright ID&amp;nbsp;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="22">
+                    <mxGeometry x="0.0043" y="1" relative="1" as="geometry">
+                        <mxPoint y="-11" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="24" value="" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=open;endFill=0;" edge="1" parent="9" source="3">
+                    <mxGeometry x="0.0687" y="20" width="160" relative="1" as="geometry">
+                        <mxPoint x="-180" y="260" as="sourcePoint"/>
+                        <mxPoint x="45.5" y="260" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="-99.5" y="260"/>
+                        </Array>
+                        <mxPoint x="1" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="33" value="" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=open;endFill=0;" edge="1" parent="9">
+                    <mxGeometry x="0.0687" y="20" width="160" relative="1" as="geometry">
+                        <mxPoint x="-191" y="350" as="sourcePoint"/>
+                        <mxPoint x="45" y="350" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="-100" y="350"/>
+                        </Array>
+                        <mxPoint x="1" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="56" value="&lt;span style=&quot;font-size: 12px&quot;&gt;request&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;font-size: 12px&quot;&gt;verify if the copyright&amp;nbsp;&lt;/span&gt;&lt;br style=&quot;font-size: 12px&quot;&gt;&lt;span style=&quot;font-size: 12px&quot;&gt;belongs to the author&lt;/span&gt;&lt;span style=&quot;font-size: 12px&quot;&gt;,&lt;br&gt;&lt;/span&gt;&lt;span style=&quot;font-size: 12px&quot;&gt;public key of author,&amp;nbsp;&lt;/span&gt;copyright ID&lt;span style=&quot;font-size: 12px&quot;&gt;&lt;br&gt;&lt;/span&gt;" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=open;endFill=0;" edge="1" parent="9">
+                    <mxGeometry x="0.0254" width="160" relative="1" as="geometry">
+                        <mxPoint x="-191" y="650" as="sourcePoint"/>
+                        <mxPoint x="45" y="650" as="targetPoint"/>
+                        <Array as="points"/>
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="60" value="" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=block;endFill=1;dashed=1;" edge="1" parent="9">
+                    <mxGeometry width="160" relative="1" as="geometry">
+                        <mxPoint x="45" y="680" as="sourcePoint"/>
+                        <mxPoint x="-190" y="680" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="-100" y="680"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="61" value="&lt;span style=&quot;font-size: 12px&quot;&gt;verify&lt;/span&gt;&amp;nbsp;successfully,&lt;br&gt;result of the verify&amp;nbsp;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="60">
+                    <mxGeometry x="0.0043" y="1" relative="1" as="geometry">
+                        <mxPoint x="2" y="-1" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="62" value="&lt;span style=&quot;font-size: 12px&quot;&gt;request buy copyright&lt;/span&gt;&lt;span style=&quot;font-size: 12px&quot;&gt;&lt;br&gt;&lt;/span&gt;" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=open;endFill=0;" edge="1" parent="9">
+                    <mxGeometry x="0.0254" width="160" relative="1" as="geometry">
+                        <mxPoint x="-191" y="760" as="sourcePoint"/>
+                        <mxPoint x="45" y="760" as="targetPoint"/>
+                        <Array as="points"/>
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="73" value="" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=open;endFill=0;" edge="1" parent="9" target="8">
+                    <mxGeometry width="160" relative="1" as="geometry">
+                        <mxPoint x="60" y="930" as="sourcePoint"/>
+                        <mxPoint x="220" y="930" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="79" value="&lt;span style=&quot;color: rgba(0 , 0 , 0 , 0) ; font-family: monospace ; font-size: 0px&quot;&gt;%3CmxGraphModel%3E%3Croot%3E%3CmxCell%20id%3D%220%22%2F%3E%3CmxCell%20id%3D%221%22%20parent%3D%220%22%2F%3E%3CmxCell%20id%3D%222%22%20value%3D%22%22%20style%3D%22html%3D1%3BverticalAlign%3Dbottom%3BlabelBackgroundColor%3Dnone%3BendArrow%3Dblock%3BendFill%3D1%3Bdashed%3D1%3B%22%20edge%3D%221%22%20parent%3D%221%22%3E%3CmxGeometry%20width%3D%22160%22%20relative%3D%221%22%20as%3D%22geometry%22%3E%3CmxPoint%20x%3D%22625%22%20y%3D%221040%22%20as%3D%22sourcePoint%22%2F%3E%3CmxPoint%20x%3D%22390%22%20y%3D%221040%22%20as%3D%22targetPoint%22%2F%3E%3CArray%20as%3D%22points%22%3E%3CmxPoint%20x%3D%22480%22%20y%3D%221040%22%2F%3E%3C%2FArray%3E%3C%2FmxGeometry%3E%3C%2FmxCell%3E%3CmxCell%20id%3D%223%22%20value%3D%22%26lt%3Bspan%20style%3D%26quot%3Bfont-size%3A%2012px%26quot%3B%26gt%3Bbuy%26lt%3B%2Fspan%26gt%3B%20successful%26amp%3Bnbsp%3B%22%20style%3D%22edgeLabel%3Bhtml%3D1%3Balign%3Dcenter%3BverticalAlign%3Dmiddle%3Bresizable%3D0%3Bpoints%3D%5B%5D%3B%22%20vertex%3D%221%22%20connectable%3D%220%22%20parent%3D%222%22%3E%3CmxGeometry%20x%3D%220.0043%22%20y%3D%221%22%20relative%3D%221%22%20as%3D%22geometry%22%3E%3CmxPoint%20x%3D%222%22%20y%3D%22-1%22%20as%3D%22offset%22%2F%3E%3C%2FmxGeometry%3E%3C%2FmxCell%3E%3C%2Froot%3E%3C%2FmxGraphModel%3E&lt;/span&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="73">
+                    <mxGeometry x="-0.0553" y="4" relative="1" as="geometry">
+                        <mxPoint y="1" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="80" value="&lt;span style=&quot;font-size: 12px ; font-family: &amp;#34;helvetica&amp;#34; ; text-align: left&quot;&gt;check if it's time to bonus.&lt;br&gt;&lt;/span&gt;&lt;span style=&quot;font-size: 12px&quot;&gt;if yes,&amp;nbsp;equally divide ethers in&lt;/span&gt;&lt;br style=&quot;font-size: 12px&quot;&gt;&lt;span style=&quot;font-size: 12px&quot;&gt;the contract and give it to the&lt;/span&gt;&lt;br style=&quot;font-size: 12px&quot;&gt;&lt;span style=&quot;font-size: 12px&quot;&gt;top three copyright solders&lt;/span&gt;&lt;br style=&quot;font-size: 12px&quot;&gt;&lt;span style=&quot;font-size: 12px&quot;&gt;as bonus&amp;nbsp;&amp;nbsp;&lt;/span&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="73">
+                    <mxGeometry x="-0.0638" y="-1" relative="1" as="geometry">
+                        <mxPoint y="1" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="11" value="" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=open;endFill=0;" edge="1" parent="1" source="3" target="10">
+                    <mxGeometry x="0.0687" y="20" width="160" relative="1" as="geometry">
+                        <mxPoint x="150" y="150" as="sourcePoint"/>
+                        <mxPoint x="270" y="150.5" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="230" y="150"/>
+                        </Array>
+                        <mxPoint x="1" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="14" value="request log in&amp;nbsp;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="220" y="130" width="90" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="17" value="request upload copyright" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="190" y="190" width="150" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="18" value="mint ACoin, public key of user" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=open;endFill=0;entryX=0.5;entryY=0.09;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" target="8">
+                    <mxGeometry x="0.0172" y="8" width="160" relative="1" as="geometry">
+                        <mxPoint x="390" y="211" as="sourcePoint"/>
+                        <mxPoint x="620" y="211" as="targetPoint"/>
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="20" value="" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=block;endFill=1;dashed=1;" edge="1" parent="1" source="8" target="10">
+                    <mxGeometry width="160" relative="1" as="geometry">
+                        <mxPoint x="460" y="350" as="sourcePoint"/>
+                        <mxPoint x="620" y="350" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="480" y="240"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="21" value="mint successful, &lt;br&gt;return copyright ID&amp;nbsp;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="20">
+                    <mxGeometry x="0.0043" y="1" relative="1" as="geometry">
+                        <mxPoint y="-11" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="16" value="" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=open;endFill=0;" edge="1" parent="1" source="3">
+                    <mxGeometry x="0.0687" y="20" width="160" relative="1" as="geometry">
+                        <mxPoint x="149.5" y="210" as="sourcePoint"/>
+                        <mxPoint x="375" y="210" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="230" y="210"/>
+                        </Array>
+                        <mxPoint x="1" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="26" value="request set price of the copyright, &lt;br&gt;price&amp;nbsp;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="155" y="270" width="190" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="27" value="" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=open;endFill=0;" edge="1" parent="1" target="7">
+                    <mxGeometry x="0.0687" y="20" width="160" relative="1" as="geometry">
+                        <mxPoint x="390" y="300" as="sourcePoint"/>
+                        <mxPoint x="620" y="300" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="470.5" y="300"/>
+                        </Array>
+                        <mxPoint x="1" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="28" value="set price of the copyright" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="433.5" y="280" width="150" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="31" value="" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=block;endFill=1;dashed=1;" edge="1" parent="1">
+                    <mxGeometry width="160" relative="1" as="geometry">
+                        <mxPoint x="375" y="330" as="sourcePoint"/>
+                        <mxPoint x="140" y="330" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="230" y="330"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="32" value="set successfully&amp;nbsp;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="31">
+                    <mxGeometry x="0.0043" y="1" relative="1" as="geometry">
+                        <mxPoint x="3" y="-1" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="34" value="request&amp;nbsp;&lt;span&gt;set copyright&amp;nbsp;&lt;/span&gt;&lt;span&gt;is on sale or not&lt;/span&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="140" y="370" width="220" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="35" value="" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=open;endFill=0;" edge="1" parent="1">
+                    <mxGeometry x="0.0687" y="20" width="160" relative="1" as="geometry">
+                        <mxPoint x="390.5" y="390" as="sourcePoint"/>
+                        <mxPoint x="626.5" y="390" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="481.5" y="390"/>
+                        </Array>
+                        <mxPoint x="1" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="36" value="&lt;span&gt;set &lt;/span&gt;&lt;span&gt;on sale state&lt;/span&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="458.5" y="370" width="100" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="37" value="" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=block;endFill=1;dashed=1;" edge="1" parent="1">
+                    <mxGeometry width="160" relative="1" as="geometry">
+                        <mxPoint x="625" y="410" as="sourcePoint"/>
+                        <mxPoint x="390" y="410" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="480" y="410"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="38" value="set successfully&amp;nbsp;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="37">
+                    <mxGeometry x="0.0043" y="1" relative="1" as="geometry">
+                        <mxPoint x="2" y="-1" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="39" value="" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=block;endFill=1;dashed=1;" edge="1" parent="1">
+                    <mxGeometry width="160" relative="1" as="geometry">
+                        <mxPoint x="375" y="410" as="sourcePoint"/>
+                        <mxPoint x="140" y="410" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="230" y="410"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="40" value="set successfully&amp;nbsp;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="39">
+                    <mxGeometry x="0.0043" y="1" relative="1" as="geometry">
+                        <mxPoint x="3" y="-1" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="45" value="" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=block;endFill=1;dashed=1;" edge="1" parent="1">
+                    <mxGeometry width="160" relative="1" as="geometry">
+                        <mxPoint x="626" y="490" as="sourcePoint"/>
+                        <mxPoint x="391" y="490" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="481" y="490"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="46" value="&lt;span style=&quot;font-size: 12px&quot;&gt;transfer&lt;/span&gt;&amp;nbsp;successfully&amp;nbsp;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="45">
+                    <mxGeometry x="0.0043" y="1" relative="1" as="geometry">
+                        <mxPoint x="2" y="-1" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="47" value="" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=block;endFill=1;dashed=1;" edge="1" parent="1">
+                    <mxGeometry width="160" relative="1" as="geometry">
+                        <mxPoint x="375" y="490" as="sourcePoint"/>
+                        <mxPoint x="140" y="490" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="230" y="490"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="48" value="&lt;span style=&quot;font-size: 12px&quot;&gt;transfer&lt;/span&gt;&amp;nbsp;successfully&amp;nbsp;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="47">
+                    <mxGeometry x="0.0043" y="1" relative="1" as="geometry">
+                        <mxPoint x="2" y="-1" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="50" value="&lt;span style=&quot;font-size: 12px&quot;&gt;search copyrights&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;font-size: 12px&quot;&gt;by author&lt;/span&gt;&lt;span style=&quot;font-size: 12px&quot;&gt;&lt;br&gt;&lt;/span&gt;" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=open;endFill=0;" edge="1" parent="1">
+                    <mxGeometry x="0.0169" width="160" relative="1" as="geometry">
+                        <mxPoint x="390" y="560" as="sourcePoint"/>
+                        <mxPoint x="626" y="560" as="targetPoint"/>
+                        <Array as="points"/>
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="54" value="" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=block;endFill=1;dashed=1;" edge="1" parent="1">
+                    <mxGeometry width="160" relative="1" as="geometry">
+                        <mxPoint x="375" y="590" as="sourcePoint"/>
+                        <mxPoint x="140" y="590" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="230" y="590"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="55" value="&lt;span style=&quot;font-size: 12px&quot;&gt;search&lt;/span&gt;&amp;nbsp;successful, &lt;br&gt;return token ID, URL,&lt;br&gt;&amp;nbsp;price, sale state of copyright&amp;nbsp;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="54">
+                    <mxGeometry x="0.0043" y="1" relative="1" as="geometry">
+                        <mxPoint x="2" y="-1" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="58" value="" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=block;endFill=1;dashed=1;" edge="1" parent="1">
+                    <mxGeometry width="160" relative="1" as="geometry">
+                        <mxPoint x="625" y="720" as="sourcePoint"/>
+                        <mxPoint x="390" y="720" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="480" y="720"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="59" value="&lt;span style=&quot;font-size: 12px&quot;&gt;verify&lt;/span&gt;&amp;nbsp;successfully,&lt;br&gt;result of the verify&amp;nbsp;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="58">
+                    <mxGeometry x="0.0043" y="1" relative="1" as="geometry">
+                        <mxPoint x="2" y="-1" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="68" value="" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=block;endFill=1;dashed=1;" edge="1" parent="1">
+                    <mxGeometry width="160" relative="1" as="geometry">
+                        <mxPoint x="625" y="840" as="sourcePoint"/>
+                        <mxPoint x="390" y="840" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="480" y="840"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="69" value="&lt;span style=&quot;font-size: 12px&quot;&gt;result of check&lt;/span&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="68">
+                    <mxGeometry x="0.0043" y="1" relative="1" as="geometry">
+                        <mxPoint x="2" y="-1" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="70" value="&lt;div style=&quot;text-align: left&quot;&gt;&lt;span style=&quot;font-size: 12px&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;/div&gt;&lt;span style=&quot;font-size: 12px&quot;&gt;&amp;nbsp;&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;font-size: 12px&quot;&gt;&lt;br&gt;&lt;/span&gt;" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=open;endFill=0;" edge="1" parent="1">
+                    <mxGeometry x="0.2797" y="-80" width="160" relative="1" as="geometry">
+                        <mxPoint x="389" y="880" as="sourcePoint"/>
+                        <mxPoint x="625" y="880" as="targetPoint"/>
+                        <Array as="points"/>
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="71" value="&lt;span style=&quot;font-size: 12px&quot;&gt;transfer copyright and eth,&lt;br&gt;buyer mint one CCoin after a purchase&lt;br&gt;(waive commission fee &lt;br&gt;if buyer have 100 CCoin )&lt;/span&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="70">
+                    <mxGeometry x="-0.2458" y="-3" relative="1" as="geometry">
+                        <mxPoint x="31" y="7" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
