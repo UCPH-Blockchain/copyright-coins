@@ -55,10 +55,17 @@ export function Verify({ verifyNFT }) {
                     if (publicKey && copyrightURI) {
                         verifyNFT(publicKey, copyrightURI).then(res => {
                             console.log("verifyNFT:", res);
-                            Toast.success({
+                            if (res == 1){
+                                Toast.success({
                                 content: "the copyright belongs to the author",
-                                duration: 3,
-                            });
+                                    duration: 3,
+                                });
+                            }else{
+                                Toast.success({
+                                    content: "the copyright does not belongs to the author",
+                                        duration: 3,
+                                    });
+                            }
                         }).catch(err => {
                             Toast.error({
                                 content: "Error:" + err,
