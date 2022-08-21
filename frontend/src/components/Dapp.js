@@ -219,10 +219,13 @@ export class Dapp extends React.Component {
     //return copyright state after change
     async _setCopyrightSaleState(tokenId) {
         const sale_state = await this._token.isForSale(tokenId);
-        if (sale_state === 0) {
+        console.log("sale_state",sale_state);
+        if (sale_state == 0) {
+            console.log("sale_state after change",1);
             await this._token.setForSale(tokenId, 1);
             return 1;
         } else {
+            console.log("sale_state after change",0);
             await this._token.setForSale(tokenId, 0);
             return 0;
         }

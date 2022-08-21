@@ -23,6 +23,7 @@ export class IsonSale extends React.Component {
                             
                             this.props.setOnSaleState(this.props.NFTID).then(
                                 res => {
+                                    console.log("res",res);
                                     console.log("set On Sale State Successfully");
                                     that.setState({onSale: res});
                                     Toast.success(successToast);
@@ -37,9 +38,9 @@ export class IsonSale extends React.Component {
                             })
                         }
                     }}
-                    // theme='solid' type='primary' style={{ marginRight: 8 }}
+                    theme='solid' type={this.state.onSale?'primary':'tertiary'} style={{ marginRight: 8 }}
                     >
-                    ON SALE</Button>
+                    {this.state.onSale? "ON SALE": "NOT ON SALE"} </Button>
                     {/* type={this.state.onSale?'primary':'tertiary' */}
             </div>
         );
