@@ -1,5 +1,6 @@
 import React from "react";
-import { Toast, Card, Typography, Space, Button } from "@douyinfe/semi-ui";
+import { Toast, Card, Typography, Space, Button, Tag, Text } from "@douyinfe/semi-ui";
+import { Purchase } from "./Purchase";
 // import { Copyrights } from "./Copyrights";
 
 export class Search extends React.Component {
@@ -9,22 +10,7 @@ export class Search extends React.Component {
             publicKey: "",
             copyrightList: [],
             isAuthor: false,
-            isOnsale: false,
         };
-        this.OnSaleClick = this.OnSaleClick.bind(this);
-        this.NotOnSaleClick = this.NotOnSaleClick.bind(this);
-    }
-
-    OnSaleClick() {
-        this.setState({isOnsale: true});
-        console.log("set copyright is on sale");
-        console.log(this.isOnsale);
-    }
-    
-    NotOnSaleClick() {
-        this.setState({isOnsale: false});
-        console.log("set copyright is not on sale");
-        console.log(this.isOnsale);
     }
 
     render() {
@@ -83,15 +69,6 @@ export class Search extends React.Component {
         //     }
         // }
 
-        const isOnsale = this.state.isOnsale;
-        let isOnsaleButton;
-        if (isOnsale) {
-            isOnsaleButton = <Button onClick={this.OnSaleClick} />;
-        } else {
-            isOnsaleButton = <Button onClick={this.NotOnSaleClick} />;
-        }
-
-
         return (
             <div>
                 <div style={styles.mainTitle}><b>Search Copyright</b></div>
@@ -104,13 +81,18 @@ export class Search extends React.Component {
                         if (publicKey) {
                             this.props.searchNFT(publicKey).then(
                                 res => {
-                                    console.log("copyrightList:", res);
+                                    console.log("result List:", res);
                                     this.setState({
                                         copyrightList: res
                                     })
                                     Toast.success(successToast);
                                 }
                             )
+                            if(this.props.selectedAddress == publicKey){
+                                this.setState({isAuthor: true});
+                                console.log("selectedAddress:", this.props.selectedAddress);
+                                console.log("publicKey:", publicKey);
+                            }
                         }
                     }}
                 >
@@ -146,13 +128,13 @@ export class Search extends React.Component {
                         //     </div>
                         // )
                         return (
-                            <div key={copyright.tokenID}>
+                            <div key={copyright.tokenId}>
                                 <Card
                                     title={"copyright ID: "+copyright.tokenId}
                                     style={{ maxWidth: 512 }}
                                     shadows='always'
                                     headerExtraContent={
-                                        <Text link={{ href: copyright.tokenURI}}>
+                                        <Text link={{ href: copyright.tokenURI, target:"_blank"}}>
                                             copyright Link
                                         </Text>
                                     }
@@ -160,12 +142,21 @@ export class Search extends React.Component {
                                     <Space wrap>
                                         {<div>
                                             {this.state.isAuthor ? (
-                                            <div className="btn-margin-right">
-                                            <Button>BUY</Button></div>
+                                            <IsonSale
+                                                NFTID={copyright.tokenId}
+                                                setOnSaleState={(tokenID) => this.props.setOnSaleState(tokenID)}/>
                                             ) : (
-                                            <div className="btn-margin-right">
-                                            <Button>BUY2</Button></div>)}
+                                            <IsonSale
+                                                NFTID={copyright.tokenId}
+                                                setOnSaleState={(tokenID) => this.props.setOnSaleState(tokenID)}/>
+                                            // <Purchase
+                                            //     NFTID={copyright.tokenId}
+                                            //     purchaseNFT={(tokenID) => this.props.buyCopyright(tokenID)}/>
+                                                )}
                                         </div>}
+                                        <div>
+                                            {/* <Tag>{`${copyright.tokenID}`}</Tag> */}
+                                        </div>
                                     </Space>
                                 </Card>
                             </div>
