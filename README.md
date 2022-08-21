@@ -1,22 +1,22 @@
 # UCPH - Subjects in Blockchain - Team 3
 
-## 配置
-首先使用`npm install`命令安装依赖。
+## Configuration
+First install the dependencies with the `npm install` command.
 
 ### .env
-在项目目录下创建一个名为`.env`的空白文件，然后填入如下内容：
+Create a blank file named `.env` in the project directory and fill in the following.
 ```
 API_URL=https://eth-rinkeby.alchemyapi.io/v2/-mUalRDBIm_xtrI8VqIP9wkLZbpJqBqW
 PRIVATE_KEY="<Your-Private-Key>"
 PUBLIC_KEY="<Your-Public-Key>"
 ```
-## 编译
+## Compile
 ```
 npx hardhat compile
 ```
 
-## 部署
-在项目路径下打开终端，使用`npx hardhat node`启动一个单独的hardhat network，同时显示20个账户信息：
+## Deploy
+Open a terminal in the project path and use `npx hardhat node` to start a single hardhat network while displaying information about 20 accounts:
 ```
 Accounts
 ========
@@ -38,63 +38,40 @@ WARNING: These accounts, and their private keys, are publicly known.
 Any funds sent to them on Mainnet or any other live network WILL BE LOST.
 ```
 
-在该命令运行时，MetaMask可以自动检测到本地网络。切换至本地网络并使用测试账户，就可以通过MetaMask查看账户余额等信息。
+MetaMask can automatically detect the local network when this command is run. Switching to the local network and using the test account, you can view the account balance and other information through MetaMask.
 
-> 注意：需要保持运行`npx hardhat node`的终端打开才可以持续运行该hardhat network。
+> Note: You need to keep the terminal running `npx hardhat node` open in order to keep running the hardhat network.
 
 
-另外开启一个终端，通过
+Open a separate terminal and use
 ```
  npx hardhat run --network localhost scripts/deploy.js
 ```
-来在hardhat network中执行部署脚本。
+to execute the deployment script in hardhat network.
 
-## 前端
-先进入到frontend目录下
+## frontend
+First enter the frontend directory
 ```
 cd frontend
 ```
-之后用
+then use
 ```
 npm install
 ```
-安装依赖，再用
+to install dependencies
+
+finally, use
 ```
 npm start
 ```
-启动页面。
+to start frontend.
 
 ## test 
-在deploy之后，运行以下命令
+After deploy, run the following command
 '''
 npx hardhat test
 '''
-或者，通过以下命令运行单个文件
+Or, run a single test file with the following command
 '''
 npx hardhat test --network localhost test/c-coin.js
 '''
-
-## TODO
-
-### Solidity
-#### NFT（也就是ACoin）
-- [x] mint和transfer等基本功能实现
-
-#### FT（也就是CCoin）
-- [x] mint和transfer等基本功能实现
-
-#### 测试
-- [x] 参照[Testing contracts](https://hardhat.org/hardhat-runner/docs/guides/test-contracts)编写测试
-
-### 前后端
-#### 后端
-- [x] 与智能合约交互的函数
-- [x] 为前端提供API
-
-#### 前端
-- [ ] 调用后端API，与智能合约交互
-- [ ] 用户界面
-
-### 项目部署
-- [x] 部署到本地测试链
-- [ ] 部署到测试网络
