@@ -175,7 +175,7 @@ describe("Token contract", function () {
     });
 
     describe("Purchase", function () {
-        it("Should purchase an ACoin", async function () {
+        it("Should purchase an ACoin with commission fee", async function () {
             const { hardhatACoin, owner, addr1 } = await loadFixture(
                 deployTokenFixture
             );
@@ -194,7 +194,56 @@ describe("Token contract", function () {
             expect(tokenId_1.length).to.equal(1);
 
             //refund successfully
-            expect(await hardhatACoin.balanceOf(addr1.address)).to.most(1);
+            expect(await hardhatACoin.balanceOf(addr1.address)).to.equal(2);
+        })
+
+        it("Should purchase an ACoin when Ccoin can waive commission fee", async function () {
+            const { hardhatACoin, owner, addr1 } = await loadFixture(
+                deployTokenFixture
+            );
+            const tokenId = await hardhatACoin.mintNFTAnyone("This is a ACoin");
+            const tokenId_ = await hardhatACoin.getNFTs();
+            //mint succesfully
+            expect(tokenId_.length).to.equal(1);
+            await hardhatACoin.setPrice(tokenId_[0], 1);
+            // expect(await hardhatACoin.priceOf(tokenId_[0])).to.equal(1);
+            await hardhatACoin.setForSale(tokenId_[0], true);
+            //addr1 mint more than 100 Ccoin that can waive commission fee
+            await hardhatACoin.connect(addr1).cCoinMintManyFT(123);
+            const options = { value: ethers.utils.parseEther("1.001"), gasLimit: 1 * 10 ** 6 }
+            await hardhatACoin.connect(addr1).purchase(tokenId_[0], options);
+            const tokenId_1 = await hardhatACoin.connect(addr1).getNFTs();
+            //purchase succesfully
+            expect(tokenId_1.length).to.equal(1);
+
+            //refund successfully
+            expect(await hardhatACoin.balanceOf(addr1.address)).to.equal(0.001);
+
+            //waive commission fee successfully
+            expect(await hardhatACoin.connect(addr1).cCoinBalanceOf()).to.equal(23);
+        })
+
+        it("Should purchase an ACoin when Ccoin cannot waive commission fee", async function () {
+            const { hardhatACoin, owner, addr1 } = await loadFixture(
+                deployTokenFixture
+            );
+            const tokenId = await hardhatACoin.mintNFTAnyone("This is a ACoin");
+            const tokenId_ = await hardhatACoin.getNFTs();
+            //mint succesfully
+            expect(tokenId_.length).to.equal(1);
+            await hardhatACoin.setPrice(tokenId_[0], 1);
+            // expect(await hardhatACoin.priceOf(tokenId_[0])).to.equal(1);
+            await hardhatACoin.setForSale(tokenId_[0], true);
+            //addr1 mint more than 100 Ccoin that can waive commission fee
+            await hardhatACoin.connect(addr1).cCoinMintManyFT(12);
+            const options = { value: ethers.utils.parseEther("1.001"), gasLimit: 1 * 10 ** 6 }
+            await hardhatACoin.connect(addr1).purchase(tokenId_[0], options);
+            const tokenId_1 = await hardhatACoin.connect(addr1).getNFTs();
+            //purchase succesfully
+            expect(tokenId_1.length).to.equal(1);
+
+            //refund successfully
+            expect(await hardhatACoin.connect(addr1).cCoinBalanceOf()).to.equal(13);
         })
 
         // it("Should not purchase an ACoin when it cannot be sold", async function () {
