@@ -6,7 +6,7 @@ First install the dependencies with the `npm install` command.
 ### .env
 Create a blank file named `.env` in the project directory and fill in the following.
 ```
-API_URL=https://eth-rinkeby.alchemyapi.io/v2/-mUalRDBIm_xtrI8VqIP9wkLZbpJqBqW
+API_URL="<Your-API-URI>"
 PRIVATE_KEY="<Your-Private-Key>"
 PUBLIC_KEY="<Your-Public-Key>"
 ```
@@ -60,6 +60,13 @@ npm install
 ```
 to install dependencies
 
+Then locate at the `\frontend\node_modules\ethers`, edit the browser part in the package.json file as
+```
+"browser": {
+    "./platform.js": "./browser-platform.js"
+  }
+```
+
 finally, use
 ```
 npm start
@@ -68,10 +75,10 @@ to start frontend.
 
 ## test 
 After deploy, run the following command
-'''
+```
 npx hardhat test
-'''
+```
 Or, run a single test file with the following command
-'''
+```
 npx hardhat test --network localhost test/c-coin.js
-'''
+```
