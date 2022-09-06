@@ -1,4 +1,5 @@
 # UCPH - Subjects in Blockchain - Team 3
+Please find our final report at [report_group3_SBT.pdf](./report_group3_SBT.pdf).
 
 ## Configuration
 First install the dependencies with the `npm install` command.
